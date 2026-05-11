@@ -30,7 +30,7 @@ const Login = () => {
       });
   };
 
-  // handleSocialLogin: 소셜 로그인 버튼을 눌렀을 때 실행되는 함수예요.
+  // handleSocialLogin: 소셜 로그인 버튼을 눌렀을 때 실행되는 함수
   // provider = 어떤 소셜 서비스인지 (예: "google", "naver", "kakao", "github")
   const handleSocialLogin = (provider) => {
     // 현재 프론트엔드 주소를 가져옴
