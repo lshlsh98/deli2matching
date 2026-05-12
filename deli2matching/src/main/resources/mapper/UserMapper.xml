@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.deli2matching.dao.UserDao">
+
+    <!-- INSERT: 사용자 저장, useGeneratedKeys로 AUTO_INCREMENT PK 자동 세팅 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into user_test (login_id, password, username, role, auth_provider)
+        values (#{loginId}, #{password}, #{username}, #{role}, #{authProvider})
+    </insert>
+
+    <!-- SELECT: username으로 단건 조회 -->
+    <select id="findByLoginId" resultMap="UserResultMap">
+        SELECT id, username, password, role, auth_provider
+        FROM user_test
+        WHERE login_id = #{loginId}
+        LIMIT 1
+    </select>
+
+    <!-- SELECT: username 존재 여부 확인 (COUNT > 0 이면 true) -->
+    <select id="existsByLoginId" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM user_test
+        WHERE login_id = #{loginId}
+    </select>
+
+    <!-- SELECT: id로 단건 조회 -->
+    <select id="findById" resultMap="UserResultMap">
+        SELECT id, username, password, role, auth_provider
+        FROM user_test
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+
+</mapper>
