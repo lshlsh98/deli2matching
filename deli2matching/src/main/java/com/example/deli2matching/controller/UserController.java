@@ -1,6 +1,11 @@
 package com.example.deli2matching.controller;
 
 
+import com.example.deli2matching.dto.ResponseDTO;
+import com.example.deli2matching.dto.UserDTO;
+import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.security.TokenProvider;
+import com.example.deli2matching.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -114,7 +119,7 @@ public class UserController {
         // username으로 사용자 조회 + 비밀번호 검증
         // BCrypt는 "1234"가 "$2a$10$..." 해시와 일치하는지 확인해줌
         UserEntity user = userService.getByCredentials(
-                userDTO.getUsername(),
+                userDTO.getLoginId(),
                 userDTO.getPassword(),
                 passwordEncoder
         );

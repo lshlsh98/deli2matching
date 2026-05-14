@@ -15,7 +15,8 @@ import org.apache.ibatis.type.Alias;
 @NoArgsConstructor
 @AllArgsConstructor
 @Alias("userEntity")
-public class UserEntity {
+public class
+UserEntity {
 
     private Long id;
     private String loginId;

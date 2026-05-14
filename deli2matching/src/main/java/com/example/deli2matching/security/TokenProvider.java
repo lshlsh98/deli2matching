@@ -105,7 +105,7 @@ public class TokenProvider {
      * create(Authentication) - 소셜 로그인용 JWT 토큰 생성
      *
      * 소셜 로그인 성공 후 OAuthSuccessHandler에서 호출
-     * Authentication 객체 안의 CustomUser에서 사용자 ID를 꺼내 토큰을 만듭니다.
+     * Authentication 객체 안의 CustomUser에서 사용자 ID를 꺼내 토큰을 만듬
      *
      * @param authentication 소셜 로그인 성공 후 스프링 시큐리티가 생성한 인증 정보
      * @return 생성된 JWT 토큰 문자열
@@ -127,7 +127,7 @@ public class TokenProvider {
     }
 
     /**
-     * 🎟️ createByUserId - 사용자 ID로 직접 JWT 토큰 생성
+     * createByUserId - 사용자 ID로 직접 JWT 토큰 생성
      *
      * 필요에 따라 사용자 ID만으로 토큰을 만들 때 사용합니다.
      *

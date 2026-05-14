@@ -4,10 +4,6 @@ package com.example.deli2matching.dao;
 import com.example.deli2matching.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-/**
- * UserMapper - JpaRepository 대신 MyBatis @Mapper 인터페이스
- * 실제 SQL은 resources/mapper/UserMapper.xml에 정의
- */
 @Mapper
 public interface UserDao {
 
