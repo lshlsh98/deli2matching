@@ -10,7 +10,7 @@ import com.example.deli2matching.entity.UserEntity;
 import com.example.deli2matching.security.vo.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +30,7 @@ import io.jsonwebtoken.security.Keys;
  *  eyJhbGc...헤더...  .eyJ1c2Vy...페이로드...  .SflKxw...서명...
  * =====================================================================
  */
-@Service
+@Component
 public class TokenProvider {
 
     /**
@@ -41,11 +41,14 @@ public class TokenProvider {
      * 환경변수나 별도 설정 파일에 저장해야 함
      */
 
-    @Value("${jwt.secret-key}")
-    private String SECRET_KEY;
+    private final Key SIGNING_KEY;
 
-    // SECRET_KEY를 HMAC-SHA 방식으로 사용할 수 있는 Key 객체로 변환
-    private Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    public TokenProvider(
+            @Value("${jwt.secret-key}") String SECRET_KEY
+    ) {
+        // SECRET_KEY를 HMAC-SHA 방식으로 사용할 수 있는 Key 객체로 변환
+        this.SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    }
 
     /**
      * create(UserEntity) - 일반 로그인용 JWT 토큰 생성

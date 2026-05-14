@@ -72,8 +72,10 @@ public class UserController {
 
             // UserEntity 생성: DB에 저장할 형태로 변환
             UserEntity user = UserEntity.builder()
-                    .username(userDTO.getUsername())
+                    .loginId(userDTO.getLoginId())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
+                    .username(userDTO.getUsername())
+                    .authProvider("local")
                     .build();
 
             UserEntity registeredUser = userService.create(user);

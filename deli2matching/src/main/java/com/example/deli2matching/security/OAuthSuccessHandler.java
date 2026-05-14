@@ -5,7 +5,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -41,6 +43,9 @@ import static com.example.deli2matching.security.RedirectUrlCookieFilter.REDIREC
 @Component
 public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Autowired
+    private TokenProvider tokenProvider;
+
     /**
      * LOCAL_REDIRECT_URL - redirect_url 쿠키가 없을 때 기본 리다이렉트 주소
      * 개발 환경에서 프론트엔드가 localhost:5173에서 실행될 때 사용
@@ -63,7 +68,6 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         // 1단계: JWT 토큰 생성
         // authentication 안에는 CustomOAuth2UserService가 반환한 CustomUser가 들어있음
         // CustomUser.getName()이 DB의 user id를 반환하므로, 토큰 subject = user id
-        TokenProvider tokenProvider = new TokenProvider();
         String token = tokenProvider.create(authentication);
         log.info("token {}", token);
 

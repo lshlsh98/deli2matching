@@ -10,9 +10,9 @@ const AppRouter = () => {
     <div>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="sociallogin" element={<SocialLogin />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/sociallogin" element={<SocialLogin />} />
       </Routes>
     </div>
   );

@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.Alias;
 
-/**
- * TodoEntity - JPA @Entity 제거, MyBatis에서는 순수 POJO로 사용
- * DB 매핑은 TodoMapper.xml에서 담당
- */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Alias("todoEntity")
 public class TodoEntity {
 
     private Long id;

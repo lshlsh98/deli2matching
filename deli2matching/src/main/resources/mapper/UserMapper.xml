@@ -11,7 +11,7 @@
     </insert>
 
     <!-- SELECT: username으로 단건 조회 -->
-    <select id="findByLoginId" resultType="userEntity">
+    <select id="findByLoginId" resultType="com.example.deli2matching.entity.UserEntity">
         SELECT id, username, password, role, auth_provider
         FROM user_test
         WHERE login_id = #{loginId}
@@ -26,7 +26,7 @@
     </select>
 
     <!-- SELECT: id로 단건 조회 -->
-    <select id="findById" resultType="userEntity">
+    <select id="findById" resultType="com.example.deli2matching.entity.UserEntity">
         SELECT id, username, password, role, auth_provider
         FROM user_test
         WHERE id = #{id}

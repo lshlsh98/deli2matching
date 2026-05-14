@@ -49,100 +49,49 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
-        </Grid>
-      </Grid>
-      {/* noValidate: 브라우저 기본 유효성 검사를 끄고 직접 처리해요. */}
-      {/* onSubmit: 폼 제출 시 handleSubmit 함수를 실행해요. */}
-      <form noValidate onSubmit={handleSubmit}>
-        {" "}
-        <Grid container spacing={2}>
-          {/* 아이디 입력란 */}
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="username"
-              label="아이디"
-              name="username"
-              autoComplete="username"
-            />
-          </Grid>
-          {/* 비밀번호 입력란 */}
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="패스워드"
-              type="password" // type="password"로 설정하면 입력값이 *로 가려져요.
-              id="password"
-              autoComplete="current-password"
-            />
-          </Grid>
-          {/* 로그인 버튼 (type="submit"이면 폼의 onSubmit이 실행돼요) */}
-          <Grid item xs={12}>
-            <Button type="submit" fullWidth variant="contained" color="primary">
-              로그인
-            </Button>
-          </Grid>
-          {/* 소셜 로그인 버튼들 */}
-          <Grid item xs={12}>
-            <Button
-              onClick={() => handleSocialLogin("google")}
-              fullWidth
-              variant="contained"
-              style={{ backgroundColor: "#000" }}
-            >
-              구글로 로그인하기
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              onClick={() => handleSocialLogin("naver")}
-              fullWidth
-              variant="contained"
-              style={{ backgroundColor: "#000" }}
-            >
-              네이버로 로그인하기
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              onClick={() => handleSocialLogin("kakao")}
-              fullWidth
-              variant="contained"
-              style={{ backgroundColor: "#000" }}
-            >
-              카카오로 로그인하기
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              onClick={() => handleSocialLogin("github")}
-              fullWidth
-              variant="contained"
-              style={{ backgroundColor: "#000" }}
-            >
-              깃허브로 로그인하기
-            </Button>
-          </Grid>
-          {/* 회원가입 페이지로 가는 링크 */}
-          <Grid item>
-            <Link to="/signup" variant="body2">
-              계정이 없습니까? 여기서 가입 하세요.
-            </Link>
-          </Grid>
-        </Grid>
-      </form>
-    </Container>
+    <form noValidate onSubmit={handleSubmit}>
+      {/* 아이디 입력란 */}
+
+      {/* 비밀번호 입력란 */}
+
+      {/* 로그인 버튼 (type="submit"이면 폼의 onSubmit이 실행돼요) */}
+      <button type="submit" fullWidth variant="contained" color="primary">
+        로그인
+      </button>
+      {/* 소셜 로그인 버튼들 */}
+      <button
+        onClick={() => handleSocialLogin("google")}
+        fullWidth
+        variant="contained"
+      >
+        구글로 로그인하기
+      </button>
+      <button
+        onClick={() => handleSocialLogin("naver")}
+        fullWidth
+        variant="contained"
+      >
+        네이버로 로그인하기
+      </button>
+      <button
+        onClick={() => handleSocialLogin("kakao")}
+        fullWidth
+        variant="contained"
+      >
+        카카오로 로그인하기
+      </button>
+      <button
+        onClick={() => handleSocialLogin("github")}
+        fullWidth
+        variant="contained"
+      >
+        깃허브로 로그인하기
+      </button>
+      {/* 회원가입 페이지로 가는 링크 */}
+      <Link to="/signup" variant="body2">
+        계정이 없습니까? 여기서 가입 하세요.
+      </Link>
+    </form>
   );
 };
 

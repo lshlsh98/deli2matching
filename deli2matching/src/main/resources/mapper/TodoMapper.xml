@@ -2,31 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.mapper.TodoMapper">
-
-    <!-- ResultMap: DB 컬럼 -> Java 필드 매핑 -->
-    <resultMap id="TodoResultMap" type="TodoEntity">
-        <id     column="id"      property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="title"   property="title"/>
-        <result column="done"    property="done"/>
-    </resultMap>
+<mapper namespace="com.example.deli2matching.dao.TodoDao">
 
     <!-- INSERT: Todo 저장, useGeneratedKeys로 AUTO_INCREMENT PK 자동 세팅 -->
-    <insert id="insert" parameterType="TodoEntity" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO todo (user_id, title, done)
         VALUES (#{userId}, #{title}, #{done})
     </insert>
 
     <!-- SELECT: userId로 Todo 목록 조회 -->
-    <select id="findByUserId" parameterType="Long" resultMap="TodoResultMap">
+    <select id="findByUserId" resultType="com.example.deli2matching.entity.TodoEntity">
         SELECT id, user_id, title, done
         FROM todo
         WHERE user_id = #{userId}
     </select>
 
     <!-- SELECT: id로 단건 조회 -->
-    <select id="findById" parameterType="Long" resultMap="TodoResultMap">
+    <select id="findById" resultType="com.example.deli2matching.entity.TodoEntity">
         SELECT id, user_id, title, done
         FROM todo
         WHERE id = #{id}
@@ -34,7 +26,7 @@
     </select>
 
     <!-- UPDATE: title, done 수정 -->
-    <update id="update" parameterType="TodoEntity">
+    <update id="update">
         UPDATE todo
         SET title = #{title},
             done  = #{done}
@@ -42,7 +34,7 @@
     </update>
 
     <!-- DELETE: id로 삭제 -->
-    <delete id="delete" parameterType="Long">
+    <delete id="delete">
         DELETE FROM todo
         WHERE id = #{id}
     </delete>
