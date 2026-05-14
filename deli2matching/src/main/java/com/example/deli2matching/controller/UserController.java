@@ -75,6 +75,7 @@ public class UserController {
                     .loginId(userDTO.getLoginId())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .username(userDTO.getUsername())
+                    .role("USER")
                     .authProvider("local")
                     .build();
 

@@ -7,7 +7,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [member, setMember] = useState({
-    memberId: "",
+    loginId: "",
     password: "",
     username: "",
   });
@@ -44,9 +44,9 @@ const SignUp = () => {
           <label htmlFor="memberId">아이디</label>
           <input
             type="text"
-            name="memberId"
-            id="memberId"
-            value={member.memberId}
+            name="loginId"
+            id="loginId"
+            value={member.loginId}
             onChange={inputMember}
           />
         </div>

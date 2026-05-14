@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import useAuthstore from "./useAuthStore";
+import useAuthStore from "./useAuthStore";
 
 // baseURL을 설정하면 나중에 "/todo"처럼 짧게만 써도 전체 주소가 완성
 // 예) baseURL="http://localhost:8080" + "/todo" = "http://localhost:8080/todo"
@@ -14,7 +14,7 @@ const instance = axios.create({
 // 서버에 요청을 보내기 직전에 실행
 // 로그인한 사람이면 요청에 토큰을 자동으로 붙여서 요청
 instance.interceptors.request.use((config) => {
-  const token = useAuthStore((state) => state.token);
+  const token = useAuthStore.getState().token;
 
   // 토큰이 있으면 요청 헤더에 Authorization 항목으로 넣음
   // "Bearer 토큰값" 형식은 서버가 로그인한 사람인지 확인하는 방법
