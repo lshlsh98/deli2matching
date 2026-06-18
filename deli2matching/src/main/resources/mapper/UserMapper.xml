@@ -6,14 +6,14 @@
 
     <!-- INSERT: 사용자 저장, useGeneratedKeys로 AUTO_INCREMENT PK 자동 세팅 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into user_test (login_id, password, username, role, auth_provider)
+        insert into users (login_id, password, username, role, auth_provider)
         values (#{loginId}, #{password}, #{username}, #{role}, #{authProvider})
     </insert>
 
     <!-- SELECT: username으로 단건 조회 -->
     <select id="findByLoginId" resultType="com.example.deli2matching.entity.UserEntity">
         SELECT id, username, password, role, auth_provider
-        FROM user_test
+        FROM users
         WHERE login_id = #{loginId}
         LIMIT 1
     </select>
@@ -21,14 +21,14 @@
     <!-- SELECT: username 존재 여부 확인 (COUNT > 0 이면 true) -->
     <select id="existsByLoginId" resultType="boolean">
         SELECT COUNT(*) > 0
-        FROM user_test
+        FROM users
         WHERE login_id = #{loginId}
     </select>
 
     <!-- SELECT: id로 단건 조회 -->
     <select id="findById" resultType="com.example.deli2matching.entity.UserEntity">
         SELECT id, username, password, role, auth_provider
-        FROM user_test
+        FROM users
         WHERE id = #{id}
         LIMIT 1
     </select>
