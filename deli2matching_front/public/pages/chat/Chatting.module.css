@@ -1,0 +1,140 @@
+:global(html),
+:global(body) {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  font-size: 20px;
+}
+
+.chatContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.chatTitle {
+  flex-shrink: 0;
+  text-align: center;
+  background-color: #1976d2;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  padding: 40px 10px;
+  letter-spacing: 1px;
+}
+
+.chatBox {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px 20px;
+  background-color: #e9eef5;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-sizing: border-box;
+  font-size: 2rem;
+  line-height: 1.7;
+}
+
+.chatMessage {
+  max-width: 80%;
+  padding: 20px 28px;
+  border-radius: 30px;
+  word-wrap: break-word;
+  display: inline-block;
+  font-size: 2rem;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  color: #000;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.chatMessage strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.inputRow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 3px solid #ccc;
+  box-sizing: border-box;
+}
+
+.inputRow input[type="text"] {
+  flex: 1;
+  padding: 26px 32px;
+  border-radius: 50px;
+  border: 3px solid #bbb;
+  font-size: 2rem;
+  outline: none;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+.inputRow input[type="text"]:focus {
+  border-color: #1976d2;
+  background-color: #fff;
+}
+
+.inputRow button {
+  margin-left: 20px;
+  padding: 26px 36px;
+  border: none;
+  border-radius: 50px;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 700;
+  font-size: 2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.inputRow button:active {
+  background-color: #135ba1;
+}
+
+@media (max-width: 480px) {
+  :global(html) { font-size: 18px; }
+
+  .chatTitle {
+    font-size: 2.2rem;
+    padding: 35px 10px;
+  }
+
+  .chatMessage {
+    font-size: 1.8rem;
+    padding: 18px 25px;
+  }
+
+  .inputRow input[type="text"],
+  .inputRow button {
+    font-size: 1.8rem;
+    padding: 24px 30px;
+  }
+}
