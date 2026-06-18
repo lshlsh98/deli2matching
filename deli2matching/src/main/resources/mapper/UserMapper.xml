@@ -4,32 +4,38 @@
 
 <mapper namespace="com.example.deli2matching.dao.UserDao">
 
-    <!-- INSERT: 사용자 저장, useGeneratedKeys로 AUTO_INCREMENT PK 자동 세팅 -->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into users (login_id, password, username, role, auth_provider)
-        values (#{loginId}, #{password}, #{username}, #{role}, #{authProvider})
+    <resultMap id="userResultMap" type="com.example.deli2matching.entity.UserEntity">
+        <id     property="userId"     column="user_id"/>
+        <result property="loginId"    column="login_id"/>
+        <result property="password"   column="password"/>
+        <result property="email"      column="email"/>
+        <result property="nickname"   column="nickname"/>
+        <result property="provider"   column="provider"/>
+        <result property="providerId" column="provider_id"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO users (login_id, password, email, nickname, provider, provider_id)
+        VALUES (#{loginId}, #{password}, #{email}, #{nickname}, #{provider}, #{providerId})
     </insert>
 
-    <!-- SELECT: username으로 단건 조회 -->
-    <select id="findByLoginId" resultType="com.example.deli2matching.entity.UserEntity">
-        SELECT id, username, password, role, auth_provider
+    <select id="findByLoginId" resultMap="userResultMap">
+        SELECT user_id, login_id, password, email, nickname, provider, provider_id
         FROM users
         WHERE login_id = #{loginId}
         LIMIT 1
     </select>
 
-    <!-- SELECT: username 존재 여부 확인 (COUNT > 0 이면 true) -->
     <select id="existsByLoginId" resultType="boolean">
         SELECT COUNT(*) > 0
         FROM users
         WHERE login_id = #{loginId}
     </select>
 
-    <!-- SELECT: id로 단건 조회 -->
-    <select id="findById" resultType="com.example.deli2matching.entity.UserEntity">
-        SELECT id, username, password, role, auth_provider
+    <select id="findById" resultMap="userResultMap">
+        SELECT user_id, login_id, password, email, nickname, provider, provider_id
         FROM users
-        WHERE id = #{id}
+        WHERE user_id = #{id}
         LIMIT 1
     </select>
 

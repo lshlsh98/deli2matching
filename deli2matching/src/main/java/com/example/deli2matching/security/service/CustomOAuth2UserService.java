@@ -175,37 +175,36 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // ─────────────────────────────────────────────────────────────────
 
         String loginId = socialType + "_" + id; // unique (에: google_1234567890)
-        String username = name + "_" + socialType + "_" + id; // unique (예: 홍길동_google_1234567890)
-        String role = "USER";
-        String authProvider = socialType;
+        String nickname = name + "_" + socialType + "_" + id; // unique (예: 홍길동_google_1234567890)
         UserEntity userEntity;
 
         if (!userDao.existsByLoginId(loginId)) {
             // 처음 소셜 로그인하는 사용자: 자동 회원가입!
             userEntity = UserEntity.builder()
                     .loginId(loginId)
-                    .username(username)
-                    .role(role)
-                    .authProvider(authProvider)
+                    .nickname(nickname)
+                    .email(email)
+                    .provider(socialType)
+                    .providerId(id)
                     .build();
                     // password는 null (소셜 로그인 사용자는 비밀번호 없음)
 
             // MyBatis로 DB에 INSERT
-            // useGeneratedKeys=true 설정으로 자동 생성된 id가 userEntity.id에 세팅됨
+            // useGeneratedKeys=true 설정으로 자동 생성된 userId가 userEntity.userId에 세팅됨
             userDao.insert(userEntity);
         } else {
             // 이미 가입한 사용자: DB에서 기존 정보 조회
             userEntity = userDao.findByLoginId(loginId);
         }
 
-        log.info("Successfully pulled user info username {} authProvider {}", username, authProvider);
+        log.info("Successfully pulled user info nickname {} provider {}", nickname, socialType);
 
         // ─────────────────────────────────────────────────────────────────
         // 6단계: CustomUser 반환
         // 스프링 시큐리티의 Authentication.getPrincipal()로 접근 가능
         // OAuthSuccessHandler에서 이 객체를 사용해 JWT 토큰을 생성합니다
         // ─────────────────────────────────────────────────────────────────
-        return new CustomUser(userEntity.getId(), email, name, authorities, attributes);
+        return new CustomUser(userEntity.getUserId(), email, name, authorities, attributes);
     }
 
     /**

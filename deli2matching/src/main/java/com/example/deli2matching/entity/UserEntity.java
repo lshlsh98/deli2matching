@@ -13,10 +13,11 @@ import org.apache.ibatis.type.Alias;
 @Alias("userEntity")
 public class UserEntity {
 
-    private Long id;
+    private Long userId;
     private String loginId;
     private String password;
-    private String username;
-    private String role;
-    private String authProvider;
+    private String email;
+    private String nickname;
+    private String provider;
+    private String providerId;
 }

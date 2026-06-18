@@ -67,7 +67,7 @@ public class TokenProvider {
                 // 서명 알고리즘: HS512 (HMAC-SHA512, 매우 강력한 암호화)
                 .signWith(SIGNING_KEY, SignatureAlgorithm.HS512)
                 // subject: 토큰의 주인 (사용자 ID를 문자열로 저장)
-                .setSubject(String.valueOf(userEntity.getId()))
+                .setSubject(String.valueOf(userEntity.getUserId()))
                 // issuer: 토큰 발급자 이름
                 .setIssuer("d2m app")
                 // issuedAt: 토큰 발급 시간 (지금)

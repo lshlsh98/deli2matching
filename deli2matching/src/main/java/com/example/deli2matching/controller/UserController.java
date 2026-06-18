@@ -74,17 +74,16 @@ public class UserController {
             UserEntity user = UserEntity.builder()
                     .loginId(userDTO.getLoginId())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
-                    .username(userDTO.getUsername())
-                    .role("USER")
-                    .authProvider("local")
+                    .nickname(userDTO.getUsername())
+                    .provider("local")
                     .build();
 
             UserEntity registeredUser = userService.create(user);
 
             // 응답용 DTO: 비밀번호는 포함하지 않음
             UserDTO responseUserDTO = UserDTO.builder()
-                    .id(registeredUser.getId())
-                    .username(registeredUser.getUsername())
+                    .id(registeredUser.getUserId())
+                    .username(registeredUser.getNickname())
                     .build();
 
             return ResponseEntity.ok().body(responseUserDTO); // 200 OK
@@ -133,8 +132,8 @@ public class UserController {
 
             // 응답: 사용자 정보 + 토큰
             final UserDTO responseUserDTO = UserDTO.builder()
-                    .username(user.getUsername())
-                    .id(user.getId())
+                    .username(user.getNickname())
+                    .id(user.getUserId())
                     .token(token) // ← 클라이언트가 이걸 저장해서 이후 요청에 사용
                     .build();
 
