@@ -28,11 +28,11 @@ const AppRouter = () => {
         <Route path="/sociallogin" element={<SocialLogin />} />
 
         <Route path="/chatting" element={<Chatting />} />
-        <Route path="/historeis" element={<Histories />} />
-        <Route path="/historeis/detail" element={<HistoryDetail />} />
+        <Route path="/histories" element={<Histories />} />
+        <Route path="/histories/detail" element={<HistoryDetail />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home/login" element={<LoginHome />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login/form" element={<LoginForm />} />
         <Route path="/matching/add" element={<MatchingAddForm />} />
         <Route path="/matching/detail" element={<MatchingDetail />} />
         <Route path="/matchings" element={<Matchings />} />
