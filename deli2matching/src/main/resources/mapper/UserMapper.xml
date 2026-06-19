@@ -4,22 +4,12 @@
 
 <mapper namespace="com.example.deli2matching.dao.UserDao">
 
-    <resultMap id="userResultMap" type="com.example.deli2matching.entity.UserEntity">
-        <id     property="userId"     column="user_id"/>
-        <result property="loginId"    column="login_id"/>
-        <result property="password"   column="password"/>
-        <result property="email"      column="email"/>
-        <result property="nickname"   column="nickname"/>
-        <result property="provider"   column="provider"/>
-        <result property="providerId" column="provider_id"/>
-    </resultMap>
-
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO users (login_id, password, email, nickname, provider, provider_id)
         VALUES (#{loginId}, #{password}, #{email}, #{nickname}, #{provider}, #{providerId})
     </insert>
 
-    <select id="findByLoginId" resultMap="userResultMap">
+    <select id="findByLoginId" resultType="userEntity">
         SELECT user_id, login_id, password, email, nickname, provider, provider_id
         FROM users
         WHERE login_id = #{loginId}
@@ -32,7 +22,7 @@
         WHERE login_id = #{loginId}
     </select>
 
-    <select id="findById" resultMap="userResultMap">
+    <select id="findById" resultType="userEntity">
         SELECT user_id, login_id, password, email, nickname, provider, provider_id
         FROM users
         WHERE user_id = #{id}
