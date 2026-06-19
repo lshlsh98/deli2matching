@@ -19,4 +19,9 @@ public interface UserDao {
     // id로 사용자 조회
     UserEntity findById(Long id);
 
+    // memberId 존재 여부 확인
+    int idExists(String memberId);
+
+    // memberName 존재 여부 확인
+    int nameExists(String memberName);
 }

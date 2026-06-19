@@ -73,4 +73,13 @@ public class UserService {
         return null;
     }
 
+    // 회원가입 아이디 중복체크
+    public int idExists(String memberId) {
+        return userDao.idExists(memberId);
+    }//
+
+    // 회원가입 닉네임 중복체크
+    public int nameExists(String memberName) {
+        return userDao.nameExists(memberName);
+    }//
 }

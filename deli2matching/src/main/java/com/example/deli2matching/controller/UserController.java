@@ -8,13 +8,14 @@ import com.example.deli2matching.security.TokenProvider;
 import com.example.deli2matching.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Random;
 
 /**
  * =====================================================================
@@ -43,6 +44,52 @@ public class UserController {
     private final UserService userService;
     private final TokenProvider tokenProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // 회원가입 아이디 중복체크
+    @GetMapping("/idExists")
+    public ResponseEntity<?> idExists (@RequestBody String memberId) {
+        int result = userService.idExists(memberId);
+
+        return ResponseEntity.ok(result > 0);
+    }//
+
+    // 회원가입 닉네임 중복체크
+    @GetMapping("/nameExists")
+    public ResponseEntity<?> nameExists (@RequestBody String memberName) {
+        int result = userService.nameExists(memberName);
+
+        return ResponseEntity.ok(result > 0);
+    }//
+
+    // 이메일 인증
+    @PostMapping(value = "/email-verification")
+    public ResponseEntity<?> sendMail(@RequestBody Map<String, String> requestData) {
+        String emailTitle = "같이시켜 이메일 인증번호입니다.";
+
+        String receiverEmail = requestData.get("memberEmail");
+
+        Random r = new Random();
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < 6; i++) {
+            int flag = r.nextInt(3); // 0, 1, 2 -> 숫자, 대문자, 소문자 어떤걸 추출할지 랜덤으로 결정
+            if (flag == 0) {
+                sb.append(r.nextInt(10));
+            } else if (flag == 1) {
+                sb.append((char) (r.nextInt(26) + 65));
+            } else if (flag == 2) {
+                sb.append((char) (r.nextInt(26) + 97));
+            }
+        }
+        String authCode = sb.toString();
+
+        String emailContent = "<h1>안녕하세요. 같이시켜 입니다.</h1>" + "<h3>인증번호는 [<b>" + authCode
+                + "</b>] 입니다.</h3>" + "<h3>화면으로 돌아가 인증번호를 입력해 주세요.</h3>";
+
+        sender.sendMail(emailTitle, receiverEmail, emailContent);
+
+        return ResponseEntity.ok(authCode);
+    }//
 
     /**
      * POST /auth/signup - 일반 회원가입

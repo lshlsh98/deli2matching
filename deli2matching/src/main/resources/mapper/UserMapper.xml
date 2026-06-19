@@ -29,4 +29,16 @@
         LIMIT 1
     </select>
 
+    <select id="idExists" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE login_id = #{memberId}
+    </select>
+
+    <select id="nameExists" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE nickname = #{memberName}
+    </select>
+
 </mapper>
