@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
+import java.sql.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,6 +20,10 @@ public class UserEntity {
     private String password;
     private String email;
     private String nickname;
+    private String userLocation;
     private String provider;
     private String providerId;
+    private Integer is_active;
+    private Integer completed;
+    private Date createdAt;
 }

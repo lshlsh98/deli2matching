@@ -6,6 +6,7 @@ import com.example.deli2matching.dto.UserDTO;
 import com.example.deli2matching.entity.UserEntity;
 import com.example.deli2matching.security.TokenProvider;
 import com.example.deli2matching.service.UserService;
+import com.example.deli2matching.utils.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -43,7 +44,10 @@ public class UserController {
 
     private final UserService userService;
     private final TokenProvider tokenProvider;
+    private final EmailSender sender;
+
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     // 회원가입 아이디 중복체크
     @GetMapping("/idExists")
@@ -64,7 +68,7 @@ public class UserController {
     // 이메일 인증
     @PostMapping(value = "/email-verification")
     public ResponseEntity<?> sendMail(@RequestBody Map<String, String> requestData) {
-        String emailTitle = "같이시켜 이메일 인증번호입니다.";
+        String emailTitle = "같이 시켜 이메일 인증번호입니다.";
 
         String receiverEmail = requestData.get("memberEmail");
 
@@ -83,7 +87,7 @@ public class UserController {
         }
         String authCode = sb.toString();
 
-        String emailContent = "<h1>안녕하세요. 같이시켜 입니다.</h1>" + "<h3>인증번호는 [<b>" + authCode
+        String emailContent = "<h1>안녕하세요. 같이 시켜 입니다.</h1>" + "<h3>인증번호는 [<b>" + authCode
                 + "</b>] 입니다.</h3>" + "<h3>화면으로 돌아가 인증번호를 입력해 주세요.</h3>";
 
         sender.sendMail(emailTitle, receiverEmail, emailContent);
@@ -112,37 +116,34 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {
-            // 비밀번호 유효성 검사
-            if (userDTO == null || userDTO.getPassword() == null) {
-                throw new RuntimeException("Invalid Password value.");
-            }
-
             // UserEntity 생성: DB에 저장할 형태로 변환
             UserEntity user = UserEntity.builder()
-                    .loginId(userDTO.getLoginId())
-                    .password(passwordEncoder.encode(userDTO.getPassword()))
-                    .nickname(userDTO.getUsername())
-                    .provider("local")
+                    .loginId(userDTO.getMemberId())
+                    .password(passwordEncoder.encode(userDTO.getMemberPw()))
+                    .email(userDTO.getMemberEmail())
+                    .nickname(userDTO.getMemberName())
+                    .userLocation(userDTO.getMemberAddr())
                     .build();
 
             UserEntity registeredUser = userService.create(user);
 
             // 응답용 DTO: 비밀번호는 포함하지 않음
             UserDTO responseUserDTO = UserDTO.builder()
-                    .id(registeredUser.getUserId())
-                    .username(registeredUser.getNickname())
+                    .userId(registeredUser.getUserId())
+                    .memberId(registeredUser.getLoginId())
+                    .memberName(registeredUser.getNickname())
                     .build();
 
-            return ResponseEntity.ok().body(responseUserDTO); // 200 OK
+            return ResponseEntity.ok().body(responseUserDTO);
+
         } catch (Exception e) {
-            // 에러 발생 시 (예: 중복 username)
             ResponseDTO responseDTO = ResponseDTO.builder()
                     .error(e.getMessage())
                     .build();
 
-            return ResponseEntity.badRequest().body(responseDTO); // 400 Bad Request
+            return ResponseEntity.badRequest().body(responseDTO);
         }
-    }
+    }//
 
     /**
      * POST /auth/signin - 일반 로그인
@@ -168,8 +169,8 @@ public class UserController {
         // username으로 사용자 조회 + 비밀번호 검증
         // BCrypt는 "1234"가 "$2a$10$..." 해시와 일치하는지 확인해줌
         UserEntity user = userService.getByCredentials(
-                userDTO.getLoginId(),
-                userDTO.getPassword(),
+                userDTO.getMemberId(),
+                userDTO.getMemberPw(),
                 passwordEncoder
         );
 
@@ -179,8 +180,8 @@ public class UserController {
 
             // 응답: 사용자 정보 + 토큰
             final UserDTO responseUserDTO = UserDTO.builder()
-                    .username(user.getNickname())
-                    .id(user.getUserId())
+                    .memberName(user.getNickname())
+                    .userId(user.getUserId())
                     .token(token) // ← 클라이언트가 이걸 저장해서 이후 요청에 사용
                     .build();
 

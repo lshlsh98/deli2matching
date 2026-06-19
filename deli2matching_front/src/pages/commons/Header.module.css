@@ -1,0 +1,140 @@
+@font-face {
+  font-family: "TtangsBudaeJjigae";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeL.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+.header {
+  width: 100%;
+  background-color: var(--gray8);
+  color: var(--text1);
+  font-family: sans-serif;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  height: 70px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  margin: 0;
+  cursor: pointer;
+}
+
+.logo a {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.logo .logoImg {
+  width: 30px;
+  height: 39.8px;
+}
+
+.logo .logoText {
+  font-size: 28px;
+  line-height: 1;
+  font-family: TtangsBudaeJjigae;
+  padding-top: 6.5px;
+  font-weight: 600;
+}
+
+.centerMenu {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 40px;
+}
+
+.centerMenu button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text1);
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.centerMenu button:hover {
+  opacity: 0.8;
+}
+
+.activeMenu {
+  font-weight: bold !important;
+}
+
+.activeMenu::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text1);
+}
+
+.rightArea {
+  display: flex;
+  align-items: center;
+}
+
+.authMenu {
+  display: flex;
+  gap: 15px;
+}
+
+.authMenu button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text1);
+  cursor: pointer;
+}
+
+.userMenu {
+  display: flex;
+  gap: 18px;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--text1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.iconBtn:hover {
+  opacity: 0.7;
+}

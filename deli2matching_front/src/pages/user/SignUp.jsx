@@ -127,9 +127,9 @@ const SignUp = () => {
       .get(`/auth/idExists/?memberId=${member.memberId}`)
       .then((res) => {
         if (res.data) {
-          setCheckId(1); // 1: 사용 가능
-        } else {
           setCheckId(2); // 2: 중복 (이미 있음)
+        } else {
+          setCheckId(1); // 1: 사용 가능
         }
       })
       .catch((err) => {
@@ -150,9 +150,9 @@ const SignUp = () => {
       .get(`/auth/nameExists?memberName=${member.memberName}`)
       .then((res) => {
         if (res.data) {
-          setCheckName(1); // 1: 사용 가능
-        } else {
           setCheckName(2); // 2: 중복 (이미 있음)
+        } else {
+          setCheckName(1); // 1: 사용 가능
         }
       })
       .catch((err) => {
@@ -296,7 +296,15 @@ const SignUp = () => {
       });
       return;
     }
-    // 이름칸 비어있다면
+    // checkName이 1이어야 중복여부 가능한 상태
+    if (checkName !== 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "확인 필요",
+        text: "닉네임 중복 체크를 확인해주세요.",
+      });
+      return;
+    }
     if (member.memberName === "") {
       Swal.fire({
         icon: "warning",
@@ -315,7 +323,7 @@ const SignUp = () => {
       return;
     }
     // 주소가 비어있다면
-    if (member.memberPostcode === "" || member.memberDetailAddr === "") {
+    if (member.memberAddr === "") {
       Swal.fire({
         icon: "warning",
         title: "입력 오류",
@@ -325,15 +333,17 @@ const SignUp = () => {
     }
 
     axiosInstance
-      .post(`/members`, member)
+      .post(`/auth`, member)
       .then((res) => {
-        if (res.data === 1) {
+        if (
+          res.data.memberId === member.memberId &&
+          res.data.memberName === member.memberName
+        ) {
           Swal.fire({
             icon: "success",
             title: "가입 완료!",
-            text: "Welcome to C2C!",
           });
-          navigate("/member/login");
+          navigate("/login");
         }
       })
       .catch((err) => {

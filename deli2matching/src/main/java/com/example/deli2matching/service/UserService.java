@@ -29,25 +29,24 @@ public class UserService {
      * @throws RuntimeException 유효하지 않은 입력이거나 loginId 중복 시
      */
     public UserEntity create(final UserEntity userEntity) {
-        // 필수 정보 유효성 검사
-        if (userEntity == null || userEntity.getLoginId() == null) {
-            throw new RuntimeException("Invalid arguments");
-        }
-
-        final String loginId = userEntity.getLoginId();
-
         // 중복 loginId 검사
+        final String loginId = userEntity.getLoginId();
         if (userDao.existsByLoginId(loginId)) {
             log.warn("LoginId already exists {}", loginId);
             throw new RuntimeException("LoginId already exists");
         }
 
-        // MyBatis INSERT 실행
-        // UserMapper.xml의 useGeneratedKeys="true" 덕분에
-        // INSERT 후 DB가 자동 생성한 id가 userEntity.id에 자동으로 세팅됨
+        // 중복 nickname 검사
+        final String nickname = userEntity.getNickname();
+        if (userDao.nameExists(nickname) > 0) {
+            log.warn("Nickname already exists {}", nickname);
+            throw new RuntimeException("Nickname already exists");
+        }
+
         userDao.insert(userEntity);
+
         return userEntity; // id가 채워진 상태로 반환
-    }
+    }//
 
     /**
      * getByCredentials - 로그인 인증 처리

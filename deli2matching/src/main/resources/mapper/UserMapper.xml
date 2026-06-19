@@ -5,8 +5,8 @@
 <mapper namespace="com.example.deli2matching.dao.UserDao">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO users (login_id, password, email, nickname, provider, provider_id)
-        VALUES (#{loginId}, #{password}, #{email}, #{nickname}, #{provider}, #{providerId})
+        INSERT INTO users (login_id, password, email, nickname, user_location)
+        VALUES (#{loginId}, #{password}, #{email}, #{nickname}, #{userLocation})
     </insert>
 
     <select id="findByLoginId" resultType="userEntity">
