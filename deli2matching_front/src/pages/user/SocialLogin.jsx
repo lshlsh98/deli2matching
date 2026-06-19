@@ -1,5 +1,5 @@
 import { Navigate, useSearchParams } from "react-router-dom";
-import useAuthStore from "./utils/useAuthStore";
+import useAuthStore from "../../utils/useAuthStore";
 
 // SocialLogin 컴포넌트: 소셜 로그인(구글, 네이버 등)이 끝난 뒤 돌아오는 페이지
 // 서버가 로그인을 처리한 뒤 "?token=xxx" 형태로 토큰을 URL에 담아 보내줌

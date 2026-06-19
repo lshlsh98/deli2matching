@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "./utils/axios";
+import axiosInstance from "../../utils/axios";
 import { useState } from "react";
 
 // SignUp 컴포넌트: 회원가입 페이지 화면

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "./utils/axios";
-import useAuthStore from "./utils/useAuthStore";
+import axiosInstance from "../../utils/axios";
+import useAuthStore from "../../utils/useAuthStore";
 import { useState } from "react";
 
 // Login 컴포넌트: 로그인 페이지 화면

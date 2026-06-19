@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+
+:root {
+  --primary: #1e90ff;
+  --sub1: #4169e1;
+  --sub2: #c0c0c0;
+  --sub3: #77dd77;
+  --bg: #fdfbf7;
+  --header: #ffffff;
+  --footer: #413a33;
+  --text1: #2b1b17;
+
+  --gray0: #000000;
+  --gray1: #222222;
+  --gray2: #555555;
+  --gray3: #717171;
+  --gray4: #8f8f8f;
+  --gray5: #b7b7b7;
+  --gray6: #d6d6d6;
+  --gray7: #efefef;
+  --gray8: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text1);
+  font-family: "Noto Sans KR", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+/* 실무에서는 보통 필요한 곳만 적용
+.no-select {
+  user-select: none;
+} 
+
+오히려 전체 적용하면 문제 생김
+* {
+  user-select: none;
+} */
