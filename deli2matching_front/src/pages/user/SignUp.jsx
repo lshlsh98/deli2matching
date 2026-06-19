@@ -5,84 +5,9 @@ import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import styles from "./SignUp.module.css";
 import Swal from "sweetalert2";
 
-// SignUp 컴포넌트: 회원가입 페이지 화면
 const SignUp = () => {
-  // const navigate = useNavigate();
-
-  // const [member, setMember] = useState({
-  //   loginId: "",
-  //   password: "",
-  //   username: "",
-  // });
-
-  // const inputMember = (e) => {
-  //   const newMember = { ...member, [e.target.name]: e.target.value };
-  //   setMember(newMember);
-  // };
-
-  // const joinMember = () => {
-  //   // 서버에 회원가입 요청을 보냄
-  //   // POST /auth/signup → 서버의 회원가입 처리 주소
-  //   axiosInstance
-  //     .post("/auth/signup", member)
-  //     .then(() => {
-  //       navigate("/login");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // return (
-  //   <section>
-  //     <h3>회원가입</h3>
-  //     <form
-  //       onSubmit={(e) => {
-  //         e.preventDefault();
-  //         joinMember();
-  //       }}
-  //       autoComplete="off"
-  //     >
-  //       <div>
-  //         <label htmlFor="memberId">아이디</label>
-  //         <input
-  //           type="text"
-  //           name="loginId"
-  //           id="loginId"
-  //           value={member.loginId}
-  //           onChange={inputMember}
-  //         />
-  //       </div>
-
-  //       <div>
-  //         <label htmlFor="password">비밀번호</label>
-  //         <input
-  //           type="password"
-  //           name="password"
-  //           id="password"
-  //           value={member.password}
-  //           onChange={inputMember}
-  //         />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="username">이름</label>
-  //         <input
-  //           type="text"
-  //           name="username"
-  //           id="username"
-  //           value={member.username}
-  //           onChange={inputMember}
-  //         />
-  //       </div>
-  //       <div>
-  //         <button type="submit">회원가입</button>
-  //       </div>
-  //     </form>
-  //   </section>
-  // );
-
   const navigate = useNavigate();
-  const detailRef = useRef(null); //카카오 맵으로 주소를 고르면 상세주소로 focus가 가게끔 하기위해 상세주소input에 이름표 달아두기용
+  const detailRef = useRef(null);
 
   const [member, setMember] = useState({
     memberId: "",
@@ -515,7 +440,7 @@ const SignUp = () => {
               />
               <button
                 type="button"
-                className="btn primary sm"
+                className={styles.action_btn}
                 onClick={sendMail}
                 disabled={mailAuth === 1 || mailAuth === 3}
               >
@@ -546,7 +471,7 @@ const SignUp = () => {
                 </div>
 
                 <button
-                  className="btn primary sm"
+                  className={styles.action_btn}
                   type="button"
                   disabled={mailAuth === 3}
                   onClick={() => {
@@ -595,18 +520,27 @@ const SignUp = () => {
                 value={member.memberAddr}
                 readOnly={true}
               />
-              <button type="button" className="btn primary sm" onClick={open}>
+              <button
+                type="button"
+                className={styles.action_btn}
+                onClick={open}
+              >
                 주소 찾기
               </button>
             </div>
           </div>
 
           <div className={styles.final_button_wrap}>
-            <button type="submit" className="btn primary lg">
-              회원 가입 완료
+            <button type="submit" className={styles.submit_btn}>
+              회원 가입
             </button>
           </div>
         </form>
+
+        <div className={styles.login_link_wrap}>
+          이미 계정이 있으신가요?
+          <Link to="/member/login">로그인하기</Link>
+        </div>
       </div>
     </section>
   );
