@@ -1,7 +1,7 @@
 package com.example.deli2matching.dao;
 
 
-import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.entity.user.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

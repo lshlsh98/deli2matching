@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.entity.user.UserEntity;
 import com.example.deli2matching.security.vo.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

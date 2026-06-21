@@ -1,15 +1,14 @@
 package com.example.deli2matching.controller;
 
 
-import com.example.deli2matching.dto.ResponseDTO;
-import com.example.deli2matching.dto.UserDTO;
-import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.dto.user.ResponseDTO;
+import com.example.deli2matching.dto.user.UserDTO;
+import com.example.deli2matching.entity.user.UserEntity;
 import com.example.deli2matching.security.TokenProvider;
 import com.example.deli2matching.service.UserService;
 import com.example.deli2matching.utils.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

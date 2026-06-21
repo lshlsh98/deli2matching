@@ -2,7 +2,7 @@ package com.example.deli2matching.service;
 
 
 import com.example.deli2matching.dao.UserDao;
-import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.entity.user.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

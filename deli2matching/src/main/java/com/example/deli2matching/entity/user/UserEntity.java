@@ -1,4 +1,4 @@
-package com.example.deli2matching.entity;
+package com.example.deli2matching.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

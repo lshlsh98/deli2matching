@@ -1,4 +1,4 @@
-package com.example.deli2matching.dto;
+package com.example.deli2matching.dto.user;
 
 
 import lombok.AllArgsConstructor;

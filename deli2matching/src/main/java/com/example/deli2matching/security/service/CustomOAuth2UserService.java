@@ -1,7 +1,7 @@
 package com.example.deli2matching.security.service;
 
 
-import com.example.deli2matching.entity.UserEntity;
+import com.example.deli2matching.entity.user.UserEntity;
 import com.example.deli2matching.dao.UserDao;
 import com.example.deli2matching.security.dto.OAuthAttributes;
 import com.example.deli2matching.security.vo.CustomUser;
