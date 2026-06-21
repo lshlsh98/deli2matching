@@ -1,11 +1,8 @@
 import axios from "axios";
-
 import useAuthStore from "./useAuthStore";
 
-// baseURL을 설정하면 나중에 "/todo"처럼 짧게만 써도 전체 주소가 완성
-// 예) baseURL="http://localhost:8080" + "/todo" = "http://localhost:8080/todo"
 const instance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
 });
 
 // 인터셉터(interceptor) = 요청/응답이 오가는 중간에서 몰래 작업하는 감시자

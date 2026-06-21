@@ -2,6 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 import useAuthStore from "../../utils/useAuthStore";
 import { useState } from "react";
+import styles from "./Login.module.css";
+
+// 소셜 로그인 로고 이미지
+import kakaoLogo from "../../assets/logo/kakao_logo.png";
+import googleLogo from "../../assets/logo/google_logo.png";
+import naverLogo from "../../assets/logo/naver_logo.png";
+import githubLogo from "../../assets/logo/github_logo.png";
 
 // Login 컴포넌트: 로그인 페이지 화면
 const Login = () => {
@@ -37,69 +44,121 @@ const Login = () => {
   // handleSocialLogin: 소셜 로그인 버튼을 눌렀을 때 실행되는 함수
   // provider = 어떤 소셜 서비스인지 (예: "google", "naver", "kakao", "github")
   const handleSocialLogin = (provider) => {
-    // 현재 프론트엔드 주소를 가져옴
-    // 예) http://localhost:5173
-    const frontendUrl = window.location.protocol + "//" + window.location.host;
-    const API_BASE_URL = "http://localhost:8080";
+    // window.location.href: 현재 브라우저를 다른 주소로 이동
+    // VITE_API_BASE_URL: 백엔드 서버
+    // /oauth2/authorization/: Spring Security OAuth2가 제공하는 URL
+    // provider: 로그인 제공자
+    // redirect_url: 최종적으로 다시 돌아올 프론트 주소
+    // window.location.origin: 현재 프론트 주소 (protocol + host => http://localhost:5173)
 
-    // 소셜 로그인 페이지로 이동
-    // 서버가 소셜 로그인을 처리한 뒤 frontendUrl로 돌아옴
-    window.location.href =
-      API_BASE_URL +
-      "/oauth2/authorization/" +
-      provider +
-      "?redirect_url=" +
-      frontendUrl;
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/${provider}?redirect_url=${encodeURIComponent(window.location.origin)}`;
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* 아이디 입력란 */}
-      <div>
-        <label htmlFor="memberId">아이디</label>
-        <input
-          type="text"
-          name="memberId"
-          id="memberId"
-          value={member.memberId}
-          onChange={inputMember}
-        />
-      </div>
+    /* 전체 화면 중앙 정렬 래퍼 */
+    <div className={styles.page}>
+      {/* 로그인 카드 */}
+      <div className={styles.card}>
+        <h1 className={styles.title}>로그인</h1>
 
-      {/* 비밀번호 입력란 */}
-      <div>
-        <label htmlFor="memberPw">비밀번호</label>
-        <input
-          type="password"
-          name="memberPw"
-          id="memberPw"
-          value={member.memberPw}
-          onChange={inputMember}
-        />
-      </div>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {/* 이메일 입력란 */}
+          <div className={styles.fieldGroup}>
+            <label htmlFor="memberId" className={styles.label}>
+              이메일 주소
+            </label>
+            <div className={styles.inputWrapper}>
+              {/* 이메일 아이콘 */}
+              <input
+                type="text"
+                name="memberId"
+                id="memberId"
+                value={member.memberId}
+                onChange={inputMember}
+                className={styles.input}
+              />
+            </div>
+          </div>
 
-      {/* 로그인 버튼 (type="submit"이면 폼의 onSubmit이 실행돼요) */}
-      <div>
-        <button type="submit">로그인</button>
+          {/* 비밀번호 입력란 */}
+          <div className={styles.fieldGroup}>
+            <label htmlFor="memberPw" className={styles.label}>
+              비밀번호
+            </label>
+            <div className={styles.inputWrapper}>
+              <input
+                type="password"
+                name="memberPw"
+                id="memberPw"
+                placeholder="비밀번호를 입력하세요"
+                value={member.memberPw}
+                onChange={inputMember}
+                className={styles.input}
+              />
+            </div>
+          </div>
+
+          <button type="submit" className={styles.loginBtn}>
+            로그인
+          </button>
+
+          <div className={styles.signupRow}>
+            <Link to="/signup" className={styles.signupLink}>
+              회원가입
+            </Link>
+          </div>
+        </form>
+
+        {/* 소셜 로그인과 일반 로그인 사이 구분선 */}
+        <div className={styles.divider}>
+          <span className={styles.dividerText}>또는</span>
+        </div>
+
+        {/* 소셜 로그인 버튼들 */}
+        <div className={styles.socialBtns}>
+          {/* 네이버 로그인 */}
+          <button
+            type="button"
+            className={styles.socialBtn}
+            onClick={() => handleSocialLogin("naver")}
+          >
+            <img src={naverLogo} alt="naver" className={styles.socialLogo} />
+            네이버로 시작하기
+          </button>
+
+          {/* 구글 로그인 */}
+          <button
+            type="button"
+            className={styles.socialBtn}
+            onClick={() => handleSocialLogin("google")}
+          >
+            <img src={googleLogo} alt="google" className={styles.socialLogo} />
+            구글로 시작하기
+          </button>
+
+          {/* 카카오 로그인 */}
+          <button
+            type="button"
+            className={styles.socialBtn}
+            onClick={() => handleSocialLogin("kakao")}
+          >
+            <img src={kakaoLogo} alt="kakao" className={styles.socialLogo} />
+            카카오로 시작하기
+          </button>
+
+          {/* 깃허브 로그인 */}
+          <button
+            type="button"
+            className={styles.socialBtn}
+            onClick={() => handleSocialLogin("github")}
+          >
+            <img src={githubLogo} alt="github" className={styles.socialLogo} />
+            깃허브로 시작하기
+          </button>
+        </div>
       </div>
-      {/* 소셜 로그인 버튼들 */}
-      <button onClick={() => handleSocialLogin("google")}>
-        구글로 로그인하기
-      </button>
-      <button onClick={() => handleSocialLogin("naver")}>
-        네이버로 로그인하기
-      </button>
-      <button onClick={() => handleSocialLogin("kakao")}>
-        카카오로 로그인하기
-      </button>
-      <button onClick={() => handleSocialLogin("github")}>
-        깃허브로 로그인하기
-      </button>
-      {/* 회원가입 페이지로 가는 링크 */}
-      <Link to="/signup">계정이 없습니까? 여기서 가입 하세요.</Link>
-    </form>
+    </div>
   );
 };
 
-// 다른 파일에서 Login을 쓸 수 있도록 내보내요.
 export default Login;

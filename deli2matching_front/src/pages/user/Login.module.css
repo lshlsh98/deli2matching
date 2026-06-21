@@ -1,0 +1,194 @@
+/* 페이지 레이아웃 */
+.page {
+  display: flex;
+  justify-content: center;
+  background-color: var(--bg);
+  padding: 24px;
+}
+
+/* 카드 */
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  width: 600px;
+}
+
+/* 제목 */
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--gray1); /* App.css: 거의 검정에 가까운 텍스트 */
+  margin-bottom: 32px;
+}
+
+/* 폼 */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 라벨 + 입력창 묶음 */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 라벨 텍스트 */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray3); /* App.css: 중간 회색 */
+}
+
+/* 아이콘 + input을 가로로 배치하기 위한 wrapper */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1.5px solid var(--gray6); /* App.css: 연한 회색 테두리 */
+  border-radius: 8px;
+  background-color: var(--gray7); /* App.css: 입력창 배경을 살짝 회색으로 */
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+/* 포커스 시 --primary 파란 테두리 + 흰 배경 */
+.inputWrapper:focus-within {
+  border-color: var(--primary); /* App.css: 메인 파란색 */
+  background-color: #ffffff;
+}
+
+/* 이메일·자물쇠 아이콘 */
+.inputIcon {
+  font-size: 15px;
+  color: var(--gray4); /* App.css: 아이콘용 중간 회색 */
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* 실제 input 요소 */
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 13px 0;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gray1); /* App.css: 입력 텍스트 색 */
+  background: transparent;
+}
+
+.input::placeholder {
+  color: var(--gray5); /* App.css: placeholder 회색 */
+}
+
+/* 로그인 버튼 */
+.loginBtn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary); /* App.css: 메인 파란색 */
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* hover 시 --sub1(더 진한 파란색)으로 전환 */
+.loginBtn:hover {
+  background-color: var(--sub1); /* App.css: 진한 파란색 */
+}
+
+/* 회원가입 링크 */
+.signupRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --primary 색 텍스트 링크 */
+.signupLink {
+  font-size: 13px;
+  color: var(--primary);
+}
+
+.signupLink:hover {
+  color: var(--sub1);
+  text-decoration: underline;
+}
+
+/* 구분선 */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 20px;
+}
+
+/* ::before / ::after 로 양쪽 가로선 생성 */
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--gray6);
+}
+
+.dividerText {
+  font-size: 13px;
+  color: var(--gray4);
+  white-space: nowrap;
+}
+
+/* 소셜 로그인 버튼들 */
+.socialBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 소셜 버튼 공통: 흰 배경 + --sub2(회색) 테두리 */
+/* 이미지 기준 모든 버튼이 동일한 아웃라인 스타일 */
+.socialBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1.5px solid var(--sub2);
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: var(--gray2);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+/* hover 시 배경을 살짝 회색으로 */
+.socialBtn:hover {
+  background-color: var(--gray7);
+  border-color: var(--gray5);
+}
+
+/* 소셜 로고 이미지 크기 고정 */
+.socialLogo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}

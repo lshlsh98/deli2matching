@@ -9,9 +9,8 @@
 
 /* 카드 */
 .join_card {
-  width: 520px;
+  width: 600px;
   background-color: var(--gray8);
-  border: 1px solid var(--gray6);
   border-radius: 20px;
   padding: 60px 52px 52px 52px;
   box-shadow: 0 12px 36px rgba(30, 144, 255, 0.08);
