@@ -1,0 +1,201 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  padding: 40px 60px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gray1);
+  margin-bottom: 28px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 36px 32px;
+  max-width: 560px;
+  width: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray3);
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background-color: var(--gray7);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gray1);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  background-color: #ffffff;
+}
+
+.input::placeholder {
+  color: var(--gray5);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--gray6);
+  overflow: hidden;
+  background-color: #ffffff;
+  height: 46px;
+}
+
+.stepper_btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: background-color 0.15s;
+}
+
+.stepper_btn:hover {
+  background-color: var(--gray7);
+}
+
+.stepper_value {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray1);
+  border-left: 1px solid var(--gray6);
+  border-right: 1px solid var(--gray6);
+  line-height: 44px;
+}
+
+.select {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1.5px solid var(--gray6);
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gray1);
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  border-color: var(--primary);
+}
+
+.location_row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.map_btn {
+  flex-shrink: 0;
+  width: 80px;
+  height: 46px;
+  border: 1.5px solid var(--gray6);
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.map_btn:hover {
+  background-color: var(--gray7);
+  border-color: var(--sub2);
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background-color: var(--gray7);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gray1);
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+  resize: none;
+}
+
+.textarea:focus {
+  border-color: var(--primary);
+  background-color: #ffffff;
+}
+
+.textarea::placeholder {
+  color: var(--gray5);
+}
+
+.submit_btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background-color 0.2s;
+}
+
+.submit_btn:hover {
+  background-color: var(--sub1);
+}

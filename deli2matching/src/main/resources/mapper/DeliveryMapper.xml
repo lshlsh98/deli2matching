@@ -66,4 +66,9 @@
         VALUES ( #{userId}, #{restaurantName}, #{targetMembers}, #{pickupLocation}, #{detailLocation}, #{memo}, #{deadlineAt})
     </insert>
 
+    <insert id="joinDelivery">
+        INSERT INTO post_participants (post_id, user_id)
+        VALUES (#{postId}, #{userId})
+    </insert>
+
 </mapper>

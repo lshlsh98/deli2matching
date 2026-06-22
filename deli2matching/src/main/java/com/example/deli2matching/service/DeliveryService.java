@@ -27,7 +27,12 @@ public class DeliveryService {
     }//
 
     @Transactional
-    public int createDelivery(DeliveryCreateReqDTO req) {
-        return deliveryDao.createDelivery(req);
+    public void createDelivery(DeliveryCreateReqDTO req) {
+        deliveryDao.createDelivery(req);
+    }//
+
+    @Transactional
+    public void joinDelivery(Long postId, String userId) {
+       deliveryDao.joinDelivery(postId, userId);
     }//
 }

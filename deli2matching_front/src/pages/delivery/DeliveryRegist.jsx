@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import axiosInstance from "../../utils/axios";
 import styles from "./DeliveryRegist.module.css";
+import BasicSelect from "../ui/BasicSelect";
 
-// 모집 마감 시간 선택지: label(표시용) + minutes(실제 계산용)
+// 모집 마감 시간 선택지: BasicSelect의 list 형식 [[value, label], ...]
 const DEADLINE_OPTIONS = [
-  { label: "30분 뒤", minutes: 30 },
-  { label: "1시간 뒤", minutes: 60 },
-  { label: "1시간 30분 뒤", minutes: 90 },
-  { label: "2시간 뒤", minutes: 120 },
-  { label: "3시간 뒤", minutes: 180 },
+  [30, "30분 뒤"],
+  [60, "1시간 뒤"],
+  [90, "1시간 30분 뒤"],
+  [120, "2시간 뒤"],
+  [180, "3시간 뒤"],
 ];
 
 // DeliveryRegist: 배달 모집 등록 페이지
@@ -47,10 +48,14 @@ const DeliveryRegist = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // deadline_at: 현재 시각 + 선택한 분(deadlineMinutes)
+    // toISOString()은 UTC 기준이라 KST와 9시간 차이남
+    // → KST 오프셋을 더한 뒤 Z를 제거해서 "시간대 없는 KST 문자열"로 전송
+    const KST_OFFSET = 9 * 60 * 60 * 1000;
     const deadlineAt = new Date(
-      Date.now() + Number(form.deadlineMinutes) * 60 * 1000,
-    ).toISOString();
+      Date.now() + KST_OFFSET + Number(form.deadlineMinutes) * 60 * 1000,
+    )
+      .toISOString()
+      .replace("Z", ""); // "2026-06-22T21:03:38.000" 형태로 전송
 
     axiosInstance
       .post("/delivery", {
@@ -71,8 +76,6 @@ const DeliveryRegist = () => {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>배달 모집 등록</h1>
-
       <div className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field_group}>
@@ -81,6 +84,7 @@ const DeliveryRegist = () => {
               type="text"
               name="restaurantName"
               className={styles.input}
+              placeholder="예: BBQ 치킨 강남점"
               value={form.restaurantName}
               onChange={handleChange}
               required
@@ -113,23 +117,19 @@ const DeliveryRegist = () => {
 
             <div className={styles.field_group}>
               <label className={styles.label}>모집 마감 시간</label>
-              <select
-                name="deadlineMinutes"
-                className={styles.select}
-                value={form.deadlineMinutes}
-                onChange={handleChange}
-              >
-                {DEADLINE_OPTIONS.map((opt) => (
-                  <option key={opt.minutes} value={opt.minutes}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+              {/* BasicSelect: state=현재값, setState=form 업데이트 함수, list=[[value, label], ...] */}
+              <BasicSelect
+                state={form.deadlineMinutes}
+                setState={(value) =>
+                  setForm((prev) => ({ ...prev, deadlineMinutes: value }))
+                }
+                list={DEADLINE_OPTIONS}
+              />
             </div>
           </div>
 
           <div className={styles.field_group}>
-            <label className={styles.label}>수령 희망 장소</label>
+            <label className={styles.label}>장소</label>
             <div className={styles.location_row}>
               <input
                 type="text"
@@ -140,6 +140,7 @@ const DeliveryRegist = () => {
                 required
                 readOnly
               />
+              {/* 지도 버튼: 클릭 시 카카오 주소 검색 팝업 */}
               <button
                 type="button"
                 className={styles.map_btn}

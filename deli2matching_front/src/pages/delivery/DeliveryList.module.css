@@ -185,3 +185,26 @@
   background-color: var(--primary);
   transition: width 0.3s ease;
 }
+
+.regist_btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.regist_btn button {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.regist_btn button:hover {
+  background-color: var(--sub1);
+}

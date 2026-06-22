@@ -54,9 +54,11 @@ const BasicSelect = ({ state, setState, list, onChange }) => {
             },
           }}
           MenuProps={{
-            PaperProps: {
-              sx: {
-                minWidth: minWidth, // 드롭다운 메뉴도 동일하게
+            slotProps: {
+              paper: {
+                sx: {
+                  minWidth,
+                },
               },
             },
             disableScrollLock: true,

@@ -4,16 +4,18 @@ import axiosInstance from "../../utils/axios";
 import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import BasicSelect from "../ui/BasicSelect";
 import Pagination from "../ui/Pagination";
+import { useNavigate } from "react-router-dom";
 
 const DeliveryList = () => {
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(""); // 서울 중구 세종대로 110 (나중에 기본값으로 설정)
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(9);
   const [totalPage, setTotalPage] = useState(null);
   const [order, setOrder] = useState(0); // 0: 최신순 / 1: 시간 적게 남은 순
   const [list, setList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
@@ -41,7 +43,9 @@ const DeliveryList = () => {
       <div className={styles.list_header}>
         <div className={styles.list_header_left}>
           <div className={styles.list_header_location} onClick={open}>
-            <span className={styles.list_header_location_text}>{location}</span>
+            <span
+              className={styles.list_header_location_text}
+            >{`현재 주소: ${location}`}</span>
           </div>
           <h1 className={styles.delivery_list_header_title}>모집 중인 배달</h1>
         </div>
@@ -77,6 +81,7 @@ const DeliveryList = () => {
         {list.map((item) => (
           <DeliveryCard
             key={item.postId}
+            postId={item.postId}
             restaurantName={item.restaurantName}
             targetMembers={item.targetMembers}
             currentMembers={item.currentMembers}
@@ -89,7 +94,13 @@ const DeliveryList = () => {
         )}
       </div>
       <div className={styles.regist_btn}>
-        <button>모집 등록</button>
+        <button
+          onClick={() => {
+            navigate(`/regist`);
+          }}
+        >
+          모집 등록
+        </button>
       </div>
       <div className={styles.pagination_section}>
         <Pagination
@@ -104,15 +115,22 @@ const DeliveryList = () => {
 };
 
 const DeliveryCard = ({
+  postId,
   restaurantName,
   targetMembers,
   currentMembers,
   minutesUntilDeadline,
 }) => {
+  const navigate = useNavigate();
   const progressPercent = Math.round((currentMembers / targetMembers) * 100);
 
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onClick={() => {
+        navigate(`/view/${postId}`);
+      }}
+    >
       <h2 className={styles.card_name}>{restaurantName}</h2>
 
       <div className={styles.card_meta}>

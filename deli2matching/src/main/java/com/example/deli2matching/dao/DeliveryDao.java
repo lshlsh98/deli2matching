@@ -4,6 +4,7 @@ import com.example.deli2matching.dto.delivery.DeliveryCreateReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListReqDTO;
 import com.example.deli2matching.entity.delivery.DeliveryList;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,8 @@ public interface DeliveryDao {
 
     int getListCount(DeliveryListReqDTO req);
 
-    int createDelivery(DeliveryCreateReqDTO req);
+    void createDelivery(DeliveryCreateReqDTO req);
+
+    void joinDelivery(@Param("postId") Long postId,
+                      @Param("userId") String userId);
 }

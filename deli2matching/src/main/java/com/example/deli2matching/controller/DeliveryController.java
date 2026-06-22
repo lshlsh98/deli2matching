@@ -39,17 +39,18 @@ public class DeliveryController {
         return ResponseEntity.ok(res);
     }//
 
-    // 배달 모집 생성
+    // 배달 모집 생성 및 생성자 참여
     @PostMapping
     public ResponseEntity<?> createDelivery(@RequestBody DeliveryCreateReqDTO req,
-                                               @AuthenticationPrincipal String userId) {
+                                            @AuthenticationPrincipal String userId) {
 
         if (userId != null) {
             req.setUserId(Long.parseLong(userId));
         }
 
-        int result = deliveryService.createDelivery(req);
+        deliveryService.createDelivery(req);
+        deliveryService.joinDelivery(req.getPostId(), userId);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok("ok");
     }//
 }

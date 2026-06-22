@@ -81,7 +81,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 3단계: 토큰 유효성 검증 + 사용자 ID 추출
                 // 토큰이 위조되거나 만료되면 예외 발생
                 String userId = tokenProvider.validateAndGetUserId(token);
-                log.info("Authenticated user ID : " + userId);
 
                 // 4단계: 스프링 시큐리티 인증 객체 생성
                 // userId를 principal(주체)로, 권한은 없음으로 설정
