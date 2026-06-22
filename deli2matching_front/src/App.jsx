@@ -5,6 +5,7 @@ import SocialLogin from "./pages/user/SocialLogin";
 import Header from "./pages/commons/Header";
 import "./App.css";
 import DeliveryList from "./pages/delivery/DeliveryList";
+import DeliveryRegist from "./pages/delivery/DeliveryRegist";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/sociallogin" element={<SocialLogin />} />
+          <Route path="/regist" element={<DeliveryRegist />} />
         </Routes>
       </div>
     </div>

@@ -204,61 +204,61 @@ const SignUp = () => {
   // 최종 가입 전 검사 로직 - 위에서부터 순서대로 체크해서 alert띄우기
   const joinMember = () => {
     // checkId가 1이어야 정규식도 맞고 중복여부도 가능한 상태
-    if (checkId !== 1) {
-      Swal.fire({
-        icon: "warning",
-        title: "확인 필요",
-        text: "아이디 중복 체크 및 형식을 확인해주세요.",
-      });
-      return;
-    }
+    // if (checkId !== 1) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "확인 필요",
+    //     text: "아이디 중복 체크 및 형식을 확인해주세요.",
+    //   });
+    //   return;
+    // }
     // 비밀번호도 완벽하게 일치(1)할 때만 통과
-    if (checkPw !== 1) {
-      Swal.fire({
-        icon: "warning",
-        title: "확인 필요",
-        text: "비밀번호 형식과 일치 여부를 확인해주세요.",
-      });
-      return;
-    }
+    // if (checkPw !== 1) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "확인 필요",
+    //     text: "비밀번호 형식과 일치 여부를 확인해주세요.",
+    //   });
+    //   return;
+    // }
     // checkName이 1이어야 중복여부 가능한 상태
-    if (checkName !== 1) {
-      Swal.fire({
-        icon: "warning",
-        title: "확인 필요",
-        text: "닉네임 중복 체크를 확인해주세요.",
-      });
-      return;
-    }
-    if (member.memberName === "") {
-      Swal.fire({
-        icon: "warning",
-        title: "입력 오류",
-        text: "이름(닉네임)을 입력하세요.",
-      });
-      return;
-    }
+    // if (checkName !== 1) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "확인 필요",
+    //     text: "닉네임 중복 체크를 확인해주세요.",
+    //   });
+    //   return;
+    // }
+    // if (member.memberName === "") {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "입력 오류",
+    //     text: "이름(닉네임)을 입력하세요.",
+    //   });
+    //   return;
+    // }
     // mailAuth => 0 : 대기중 (인증전) / 1 : 발송중 / 2 : 입력 대기 / 3 : 인증 성공
-    if (mailAuth !== 3) {
-      Swal.fire({
-        icon: "warning",
-        title: "인증 필요",
-        text: "이메일 인증을 완료해주세요.",
-      });
-      return;
-    }
+    // if (mailAuth !== 3) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "인증 필요",
+    //     text: "이메일 인증을 완료해주세요.",
+    //   });
+    //   return;
+    // }
     // 주소가 비어있다면
-    if (member.memberAddr === "") {
-      Swal.fire({
-        icon: "warning",
-        title: "입력 오류",
-        text: "주소를 입력해주세요.",
-      });
-      return;
-    }
+    // if (member.memberAddr === "") {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "입력 오류",
+    //     text: "주소를 입력해주세요.",
+    //   });
+    //   return;
+    // }
 
     axiosInstance
-      .post(`/auth`, member)
+      .post(`/auth/signup`, member)
       .then((res) => {
         if (
           res.data.memberId === member.memberId &&

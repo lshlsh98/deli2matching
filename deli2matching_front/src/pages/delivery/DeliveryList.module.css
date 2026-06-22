@@ -1,0 +1,187 @@
+.list_page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  padding: 40px 60px;
+  width: 1200px;
+}
+
+.list_header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.list_header_left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.list_header_location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.list_header_pin_icon {
+  font-size: 13px;
+  color: var(--primary);
+}
+
+.list_header_location_text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.delivery_list_header_title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gray1);
+}
+
+.list_header_right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.list_header_search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+.list_header_search_icon {
+  font-size: 16px;
+  color: var(--gray3);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.list_header_search_input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--gray2);
+  width: 220px;
+}
+
+.list_header_search_input::placeholder {
+  color: var(--gray4);
+}
+
+.list_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.list_empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 0;
+  font-size: 15px;
+  color: var(--gray4);
+}
+
+.pagination_section {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+}
+
+.card_name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gray1);
+}
+
+.card_meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card_clock_icon {
+  font-size: 13px;
+  color: var(--gray3);
+}
+
+.card_time {
+  font-size: 13px;
+  color: var(--gray3);
+}
+
+.card_status_dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--sub2);
+  flex-shrink: 0;
+}
+
+.card_status_dot[data-urgent="true"] {
+  background-color: var(--sub3);
+}
+
+.card_participation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card_participation_label {
+  font-size: 13px;
+  color: var(--gray3);
+}
+
+.card_participation_right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card_count {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.card_people_icon {
+  font-size: 13px;
+  color: var(--primary);
+}
+
+.card_progress_track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background-color: var(--gray6);
+  overflow: hidden;
+}
+
+.card_progress_fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}

@@ -6,6 +6,7 @@
 
     <select id="getList" resultType="deliveryList">
         SELECT
+            post_id,
             restaurant_name,
             target_members,
             current_members,
