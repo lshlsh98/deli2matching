@@ -5,9 +5,9 @@ import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 
 const DeliveryList = () => {
   const [location, setLocation] = useState("");
-  const [kyeword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [totalPage, setTotalPage] = useState(null);
   const [order, setOrder] = useState(0); // 0: 최신순 / 1: 시간 적게 남은 순
@@ -20,13 +20,13 @@ const DeliveryList = () => {
       )
       .then((res) => {
         console.log(res);
-        // setList(res.data.list);
+        setList(res.data.list);
         setTotalPage(res.data.totalPage);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [location, kyeword, order, page]);
+  }, [location, keyword, order, page]);
 
   const { open } = useKakaoPostcode({
     onComplete: (data) => {
@@ -91,7 +91,7 @@ const DeliveryCard = ({
   restaurantName,
   targetMembers,
   currentMembers,
-  minutesUntildeadline,
+  minutesUntilDeadline,
 }) => {
   const progressPercent = Math.round((currentMembers / targetMembers) * 100);
 
@@ -100,11 +100,11 @@ const DeliveryCard = ({
       <h2 className={styles.card_name}>{restaurantName}</h2>
 
       <div className={styles.card_meta}>
-        <span className={styles.card_time}>{minutesUntildeadline}분 남음</span>
+        <span className={styles.card_time}>{minutesUntilDeadline}분 남음</span>
 
         <span
           className={styles.card_status_dot}
-          data-urgent={minutesUntildeadline <= 10}
+          data-urgent={minutesUntilDeadline <= 10}
         />
       </div>
 

@@ -19,5 +19,5 @@ public class DeliveryList {
     private String restaurantName;
     private Integer targetMembers;
     private Integer currentMembers;
-    private Date minutesUntilDeadline;
+    private Integer minutesUntilDeadline;
 }

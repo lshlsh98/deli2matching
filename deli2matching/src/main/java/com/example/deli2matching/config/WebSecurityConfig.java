@@ -88,6 +88,10 @@ public class WebSecurityConfig {
                         // "/" 와 "/auth/**" 경로는 로그인 없이 누구나 접근 가능
                         // (회원가입, 로그인 API)
                         .requestMatchers("/", "/auth/**").permitAll()
+
+                        // 딜리버리
+                        .requestMatchers("/delivery/**").permitAll()
+
                         // 나머지 모든 요청은 로그인(인증) 필수
                         .anyRequest().authenticated()
                 )

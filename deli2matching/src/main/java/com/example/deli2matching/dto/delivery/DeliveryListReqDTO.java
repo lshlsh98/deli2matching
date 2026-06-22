@@ -10,4 +10,8 @@ public class DeliveryListReqDTO {
     private Integer order;
     private Integer page;
     private Integer size;
+
+    public Integer getOffset() {
+        return (page - 1) * size;
+    }
 }
