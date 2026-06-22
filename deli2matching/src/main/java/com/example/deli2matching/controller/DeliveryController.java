@@ -41,15 +41,14 @@ public class DeliveryController {
 
     // 배달 모집 생성
     @PostMapping
-    public ResponseEntity<Void> createDelivery(
-            @RequestBody DeliveryCreateReqDTO req,
-            @AuthenticationPrincipal String userId
-    ) {
-        log.info("request: {}, userId: {}", req, userId);
+    public ResponseEntity<Void> createDelivery(@RequestBody DeliveryCreateReqDTO req,
+                                               @AuthenticationPrincipal String userId) {
 
-//        deliveryService.create(request, userId);
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
+        if (userId != null) {
+            req.setUserId(Long.parseLong(userId));
+        }
 
-        return null;
+        int result = deliveryService.createDelivery(req);
+
     }//
 }

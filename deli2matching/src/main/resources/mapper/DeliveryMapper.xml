@@ -61,4 +61,9 @@
         </where>
     </select>
 
+    <insert id="createDelivery">
+        INSERT INTO (host_user_id, restaurant_name, target_members, pickup_locatin, detail_location, memo, deadline_at)
+        VALUES (#{userId}, #{restaurantName}, #{targetMembers}, #{pickupLocation}, #{detailLocation}, #{memo}, #{deadlineAt})
+    </insert>
+
 </mapper>

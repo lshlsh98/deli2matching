@@ -1,5 +1,6 @@
 package com.example.deli2matching.dao;
 
+import com.example.deli2matching.dto.delivery.DeliveryCreateReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListReqDTO;
 import com.example.deli2matching.entity.delivery.DeliveryList;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,4 +14,5 @@ public interface DeliveryDao {
 
     int getListCount(DeliveryListReqDTO req);
 
+    int createDelivery(DeliveryCreateReqDTO req);
 }

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class DeliveryCreateReqDTO {
 
+    private Long userId;
     private String restaurantName;
     private int targetMembers;
     private String pickupLocation;
