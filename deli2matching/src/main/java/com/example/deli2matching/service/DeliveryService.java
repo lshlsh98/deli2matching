@@ -28,6 +28,6 @@ public class DeliveryService {
 
     @Transactional
     public int createDelivery(DeliveryCreateReqDTO req) {
-        int result = deliveryDao.createDelivery(req);
+        return deliveryDao.createDelivery(req);
     }//
 }

@@ -41,7 +41,7 @@ public class DeliveryController {
 
     // 배달 모집 생성
     @PostMapping
-    public ResponseEntity<Void> createDelivery(@RequestBody DeliveryCreateReqDTO req,
+    public ResponseEntity<?> createDelivery(@RequestBody DeliveryCreateReqDTO req,
                                                @AuthenticationPrincipal String userId) {
 
         if (userId != null) {
@@ -50,5 +50,6 @@ public class DeliveryController {
 
         int result = deliveryService.createDelivery(req);
 
+        return ResponseEntity.ok(result);
     }//
 }
