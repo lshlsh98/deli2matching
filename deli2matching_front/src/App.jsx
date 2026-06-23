@@ -20,6 +20,7 @@ function App() {
           <Route path="/sociallogin" element={<SocialLogin />} />
           <Route path="/regist" element={<DeliveryRegist />} />
           <Route path="/view/:postId" element={<DeliveryView />} />
+          <Route path="/mypage/*" element={<Mypage />} />
         </Routes>
       </div>
     </div>
