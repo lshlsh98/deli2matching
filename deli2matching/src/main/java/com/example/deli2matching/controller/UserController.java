@@ -179,8 +179,11 @@ public class UserController {
 
             // 응답: 사용자 정보 + 토큰
             final UserDTO responseUserDTO = UserDTO.builder()
-                    .memberName(user.getNickname())
                     .userId(user.getUserId())
+                    .memberId(user.getLoginId())
+                    .memberName(user.getNickname())
+                    .memberEmail(user.getEmail())
+                    .memberAddr(user.getUserLocation())
                     .token(token) // ← 클라이언트가 이걸 저장해서 이후 요청에 사용
                     .build();
 

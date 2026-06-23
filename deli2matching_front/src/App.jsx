@@ -6,6 +6,7 @@ import Header from "./pages/commons/Header";
 import "./App.css";
 import DeliveryList from "./pages/delivery/DeliveryList";
 import DeliveryRegist from "./pages/delivery/DeliveryRegist";
+import DeliveryView from "./pages/delivery/DeliveryView";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/sociallogin" element={<SocialLogin />} />
           <Route path="/regist" element={<DeliveryRegist />} />
+          <Route path="/view/:postId" element={<DeliveryView />} />
         </Routes>
       </div>
     </div>

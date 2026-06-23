@@ -10,7 +10,7 @@
     </insert>
 
     <select id="findByLoginId" resultType="userEntity">
-        SELECT user_id, login_id, password, email, nickname, provider, provider_id
+        SELECT user_id, login_id, password, email, nickname, user_location
         FROM users
         WHERE login_id = #{loginId}
         LIMIT 1

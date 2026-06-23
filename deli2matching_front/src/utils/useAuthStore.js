@@ -11,14 +11,33 @@ const useAuthStore = create(
   persist(
     // set은 서랍장 안의 내용을 바꿀 때 사용하는 함수
     (set) => ({
+      userId: null,
+      memberId: null,
+      memberName: null,
+      memberEmail: null,
+      memberAddr: null,
       token: null,
 
-      login: ({ token }) => {
-        set({ token });
+      login: ({
+        userId,
+        memberId,
+        memberName,
+        memberEmail,
+        memberaddr,
+        token,
+      }) => {
+        set({ userId, memberId, memberName, memberEmail, memberaddr, token });
       },
 
       logout: () => {
-        set({ token: null });
+        set({
+          userId: null,
+          memberId: null,
+          memberName: null,
+          memberEmail: null,
+          memberAddr: null,
+          token: null,
+        });
       },
     }),
 
