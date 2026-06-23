@@ -87,10 +87,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // "/" 와 "/auth/**" 경로는 로그인 없이 누구나 접근 가능
                         // (회원가입, 로그인 API)
-                        .requestMatchers("/", "/auth", "/auth/**").permitAll()
-
-                        // 딜리버리 메인페이지
-                        .requestMatchers("/delivery").permitAll()
+                        .requestMatchers("/", "/auth", "/auth/**", "/delivery", "/delivery/**").permitAll()
 
                         // 나머지 모든 요청은 로그인(인증) 필수
                         .anyRequest().authenticated()

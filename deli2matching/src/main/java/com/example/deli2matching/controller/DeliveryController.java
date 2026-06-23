@@ -3,7 +3,10 @@ package com.example.deli2matching.controller;
 import com.example.deli2matching.dto.delivery.DeliveryCreateReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListResDTO;
+import com.example.deli2matching.dto.delivery.DeliveryViewResDTO;
 import com.example.deli2matching.entity.delivery.DeliveryList;
+import com.example.deli2matching.entity.delivery.DeliveryView;
+import com.example.deli2matching.entity.delivery.Participant;
 import com.example.deli2matching.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +52,57 @@ public class DeliveryController {
         }
 
         deliveryService.createDelivery(req);
-        deliveryService.joinDelivery(req.getPostId(), userId);
+        deliveryService.joinDelivery(req.getPostId(), Long.parseLong(userId));
+
+        return ResponseEntity.ok("ok");
+    }//
+
+    // 모집 상세
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> deliveryView(@PathVariable Long postId) {
+        DeliveryView deliveryView = deliveryService.deliveryView(postId);
+        List<Participant> participants = deliveryService.getParticipants(postId);
+
+        DeliveryViewResDTO res = DeliveryViewResDTO.builder()
+                .hostUserId(deliveryView.getHostUserId())
+                .restaurantName(deliveryView.getRestaurantName())
+                .currentMembers(deliveryView.getCurrentMembers())
+                .targetMembers(deliveryView.getTargetMembers())
+                .pickupLocation(deliveryView.getPickupLocation())
+                .detailLocation(deliveryView.getDetailLocation())
+                .memo(deliveryView.getMemo())
+                .minutesUntilDeadline(deliveryView.getMinutesUntilDeadline())
+                .participants(participants)
+                .build();
+
+        return ResponseEntity.ok(res);
+    }//
+
+    // 모집 삭제
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> deleteDelivery(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
+        Long hostUserId = deliveryService.getHostUserId(postId);
+        if (hostUserId != Long.parseLong(userId)) {
+            return ResponseEntity.badRequest().body("권한이 없습니다.");
+        }
+
+        deliveryService.deleteDelivery(postId, Long.parseLong(userId));
+
+        return ResponseEntity.ok("ok");
+    }//
+
+    // 모집 참여
+    @PostMapping("/{postId}/join")
+    public ResponseEntity<?> joinDelivery(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
+        deliveryService.joinDelivery(postId, Long.parseLong(userId));
+
+       return ResponseEntity.ok("ok");
+    }//
+
+    // 참여 취소
+    @DeleteMapping("/{postId}/join")
+    public ResponseEntity<?> deleteJoin(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
+        deliveryService.deleteJoin(postId, Long.parseLong(userId));
 
         return ResponseEntity.ok("ok");
     }//

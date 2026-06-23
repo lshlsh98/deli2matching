@@ -23,10 +23,10 @@ const useAuthStore = create(
         memberId,
         memberName,
         memberEmail,
-        memberaddr,
+        memberAddr,
         token,
       }) => {
-        set({ userId, memberId, memberName, memberEmail, memberaddr, token });
+        set({ userId, memberId, memberName, memberEmail, memberAddr, token });
       },
 
       logout: () => {
@@ -50,6 +50,11 @@ const useAuthStore = create(
       // partialize: 서랍장 안에서 어떤 것만 브라우저에 저장할지 고르는 함수
       partialize: (state) => ({
         token: state.token,
+        userId: state.userId,
+        memberId: state.memberId,
+        memberName: state.memberName,
+        memberEmail: state.memberEmail,
+        memberAddr: state.memberAddr,
       }),
     },
   ),

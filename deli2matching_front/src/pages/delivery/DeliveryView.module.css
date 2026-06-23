@@ -1,0 +1,236 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--bg);
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  width: 600px;
+  overflow: hidden;
+  height: fit-content;
+}
+
+.section {
+  padding: 20px;
+  border-bottom: 8px solid var(--bg);
+}
+
+.section_title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray2);
+  margin-bottom: 12px;
+}
+
+.restaurant_name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gray1);
+  margin-bottom: 16px;
+}
+
+.status_row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.status_label {
+  font-size: 12px;
+  color: var(--gray4);
+  margin-bottom: 4px;
+}
+
+.member_count {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.member_current {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gray1);
+}
+
+.member_separator {
+  font-size: 20px;
+  color: var(--gray4);
+}
+
+.member_target {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gray3);
+}
+
+.member_unit {
+  font-size: 16px;
+  color: var(--gray3);
+  margin-left: 2px;
+}
+
+.deadline_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.deadline_badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deadline_icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.deadline_text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e53935;
+}
+
+.deadline_sub {
+  font-size: 11px;
+  color: var(--gray4);
+}
+
+.progress_track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--gray6);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress_fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--sub3);
+  transition: width 0.3s ease;
+}
+
+.target_label {
+  font-size: 12px;
+  color: var(--gray4);
+}
+
+.location_box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.location_icon {
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(119, 221, 119, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.location_texts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.location_label {
+  font-size: 12px;
+  color: var(--gray4);
+}
+
+.location_main {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray1);
+}
+
+.location_detail {
+  font-size: 13px;
+  color: var(--gray3);
+}
+
+.memo_text {
+  font-size: 14px;
+  color: var(--gray2);
+  line-height: 1.6;
+}
+
+.participant_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.participant_item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.participant_nickname {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray1);
+}
+
+.action_area {
+  padding: 20px;
+}
+
+.btn_join,
+.btn_leave,
+.btn_delete {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn_join {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn_join:hover {
+  background-color: var(--sub1);
+}
+
+.btn_leave {
+  background-color: var(--sub2);
+  color: #ffffff;
+}
+
+.btn_leave:hover {
+  background-color: var(--gray4);
+}
+
+.btn_delete {
+  background-color: #e53935;
+  color: #ffffff;
+}
+
+.btn_delete:hover {
+  background-color: #c62828;
+}

@@ -32,7 +32,7 @@ const Login = () => {
       .then((response) => {
         if (response.data.token) {
           console.log(response.data);
-          login({ token: response.data.token });
+          login(response.data);
           navigate("/");
         }
       })

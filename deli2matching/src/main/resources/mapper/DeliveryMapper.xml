@@ -71,4 +71,58 @@
         VALUES (#{postId}, #{userId})
     </insert>
 
+    <select id="deliveryView" resultType="deliveryView">
+        SELECT
+            host_user_id,
+            restaurant_name,
+            target_members,
+            current_members,
+            pickup_location,
+            detail_location,
+            memo,
+            minutes_until_deadline
+
+        FROM v_delivery_posts
+        WHERE post_id = #{postId}
+    </select>
+
+    <select id="getParticipants" resultType="participant">
+        SELECT
+            u.user_id,
+            u.nickname
+
+        FROM post_participants p
+        INNER JOIN users u
+            ON p.user_id = u.user_id
+        WHERE post_id = #{postId}
+    </select>
+
+    <select id="getHostUserId" resultType="long">
+        SELECT host_user_id
+        FROM delivery_posts
+        WHERE post_id = #{postId}
+    </select>
+
+    <delete id="deleteDelivery">
+        DELETE FROM delivery_posts
+        WHERE post_id = #{postId}
+    </delete>
+
+    <delete id="deleteJoin">
+        DELETE FROM post_participants
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
+
+    <update id="addCurrentMembers">
+        UPDATE delivery_posts
+        SET current_members = current_members + 1
+        WHERE post_id = #{postId}
+    </update>
+
+    <update id="subtractCurrentMembers">
+        UPDATE delivery_posts
+        SET current_members = current_members - 1
+        WHERE post_id = #{postId}
+    </update>
+
 </mapper>
