@@ -10,30 +10,13 @@ import com.example.deli2matching.utils.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Random;
-
-/**
- * =====================================================================
- * UserController - 일반 회원가입/로그인 API 컨트롤러
- * =====================================================================
- *
- * URL 접두사: /auth
- * WebSecurityConfig에서 /auth/** 는 인증 없이 접근 가능하도록 설정됨
- *
- * 제공하는 API:
- *  - POST /auth/signup : 일반 회원가입
- *  - POST /auth/signin : 일반 로그인 (성공 시 JWT 토큰 반환)
- *
- * 소셜 로그인은 여기서 처리X
- *    소셜 로그인은 스프링 시큐리티가 자동으로 처리하며,
- *    CustomOAuth2UserService → OAuthSuccessHandler 순서로 진행됩니다.
- * =====================================================================
- */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -50,7 +33,7 @@ public class UserController {
 
     // 회원가입 아이디 중복체크
     @GetMapping("/idExists")
-    public ResponseEntity<?> idExists (@RequestBody String memberId) {
+    public ResponseEntity<?> idExists(@RequestBody String memberId) {
         int result = userService.idExists(memberId);
 
         return ResponseEntity.ok(result > 0);
@@ -58,7 +41,7 @@ public class UserController {
 
     // 회원가입 닉네임 중복체크
     @GetMapping("/nameExists")
-    public ResponseEntity<?> nameExists (@RequestBody String memberName) {
+    public ResponseEntity<?> nameExists(@RequestBody String memberName) {
         int result = userService.nameExists(memberName);
 
         return ResponseEntity.ok(result > 0);
@@ -94,24 +77,6 @@ public class UserController {
         return ResponseEntity.ok(authCode);
     }//
 
-    /**
-     * POST /auth/signup - 일반 회원가입
-     *
-     * 요청 형식 (JSON):
-     * {
-     *   "username": "홍길동",
-     *   "password": "1234"
-     * }
-     *
-     * 성공 응답 (200 OK):
-     * {
-     *   "id": 1,
-     *   "username": "홍길동"
-     * }
-     *
-     * @param userDTO 클라이언트가 보낸 사용자 정보 (JSON → 자바 객체 자동 변환)
-     * @return 등록된 사용자 정보 (비밀번호 제외)
-     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
         try {
@@ -144,25 +109,6 @@ public class UserController {
         }
     }//
 
-    /**
-     * POST /auth/signin - 일반 로그인
-     *
-     * 요청 형식 (JSON):
-     * {
-     *   "username": "홍길동",
-     *   "password": "1234"
-     * }
-     *
-     * 성공 응답 (200 OK):
-     * {
-     *   "id": 1,
-     *   "username": "홍길동",
-     *   "token": "eyJhbGc..."  ← 이 토큰을 이후 API 요청에 사용!
-     * }
-     *
-     * @param userDTO 로그인 정보 (username + password)
-     * @return 사용자 정보 + JWT 토큰
-     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         // username으로 사용자 조회 + 비밀번호 검증
@@ -196,7 +142,35 @@ public class UserController {
 
             return ResponseEntity.badRequest().body(responseDTO); // 400 Bad Request
         }
-    }
+    }//
+
+    // 비밀번호 확인
+    @PostMapping("/verify-password")
+    public ResponseEntity<?> verifyPassword(@RequestBody String password, @AuthenticationPrincipal String userId) {
+        String loginId = userService.findLoginIdByUserId(userId);
+
+        UserEntity user = userService.getByCredentials(
+                loginId,
+                password,
+                passwordEncoder
+        );
+
+        if (user != null) {
+            return ResponseEntity.ok("ok");
+        }
+
+        return ResponseEntity.badRequest().build();
+    }//
+
+    @GetMapping("/myInfo")
+    public ResponseEntity<?> getMyInfo(@AuthenticationPrincipal String userId) {
+        UserEntity user = userService.getMyInfo(Long.parseLong(userId));
+
+
+
+
+        return null;
+    }//
 
 }
 

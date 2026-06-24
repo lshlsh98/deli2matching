@@ -17,11 +17,14 @@ public interface UserDao {
     boolean existsByLoginId(String LoginId);
 
     // id로 사용자 조회
-    UserEntity findById(Long id);
+    UserEntity findByUserId(Long userId);
 
     // memberId 존재 여부 확인
     int idExists(String loginId);
 
     // memberName 존재 여부 확인
     int nameExists(String memberName);
+
+    String findLoginIdByUserId(String userId);
+
 }

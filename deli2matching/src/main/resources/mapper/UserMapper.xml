@@ -22,10 +22,10 @@
         WHERE login_id = #{loginId}
     </select>
 
-    <select id="findById" resultType="userEntity">
-        SELECT user_id, login_id, password, email, nickname, provider, provider_id
+    <select id="findByUserId" resultType="userEntity">
+        SELECT user_id, login_id, password, email, nickname, userLocation, provider, provider_id
         FROM users
-        WHERE user_id = #{id}
+        WHERE user_id = #{userId}
         LIMIT 1
     </select>
 
@@ -39,6 +39,12 @@
         SELECT COUNT(*)
         FROM users
         WHERE nickname = #{memberName}
+    </select>
+
+    <select id="findLoginIdByUserId" resultType="String">
+        SELECT login_id
+        FROM users
+        WHERE user_id = #{userId}
     </select>
 
 </mapper>

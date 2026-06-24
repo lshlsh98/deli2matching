@@ -15,19 +15,6 @@ public class UserService {
 
     private final UserDao userDao;
 
-    /**
-     * create - 신규 사용자 회원가입
-     *
-     * 처리 순서:
-     *  1. 입력값 유효성 검사
-     *  2. 중복 loginId 검사
-     *  3. DB에 INSERT
-     *  4. 저장된 사용자(id가 세팅된) 반환
-     *
-     * @param userEntity 저장할 사용자 정보 (비밀번호는 이미 암호화된 상태)
-     * @return DB에 저장된 사용자 (id가 채워진 상태)
-     * @throws RuntimeException 유효하지 않은 입력이거나 loginId 중복 시
-     */
     public UserEntity create(final UserEntity userEntity) {
         // 중복 loginId 검사
         final String loginId = userEntity.getLoginId();
@@ -48,16 +35,6 @@ public class UserService {
         return userEntity; // id가 채워진 상태로 반환
     }//
 
-    /**
-     * getByCredentials - 로그인 인증 처리
-     *
-     * loginId 로 사용자를 찾고, 입력한 비밀번호가 DB의 암호화된 비밀번호와 일치하는지 확인합니다.
-     *
-     * @param loginId 로그인 시도하는 사용자
-     * @param password 입력한 평문 비밀번호
-     * @param encoder  BCryptPasswordEncoder
-     * @return 인증 성공 시 UserEntity, 실패 시 null
-     */
     public UserEntity getByCredentials(final String loginId, final String password,
                                        final PasswordEncoder encoder) {
         // loginId로 DB에서 사용자 조회
@@ -80,5 +57,13 @@ public class UserService {
     // 회원가입 닉네임 중복체크
     public int nameExists(String memberName) {
         return userDao.nameExists(memberName);
+    }//
+
+    public String findLoginIdByUserId(String userId) {
+        return userDao.findLoginIdByUserId(userId);
+    }//
+
+    public UserEntity getMyInfo(long userId) {
+        return userDao.findByUserId(userId);
     }//
 }

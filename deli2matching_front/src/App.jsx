@@ -7,6 +7,7 @@ import "./App.css";
 import DeliveryList from "./pages/delivery/DeliveryList";
 import DeliveryRegist from "./pages/delivery/DeliveryRegist";
 import DeliveryView from "./pages/delivery/DeliveryView";
+import Mypage from "./pages/mypage/Mypage";
 
 function App() {
   return (

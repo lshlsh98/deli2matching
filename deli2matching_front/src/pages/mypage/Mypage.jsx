@@ -1,5 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import useAuthStore from "../../utils/useAuthStore";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import styles from "./Mypage.module.css";
+import { Route, Routes } from "react-router-dom";
+import MyInfo from "./MyInfo";
+import MyDelivery from "./MyDelivery";
 
 const Mypage = ({}) => {
   const userId = useAuthStore((state) => state.userId);
