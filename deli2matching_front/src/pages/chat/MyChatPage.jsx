@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./MyChatPage.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useAuthStore from "../utils/useAuthStore";
-import Nickname from "../commons/Nickname";
+import useAuthStore from "../../utils/useAuthStore";
 
 const MyChatPage = () => {
   const [list, setList] = useState([]);
@@ -13,7 +12,7 @@ const MyChatPage = () => {
   useEffect(() => {
     // 내 채팅방 get
     axios
-      .get(`${import.meta.env.VITE_BACKSERVER}/chat/my/rooms`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/chat/my/rooms`)
       .then((res) => {
         setList(res.data);
       })
@@ -47,30 +46,12 @@ const MyChatPage = () => {
               <li
                 className={styles.chat_room_name}
                 onClick={() => {
-                  navigate(`/market/view/${chat.marketNo}`);
+                  navigate(`/market/view/${chat.postId}`);
                 }}
               >
                 {chat.roomName}
               </li>
-              <li className={styles.chat_other}>
-                {myName === chat.myName ? (
-                  <Nickname
-                    member={{
-                      memberName: chat.otherName,
-                      memberId: chat.otherId,
-                      hexCode: chat.otherHexCode,
-                    }}
-                  />
-                ) : (
-                  <Nickname
-                    member={{
-                      memberName: chat.myName,
-                      memberId: chat.myId,
-                      hexCode: chat.myHexCode,
-                    }}
-                  />
-                )}
-              </li>
+              <li className={styles.chat_other}>{myName}</li>
               <li className={styles.chat_unread_count}>{chat.unReadCount}</li>
               <li className={styles.chat_btn}>
                 <button

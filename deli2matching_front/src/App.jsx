@@ -8,6 +8,8 @@ import DeliveryList from "./pages/delivery/DeliveryList";
 import DeliveryRegist from "./pages/delivery/DeliveryRegist";
 import DeliveryView from "./pages/delivery/DeliveryView";
 import Mypage from "./pages/mypage/Mypage";
+import StompChatPage from "./pages/chat/StompChatPage";
+import MyChatPage from "./pages/chat/MyChatPage";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/regist" element={<DeliveryRegist />} />
           <Route path="/view/:postId" element={<DeliveryView />} />
           <Route path="/mypage/*" element={<Mypage />} />
+          <Route path="/chatpage/:roomId" element={<StompChatPage />} />
+          <Route path="/chatlist" element={<MyChatPage />} />
         </Routes>
       </div>
     </div>

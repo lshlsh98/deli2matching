@@ -1,9 +1,11 @@
 package com.example.deli2matching.chat.config;
 
+import com.example.deli2matching.chat.service.ChatService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,15 +19,16 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class StompHandler implements ChannelInterceptor {
-	
+
 	@Value("${jwt.secret-key}")
 	private String secretKey;
-	
+
 	private final ChatService chatService;
-	
+
 	@Override
 	public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
 		final StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
@@ -36,38 +39,37 @@ public class StompHandler implements ChannelInterceptor {
 
 		SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
 		if(StompCommand.CONNECT == accessor.getCommand()) {
-//			System.out.println("connect 요청 시 토큰 유효성 검증");
+			log.info("connect 요청 시 토큰 유효성 검증");
 			String token = accessor.getFirstNativeHeader("Authorization");
-			
+			log.info("token: {}", token);
+
 			// 토큰 검증
 			Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
 				.parseClaimsJws(token)
 				.getBody();
-//			System.out.println("토큰 검증 완료");
+			log.info("토큰 검증 완료");
 		}
-		
+
 		if(StompCommand.SUBSCRIBE == accessor.getCommand()) {
-//			System.out.println("subscribe 검증");
+			log.info("subscribe 검증");
 			String token = accessor.getFirstNativeHeader("Authorization");
-			
+
 			// 토큰 검증
 			Claims claims = Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
 				.parseClaimsJws(token)
 				.getBody();
-			
-			String memberId = claims.get("memberId", String.class);
+
+			String userId = claims.get("userId", String.class);
 			String roomId = accessor.getDestination().split("/")[2];
-			if(!chatService.isRoomParticipant(memberId, Long.parseLong(roomId))) {
+			if(!chatService.isRoomParticipant(Long.parseLong(userId), Long.parseLong(roomId))) {
 				throw new AuthenticationServiceException("해당 room에 권한이 없습니다.");
 			}
 		}
-		
+
 		return message;
 	}//
-	
-	
 }

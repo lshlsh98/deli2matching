@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.deli2matching.chat.dao.ChatDao">
+
+    <select id="findChatRoomById" resultType="chatRoom">
+        SELECT *
+        FROM chat_room
+        WHERE id = #{roomId}
+    </select>
+
+    <select id="findMemberByUserId" resultType="userEntity">
+        SELECT *
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="findMemberById" resultType="userEntity">
+        SELECT *
+        FROM users
+        WHERE login_id = #{loginId}
+    </select>
+
+    <insert id="saveChatMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_message (room_id, user_id, content)
+        VALUES (#{roomId}, #{userId}, #{content})
+    </insert>
+
+    <select id="findChatParticipantAllById" resultType="chatParticipant">
+        SELECT *
+        FROM chat_participant
+        WHERE room_id = #{roomId}
+    </select>
+
+    <insert id="saveReadStatus" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO message_read_status (message_id, user_id, room_id, is_read)
+        VALUES (#{messageId}, #{userId}, #{roomId}, #{isRead})
+    </insert>
+
+    <insert id="saveChatRoom" useGeneratedKeys="true" keyProperty="roomId">
+        INSERT INTO chat_room (is_group_chat, name)
+        VALUES (#{isGroupChat}, #{name})
+    </insert>
+
+    <insert id="saveChatParticipant" useGeneratedKeys="true" keyProperty="participantId">
+        INSERT INTO chat_participant (room_id, user_id)
+        VALUES (#{roomId}, #{userId})
+    </insert>
+
+    <select id="getGroupChatRooms" resultType="chatRoomListResDto">
+        SELECT room_id, name
+        FROM chat_room
+        WHERE is_group_chat = 1
+    </select>
+
+    <select id="findByChatRoomAndUser" resultType="chatParticipant">
+        SELECT *
+        FROM chat_participant
+        WHERE room_id = #{roomId} AND user_id = #{userId}
+    </select>
+
+    <select id="findByChatRoomId" resultType="chatMessageDto">
+        SELECT
+            m.content AS message,
+            u.nickname AS sender_name,
+            u.login_id AS sender_id
+
+        FROM chat_message m
+        INNER JOIN users u ON m.user_id = u.user_id
+        WHERE m.room_id = #{roomId}
+        ORDER BY m.created_at ASC
+    </select>
+
+    <update id="updateIsRead">
+        UPDATE message_read_status
+        SET is_read = 1
+        WHERE room_id = #{roomId}
+          AND user_id = #{userId}
+    </update>
+
+
+</mapper>
