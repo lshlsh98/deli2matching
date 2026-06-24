@@ -1,6 +1,7 @@
 package com.example.deli2matching.dao;
 
 
+import com.example.deli2matching.dto.user.MyInfoReqDTO;
 import com.example.deli2matching.entity.user.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,5 +27,7 @@ public interface UserDao {
     int nameExists(String memberName);
 
     String findLoginIdByUserId(String userId);
+
+    void updateMyInfo(MyInfoReqDTO req);
 
 }

@@ -47,4 +47,12 @@
         WHERE user_id = #{userId}
     </select>
 
+    <update id="updateMyInfo">
+        UPDATE users
+        SET email = #{email},
+            nickname = #{nickname},
+            user_location = #{userLocation}
+        WHERE login_id = #{loginId}
+    </update>
+
 </mapper>

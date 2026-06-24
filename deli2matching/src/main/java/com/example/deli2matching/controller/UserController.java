@@ -1,6 +1,8 @@
 package com.example.deli2matching.controller;
 
 
+import com.example.deli2matching.dto.user.MyInfoReqDTO;
+import com.example.deli2matching.dto.user.MyInfoResDTO;
 import com.example.deli2matching.dto.user.ResponseDTO;
 import com.example.deli2matching.dto.user.UserDTO;
 import com.example.deli2matching.entity.user.UserEntity;
@@ -149,6 +151,7 @@ public class UserController {
     public ResponseEntity<?> verifyPassword(@RequestBody String password, @AuthenticationPrincipal String userId) {
         String loginId = userService.findLoginIdByUserId(userId);
 
+        System.out.println(password);
         UserEntity user = userService.getByCredentials(
                 loginId,
                 password,
@@ -162,15 +165,29 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }//
 
+    // myInfo 조회
     @GetMapping("/myInfo")
     public ResponseEntity<?> getMyInfo(@AuthenticationPrincipal String userId) {
         UserEntity user = userService.getMyInfo(Long.parseLong(userId));
 
+        MyInfoResDTO res = MyInfoResDTO.builder()
+                .loginId(user.getLoginId())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .userLocation(user.getUserLocation())
+                .build();
 
-
-
-        return null;
+        return ResponseEntity.ok(res);
     }//
+
+    // myInfo 수정
+    @PutMapping("/myInfo")
+    public ResponseEntity<?> updateMyInfo(@RequestBody MyInfoReqDTO req) {
+        userService.updateMyInfo(req);
+
+        return ResponseEntity.ok("ok");
+    }//
+
 
 }
 
