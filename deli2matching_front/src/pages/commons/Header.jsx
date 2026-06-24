@@ -53,35 +53,19 @@ function Header() {
         <div className={styles.rightArea}>
           {token ? (
             <div className={styles.userMenu}>
-              <button aria-label="알림" className={styles.iconBtn}>
-                <FiBell />
-              </button>
-
-              <button aria-label="메시지" className={styles.iconBtn}>
-                <FiMail />
-              </button>
-
-              {admin ? (
-                <Link to="/admin">
-                  <button aria-label="관리자페이지" className={styles.iconBtn}>
-                    <FiUser />
-                  </button>
-                </Link>
-              ) : (
-                <Link to="#">
-                  <button aria-label="마이페이지" className={styles.iconBtn}>
-                    <FiUser />
-                  </button>
-                </Link>
-              )}
+              <Link to="/mypage">
+                <button aria-label="마이 페이지" className={styles.iconBtn}>
+                  <FiUser />
+                </button>
+              </Link>
 
               <Link to={"/"}>
                 <button
-                  aria-label="설정"
+                  aria-label="로그아웃"
                   className={styles.iconBtn}
                   onClick={logout}
                 >
-                  <FiSettings />
+                  Logout
                 </button>
               </Link>
             </div>

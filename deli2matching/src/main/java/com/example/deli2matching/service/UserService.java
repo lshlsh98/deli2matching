@@ -41,12 +41,6 @@ public class UserService {
         // loginId로 DB에서 사용자 조회
         final UserEntity originalUser = userDao.findByLoginId(loginId);
 
-        System.out.println(password);
-
-        log.info("loginId: {}, password: {}", loginId, password);
-        log.info("originalUser: {}", originalUser);
-        log.info("encoder.matches(password, originalUser.getPassword()): {}", encoder.matches(password, originalUser.getPassword()));
-
         // 사용자가 있고 비밀번호가 일치하면 반환
         if (originalUser != null && encoder.matches(password, originalUser.getPassword())) {
             return originalUser;

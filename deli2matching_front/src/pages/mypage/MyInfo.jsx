@@ -26,7 +26,7 @@ const MyInfo = () => {
     e.preventDefault();
     console.log(password);
     axiosInstance
-      .post("/auth/verify-password", password)
+      .post("/auth/verify-password", { password })
       .then(() => {
         // 확인 성공 시 내 정보 조회 후 폼에 채움
         return axiosInstance.get("/auth/myInfo");

@@ -23,7 +23,7 @@
     </select>
 
     <select id="findByUserId" resultType="userEntity">
-        SELECT user_id, login_id, password, email, nickname, userLocation, provider, provider_id
+        SELECT user_id, login_id, password, email, nickname, user_location, provider, provider_id
         FROM users
         WHERE user_id = #{userId}
         LIMIT 1

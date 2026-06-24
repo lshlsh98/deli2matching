@@ -106,4 +106,12 @@ public class DeliveryController {
 
         return ResponseEntity.ok("ok");
     }//
+
+    // 참여 중인 모집
+    @GetMapping("/myJoin")
+    public ResponseEntity<?> getMyJoin(@AuthenticationPrincipal String userId) {
+        DeliveryList myJoin = deliveryService.getMyJoin(Long.parseLong(userId));
+
+        return ResponseEntity.ok(myJoin);
+    }//
 }

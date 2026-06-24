@@ -1,10 +1,7 @@
 package com.example.deli2matching.controller;
 
 
-import com.example.deli2matching.dto.user.MyInfoReqDTO;
-import com.example.deli2matching.dto.user.MyInfoResDTO;
-import com.example.deli2matching.dto.user.ResponseDTO;
-import com.example.deli2matching.dto.user.UserDTO;
+import com.example.deli2matching.dto.user.*;
 import com.example.deli2matching.entity.user.UserEntity;
 import com.example.deli2matching.security.TokenProvider;
 import com.example.deli2matching.service.UserService;
@@ -148,10 +145,11 @@ public class UserController {
 
     // 비밀번호 확인
     @PostMapping("/verify-password")
-    public ResponseEntity<?> verifyPassword(@RequestBody String password, @AuthenticationPrincipal String userId) {
+    public ResponseEntity<?> verifyPassword(@RequestBody PasswordRequestDTO req, @AuthenticationPrincipal String userId) {
         String loginId = userService.findLoginIdByUserId(userId);
 
-        System.out.println(password);
+        String password = req.getPassword();
+
         UserEntity user = userService.getByCredentials(
                 loginId,
                 password,

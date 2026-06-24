@@ -125,4 +125,18 @@
         WHERE post_id = #{postId}
     </update>
 
+    <select id="getMyJoin" resultType="deliveryList">
+        SELECT
+            v.post_id,
+            v.restaurant_name,
+            v.current_members,
+            v.target_members,
+            v.minutes_until_deadline
+
+        FROM post_participants p
+        INNER JOIN v_delivery_posts v
+            ON p.post_id = v.post_id
+        WHERE user_id = #{userId}
+    </select>
+
 </mapper>

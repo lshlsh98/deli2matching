@@ -39,4 +39,6 @@ public interface DeliveryDao {
 
     void subtractCurrentMembers(Long postId);
 
+    DeliveryList getMyJoin(long userId);
+
 }

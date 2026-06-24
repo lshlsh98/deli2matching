@@ -61,4 +61,8 @@ public class DeliveryService {
         deliveryDao.deleteJoin(postId, userId);
         deliveryDao.subtractCurrentMembers(postId);
     }//
+
+    public DeliveryList getMyJoin(long userId) {
+       return deliveryDao.getMyJoin(userId);
+    }//
 }

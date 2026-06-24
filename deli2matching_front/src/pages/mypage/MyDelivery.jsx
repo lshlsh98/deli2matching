@@ -5,33 +5,29 @@ import styles from "./MyDelivery.module.css";
 
 // MyDelivery: 참여 중인 배달 모집 목록
 const MyDelivery = () => {
-  const [list, setList] = useState([]);
+  const [join, setJoin] = useState(null);
 
   // 참여 중인 배달 목록 조회
   useEffect(() => {
     axiosInstance
-      .get("/member/deliveries")
-      .then((res) => setList(res.data))
+      .get("/delivery/myJoin")
+      .then((res) => setJoin(res.data || null))
       .catch((err) => console.log(err));
   }, []);
 
+  console.log(join);
   return (
     <div className={styles.page}>
-      {list.length > 0 ? (
-        <div className={styles.card_list}>
-          {list.map((item) => (
-            <MyDeliveryCard
-              key={item.postId}
-              postId={item.postId}
-              restaurantName={item.restaurantName}
-              minutesUntilDeadline={item.minutesUntilDeadline}
-              currentMembers={item.currentMembers}
-              targetMembers={item.targetMembers}
-            />
-          ))}
-        </div>
+      {join === null ? (
+        "참여하고 있는 배달 모집이 없습니다."
       ) : (
-        <p className={styles.empty}>참여 중인 모집이 없습니다.</p>
+        <MyDeliveryCard
+          postId={join.postId}
+          restaurantName={join.restaurantName}
+          minutesUntilDeadline={join.minutesUntilDeadline}
+          currentMembers={join.currentMembers}
+          targetMembers={join.targetMembers}
+        />
       )}
     </div>
   );
@@ -49,10 +45,7 @@ const MyDeliveryCard = ({
   const progressPercent = Math.round((currentMembers / targetMembers) * 100);
 
   return (
-    <div
-      className={styles.card}
-      onClick={() => navigate(`/delivery/${postId}`)}
-    >
+    <div className={styles.card} onClick={() => navigate(`/view/${postId}`)}>
       {/* 식당 이름 */}
       <h3 className={styles.card_name}>{restaurantName}</h3>
 
