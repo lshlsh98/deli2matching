@@ -1,0 +1,106 @@
+.header > h1 {
+  margin: 0;
+  text-align: center;
+}
+
+/* 전체 컨테이너 */
+.content {
+  display: flex;
+  justify-content: center;
+  margin: 60px 0;
+}
+
+/* 리스트 래퍼 */
+.chat_list_wrap {
+  width: 1100px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* 공통 row */
+.chat_item {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+/* hover 효과 (제목 제외) */
+.chat_item:not(.title_ul):hover {
+  background: #f7faf7;
+}
+
+/* 각 셀 */
+.chat_item > li {
+  padding: 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #333;
+}
+
+/* 헤더 */
+.title_ul {
+  background: linear-gradient(135deg, #6fbf73, #4caf50);
+}
+
+.title_ul > li {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 컬럼 비율 */
+.chat_room_name {
+  width: 50%;
+  justify-content: flex-start;
+  padding-left: 20px;
+  font-weight: 500;
+}
+
+.chat_other {
+  width: 20%;
+}
+
+.chat_unread_count {
+  width: 15%;
+  font-weight: 600;
+  color: #4caf50;
+}
+
+.chat_btn {
+  width: 15%;
+}
+
+.chat_item:not(.title_ul) .chat_room_name:hover {
+  text-decoration: underline;
+  color: #4caf50;
+}
+
+/* 버튼 */
+.chat_btn > button {
+  border: none;
+  background: #eef1f3;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 버튼 hover */
+.chat_btn > button:hover {
+  background: linear-gradient(135deg, #6fbf73, #4caf50);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(76, 175, 80, 0.25);
+}
+
+/* 버튼 클릭 */
+.chat_btn > button:active {
+  transform: scale(0.95);
+}

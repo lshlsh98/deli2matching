@@ -1,0 +1,180 @@
+/* 채팅 카드 */
+.chat_card {
+  width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  margin: 30px auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* 방 제목 */
+.chat_card > h3 {
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f5f7fa, #e4efe9);
+  border: none;
+  color: #333;
+}
+
+/* 채팅 박스 */
+.chat_box {
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  background: #f9fbf9;
+  overflow-y: auto;
+  padding: 16px;
+  box-shadow: inset 0 0 0 1px #e0e0e0;
+}
+
+/* 입력 영역 */
+.chat_send {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.input_zone {
+  flex: 1;
+  height: 50px;
+}
+
+/* 텍스트 입력 */
+.chat_send > textarea {
+  flex: 1;
+  height: 50px;
+  border: none;
+  outline: none;
+  background: #f1f3f5;
+  border-radius: 12px;
+  font-size: 16px;
+  resize: none;
+  padding: 12px;
+  transition: all 0.2s ease;
+}
+
+.input_zone:focus {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 버튼 영역 */
+.btn_zone {
+  width: 80px;
+  height: 50px;
+}
+
+/* 전송 버튼 */
+.btn_zone > button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6fbf73, #4caf50);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* hover */
+.btn_zone > button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(76, 175, 80, 0.3);
+}
+
+.chatting {
+  background-color: var(--gray8);
+  border: 1px solid var(--gray6);
+  border-radius: 8px;
+  width: 300px;
+  min-height: 50px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.chat_thumb {
+  width: 20px;
+  height: 20px;
+  background-color: var(--gray6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.chat_thumb > span {
+  font-size: 20px;
+  color: var(--gray8);
+}
+
+.chat_thumb_exists {
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  background-color: var(--gray6);
+  border-radius: 15px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.chat_thumb_exists > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat_writer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.chat_message {
+  padding-left: 20px;
+  padding-top: 5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.sent {
+  margin-left: auto;
+}
+
+.received {
+  margin-right: auto;
+}
+
+.chat_box::-webkit-scrollbar {
+  display: none;
+}
+
+.chat_room_title {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat_room_title:hover {
+  text-decoration: underline;
+}
+
+/* 포커스 효과 */
+.chat_send > textarea:focus {
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.3);
+}
+
+/* 클릭 효과 */
+.btn_zone > button:active {
+  transform: scale(0.96);
+}
