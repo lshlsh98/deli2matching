@@ -32,7 +32,7 @@ public class DeliveryController {
         List<DeliveryList> list = deliveryService.getList(req);
 
         int count = deliveryService.getListCount(req);
-        int totalPage = (int) Math.ceil( count / (double) req.getSize() );
+        int totalPage = (int) Math.ceil(count / (double) req.getSize());
 
         DeliveryListResDTO res = DeliveryListResDTO.builder()
                 .list(list)
@@ -86,7 +86,7 @@ public class DeliveryController {
             return ResponseEntity.badRequest().body("권한이 없습니다.");
         }
 
-        deliveryService.deleteDelivery(postId, Long.parseLong(userId));
+        deliveryService.deleteDelivery(postId);
 
         return ResponseEntity.ok("ok");
     }//
@@ -96,7 +96,7 @@ public class DeliveryController {
     public ResponseEntity<?> joinDelivery(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
         deliveryService.joinDelivery(postId, Long.parseLong(userId));
 
-       return ResponseEntity.ok("ok");
+        return ResponseEntity.ok("ok");
     }//
 
     // 참여 취소

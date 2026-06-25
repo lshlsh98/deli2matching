@@ -95,14 +95,7 @@ public class ChatController {
 		return ResponseEntity.ok().build();
 	}//
 
-	// 그룹 채팅방 삭제 (호스트)
-	@DeleteMapping("/room/group/{postId}/delete")
-	public ResponseEntity<?> deleteGroupChatRoom(@PathVariable Long postId) {
-		chatService.deleteGroupChatRoom(postId);
 
-		return ResponseEntity.ok().build();
-
-	}//
 }
 
 

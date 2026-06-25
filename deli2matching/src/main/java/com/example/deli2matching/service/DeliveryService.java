@@ -46,8 +46,8 @@ public class DeliveryService {
     }//
 
     @Transactional
-    public void deleteDelivery(Long postId, long userId) {
-       deliveryDao.deleteDelivery(postId, userId);
+    public void deleteDelivery(Long postId) {
+       deliveryDao.deleteDelivery(postId);
     }//
 
     @Transactional

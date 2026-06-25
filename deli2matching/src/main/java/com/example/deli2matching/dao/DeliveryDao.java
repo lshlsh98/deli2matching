@@ -29,8 +29,7 @@ public interface DeliveryDao {
 
     Long getHostUserId(Long postId);
 
-    void deleteDelivery(@Param("postId") Long postId,
-                        @Param("userId") long userId);
+    void deleteDelivery(Long postId);
 
     void addCurrentMembers(Long postId);
 

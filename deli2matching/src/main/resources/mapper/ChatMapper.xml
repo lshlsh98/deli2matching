@@ -7,7 +7,7 @@
     <select id="findChatRoomById" resultType="chatRoom">
         SELECT *
         FROM chat_room
-        WHERE id = #{roomId}
+        WHERE room_id = #{roomId}
     </select>
 
     <select id="findMemberByUserId" resultType="userEntity">
@@ -116,9 +116,6 @@
         )
     </select>
 
-    <delete id="deleteGroupChatRoom">
-        DELETE FROM chat_room
-        WHERE post_id = #{postId}
-    </delete>
+
 
 </mapper>

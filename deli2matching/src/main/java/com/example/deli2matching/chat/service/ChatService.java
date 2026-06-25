@@ -229,7 +229,5 @@ public class ChatService {
         }
     }//
 
-    public void deleteGroupChatRoom(Long postId) {
-        chatDao.deleteGroupChatRoom(postId);
-    }//
+
 }
