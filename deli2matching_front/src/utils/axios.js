@@ -42,6 +42,8 @@ instance.interceptors.response.use(
 
   // 실패 함수
   (error) => {
+    const status = error.response?.status;
+
     // 인증 실패 (토큰 만료 등)
     if (status === 401) {
       // 서랍장에서 로그아웃 함수를 꺼내서 토큰을 지움
