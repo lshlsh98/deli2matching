@@ -1,11 +1,9 @@
 package com.example.deli2matching.chat.contorller;
 
-import com.example.deli2matching.chat.dto.ChatMessageDto;
-import com.example.deli2matching.chat.dto.ChatRoom;
-import com.example.deli2matching.chat.dto.ChatRoomListResDto;
-import com.example.deli2matching.chat.dto.MyChatListResDto;
+import com.example.deli2matching.chat.dto.*;
 import com.example.deli2matching.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +23,9 @@ public class ChatController {
 
 	// 그룹 채팅방 개설
 	@PostMapping("/room/group/create")
-	public ResponseEntity<?> createGroupRoom(@RequestParam String roomName) {
-		chatService.createGroupRoom(roomName);
+	public ResponseEntity<?> createGroupRoom(@ModelAttribute GroupChatCreateDto req) {
+		log.info("roomName: {}, postId: {}", req.getRoomName(), req.getPostId());
+		chatService.createGroupRoom(req);
 
 		return ResponseEntity.ok().build();
 	}//

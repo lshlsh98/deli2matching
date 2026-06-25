@@ -54,7 +54,7 @@ public class DeliveryController {
         deliveryService.createDelivery(req);
         deliveryService.joinDelivery(req.getPostId(), Long.parseLong(userId));
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(req.getPostId());
     }//
 
     // 모집 상세

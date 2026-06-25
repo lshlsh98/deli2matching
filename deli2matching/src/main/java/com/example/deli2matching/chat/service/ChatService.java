@@ -210,13 +210,14 @@ public class ChatService {
     }//
 
     // 그룹 채팅방 개설
-    public void createGroupRoom(String roomName) {
+    public void createGroupRoom(GroupChatCreateDto req) {
         UserEntity user = userDao.findByUserId(Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         // 채팅방 생성
         ChatRoom chatRoom = ChatRoom.builder()
-                .name(roomName)
+                .name(req.getRoomName())
                 .isGroupChat(1)
+                .postId(req.getPostId())
                 .build();
         chatDao.saveChatRoom(chatRoom);
 

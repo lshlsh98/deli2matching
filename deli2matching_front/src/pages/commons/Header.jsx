@@ -26,10 +26,12 @@ function Header() {
           <nav className={styles.centerMenu}>
             <button
               className={
-                location.pathname.startsWith("/rest") ? styles.activeMenu : ""
+                location.pathname.startsWith("/chatlist")
+                  ? styles.activeMenu
+                  : ""
               }
             >
-              <Link to="#">#</Link>
+              <Link to="/chatlist">채팅 목록</Link>
             </button>
 
             <button

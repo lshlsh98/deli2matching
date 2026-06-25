@@ -66,8 +66,18 @@ const DeliveryRegist = () => {
         memo: form.memo || null, // 빈 문자열은 NULL로 전송
         deadlineAt,
       })
-      .then(() => {
-        navigate("/"); // 등록 성공 시 홈으로 이동
+      .then((res) => {
+        axiosInstance
+          .post(`/room/group/create`, {
+            roomName: form.restaurantName,
+            postId: res.data,
+          })
+          .then(() => {
+            navigate(`/mychat/${res.data}`);
+          }) // 등록 성공 및 채팅방 개설 성공시 채팅방으로 이동
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);

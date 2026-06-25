@@ -39,8 +39,8 @@
     </insert>
 
     <insert id="saveChatRoom" useGeneratedKeys="true" keyProperty="roomId">
-        INSERT INTO chat_room (is_group_chat, name)
-        VALUES (#{isGroupChat}, #{name})
+        INSERT INTO chat_room (is_group_chat, name, post_id)
+        VALUES (#{isGroupChat}, #{name}, #{postId})
     </insert>
 
     <insert id="saveChatParticipant" useGeneratedKeys="true" keyProperty="participantId">
