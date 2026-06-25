@@ -144,18 +144,15 @@ public class ChatService {
 
         List<MyChatListResDto> MyChatListResDtos = chatDao.getMyChatRooms(sender.getUserId());
         for(MyChatListResDto d :  MyChatListResDtos) {
-            ChatRoomAndMemberReqDto req = new ChatRoomAndMemberReqDto(d.getRoomId(), member.getMemberId());
-            Long count = chatDao.getCountIsReadZero(req); // 안읽은것 0 의 숫자
-            String myHexCode = memberDao.getHexCode(d.getMyId());
-            String otherHexCode = memberDao.getHexCode(d.getOtherId());
-            d.setMyHexCode(myHexCode);
-            d.setOtherHexCode(otherHexCode);
+            ChatRoomAndMemberReqDto req = new ChatRoomAndMemberReqDto(d.getRoomId(), sender.getUserId());
+            Integer count = chatDao.getCountIsReadZero(req); // 안읽은것 0 의 숫자
             d.setUnReadCount(count == null ? 0 : count);
         }
 
         return MyChatListResDtos;
     }//
 
+    /*
     public Long getOrCreatePrivateRoom(String otherMemberId, Long marketNo) {
         Member member = chatDao.findMemberById(SecurityContextHolder.getContext().getAuthentication().getName());
         if(member == null) {
@@ -200,10 +197,13 @@ public class ChatService {
 
         return newRoom.getId();
     }//
+    */
 
+    /*
     public void deleteChatRoomByMarketNo(Long marketNo) {
         chatDao.deleteChatRoomByMarketNo(marketNo);
     }//
+    */
 
     public ChatRoom findChatRoomById(Long roomId) {
         return chatDao.findChatRoomById(roomId);
@@ -248,7 +248,7 @@ public class ChatService {
         }
     }//
 
-    // 채팅 나가기  // 참여객체 지우기 // 참여가 0명이면 채팅방 까지 지우기
+    // 채팅 나가기
     public void leaveGroupChatRoom(Long roomId) {
         ChatRoom chatRoom = chatDao.findChatRoomById(roomId);
         if(chatRoom == null) {
@@ -263,13 +263,13 @@ public class ChatService {
         if (chatRoom.getIsGroupChat() == 0) {
             throw new IllegalArgumentException("단체 채팅방이 아닙니다.");
         }
+
         ChatParticipant c = chatDao.findByChatRoomAndUser(roomId, user.getUserId());
-        chatDao.delete(c);
+        chatDao.deleteParticipant(c);
 
-        List<ChatParticipant> chatParticipants = chatDao.findByChatRoomId(roomId);
+        List<ChatParticipant> chatParticipants = chatDao.findChatParticipantAllById(roomId);
         if (chatParticipants.isEmpty()) {
-            chatDao.delete(chatRoom);
+            chatDao.deleteChatRoom(chatRoom);
         }
-
     }//
 }

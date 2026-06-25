@@ -83,6 +83,7 @@ public class ChatController {
 		return ResponseEntity.ok().build();
 	}
 
+	/*
 	// 개인 채팅방 개설 또는 기존 roomId return
 	@PostMapping("/room/private/create")
 	public ResponseEntity<?> getOrCreatePrivateRoom(@RequestParam String otherMemberId, @RequestParam Long marketNo){
@@ -98,9 +99,7 @@ public class ChatController {
 
 		return ResponseEntity.ok().build();
 	}//
-
-
-
+	*/
 }
 
 

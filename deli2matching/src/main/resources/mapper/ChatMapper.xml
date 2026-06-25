@@ -79,5 +79,33 @@
           AND user_id = #{userId}
     </update>
 
+    <select id="getMyChatRooms" resultType="myChatListresDto">
+        SELECT
+            r.room_id,
+            r.name AS room_name,
+            r.is_group_chat
+
+        FROM chat_participant p
+        INNER JOIN chat_room r ON p.room_id = r.room_id
+        WHERE p.user_id = #{userId}
+    </select>
+
+    <select id="getCountIsReadZero" resultType="int">
+        SELECT COUNT(*)
+        FROM message_read_status
+        WHERE room_id = #{roomId}
+          AND user_id = #{userId}
+          AND is_read = 0
+    </select>
+
+    <delete id="deleteParticipant">
+        DELETE FROM chat_participant
+        WHERE participant_id = #{participantId}
+    </delete>
+
+    <delete id="deleteChatRoom">
+        DELETE FROM chat_room
+        WHERE room_id = #{roomId}
+    </delete>
 
 </mapper>
