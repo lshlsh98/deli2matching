@@ -3,7 +3,7 @@ import styles from "./StompChatPage.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import axios from "axios";
+import axiosInstance from "../../utils/axios";
 import useAuthStore from "../../utils/useAuthStore";
 
 const StompChatPage = () => {
@@ -30,22 +30,18 @@ const StompChatPage = () => {
     if (!token) return;
 
     // 이전 채팅 get
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/chat/history/${roomId}`)
-      .then((res) => {
-        setMessages(res.data.messages); // 내용, 이름, 아이디
-        setRoomName(res.data.roomName); // 채팅방 이름
-        setMarketNo(res.data.postId); // 거래 게시글 번호 (상세 페이지 이동용)
-      });
+    axiosInstance.get(`/chat/history/${roomId}`).then((res) => {
+      setMessages(res.data.messages); // 내용, 이름, 아이디
+      setRoomName(res.data.roomName); // 채팅방 이름
+      setPostId(res.data.postId); // 거래 게시글 번호 (상세 페이지 이동용)
+    });
 
     connectWebsocket();
 
     // cleanup
     return () => {
       // 읽음 처리
-      axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/chat/room/${roomId}/read`,
-      );
+      axiosInstance.post(`/chat/room/${roomId}/read`);
 
       subscriptionRef.current?.unsubscribe();
       stompClient.current?.deactivate();
