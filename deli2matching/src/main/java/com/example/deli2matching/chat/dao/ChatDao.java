@@ -42,4 +42,9 @@ public interface ChatDao {
     void deleteParticipant(ChatParticipant c);
 
     void deleteChatRoom(ChatRoom chatRoom);
+
+    boolean existsParticipantByUserId(Long userId);
+
+    void deleteGroupChatRoom(Long postId);
+
 }

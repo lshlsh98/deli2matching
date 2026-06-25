@@ -24,7 +24,7 @@ function App() {
           <Route path="/regist" element={<DeliveryRegist />} />
           <Route path="/view/:postId" element={<DeliveryView />} />
           <Route path="/mypage/*" element={<Mypage />} />
-          <Route path="/chatpage/:roomId" element={<StompChatPage />} />
+          <Route path="/mychat/:roomId" element={<StompChatPage />} />
           <Route path="/chatlist" element={<MyChatPage />} />
         </Routes>
       </div>

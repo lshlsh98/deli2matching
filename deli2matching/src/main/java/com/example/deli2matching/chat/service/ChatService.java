@@ -152,66 +152,21 @@ public class ChatService {
         return MyChatListResDtos;
     }//
 
-    /*
-    public Long getOrCreatePrivateRoom(String otherMemberId, Long marketNo) {
-        Member member = chatDao.findMemberById(SecurityContextHolder.getContext().getAuthentication().getName());
-        if(member == null) {
-            throw new NotFoundException("member can not be found");
-        }
-
-        Member otherMember = chatDao.findMemberById(otherMemberId);
-        if(otherMember == null) {
-            throw new NotFoundException("member can not be found");
-        }
-
-        // 나와 상대방이 1:1 채팅에 이미 참석하고 있다면 해당 roomId return
-        CreatePrivateRoomReqDto req = CreatePrivateRoomReqDto.builder()
-                .memberId(member.getMemberId())
-                .otherMemberId(otherMemberId)
-                .marketNo(marketNo)
-                .build();
-        ChatRoom chatRoom = chatDao.findExistingPrivateRoom(req);
-
-        if(chatRoom != null) {
-            return chatRoom.getId();
-        }
-
-        // 만약 1:1 채팅방이 없을 경우 채팅방 개설
-        Market market = marketDao.findOneMarketByMarketNo(Math.toIntExact(marketNo));
-
-        // useGeneratedKeys로 id 자동 세팅
-        ChatRoom newRoom = ChatRoom.builder()
-                .isGroupChat(1)
-                .name(market.getMarketTitle())
-                .marketNo(marketNo)
-                .myName(member.getMemberName())
-                .myId(member.getMemberId())
-                .otherName(otherMember.getMemberName())
-                .otherId(otherMemberId)
-                .build();
-        chatDao.saveChatRoom(newRoom);
-
-        // 두 사람 모두 참여자로 새롭게 추가
-        addParticipantToRoom(newRoom, member);
-        addParticipantToRoom(newRoom, otherMember);
-
-        return newRoom.getId();
-    }//
-    */
-
-    /*
-    public void deleteChatRoomByMarketNo(Long marketNo) {
-        chatDao.deleteChatRoomByMarketNo(marketNo);
-    }//
-    */
-
     public ChatRoom findChatRoomById(Long roomId) {
         return chatDao.findChatRoomById(roomId);
     }//
 
     // 그룹 채팅방 개설
     public void createGroupRoom(GroupChatCreateDto req) {
-        UserEntity user = userDao.findByUserId(Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName()));
+        Long userId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        boolean exists = chatDao.existsParticipantByUserId(userId);
+
+        if (exists) {
+            throw new IllegalStateException("Already Participant");
+        }
+
+        UserEntity user = userDao.findByUserId(userId);
 
         // 채팅방 생성
         ChatRoom chatRoom = ChatRoom.builder()
@@ -272,5 +227,9 @@ public class ChatService {
         if (chatParticipants.isEmpty()) {
             chatDao.deleteChatRoom(chatRoom);
         }
+    }//
+
+    public void deleteGroupChatRoom(Long postId) {
+        chatDao.deleteGroupChatRoom(postId);
     }//
 }

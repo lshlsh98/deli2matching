@@ -68,14 +68,19 @@ const DeliveryRegist = () => {
       })
       .then((res) => {
         axiosInstance
-          .post(`/room/group/create`, {
+          .post("/chat/room/group/create", {
             roomName: form.restaurantName,
             postId: res.data,
           })
           .then(() => {
             navigate(`/mychat/${res.data}`);
-          }) // 등록 성공 및 채팅방 개설 성공시 채팅방으로 이동
+          })
           .catch((err) => {
+            if (err.response?.status === 409) {
+              alert("현재 진행 중인 배달 모집이 있습니다.");
+              return;
+            }
+
             console.log(err);
           });
       })

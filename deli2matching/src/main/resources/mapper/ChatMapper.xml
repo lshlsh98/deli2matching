@@ -108,4 +108,17 @@
         WHERE room_id = #{roomId}
     </delete>
 
+    <select id="existsParticipantByUserId" resultType="boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM chat_participant
+            WHERE user_id = #{userId}
+        )
+    </select>
+
+    <delete id="deleteGroupChatRoom">
+        DELETE FROM chat_room
+        WHERE post_id = #{postId}
+    </delete>
+
 </mapper>

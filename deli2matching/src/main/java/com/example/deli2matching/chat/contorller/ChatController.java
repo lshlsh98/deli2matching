@@ -5,9 +5,12 @@ import com.example.deli2matching.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +26,20 @@ public class ChatController {
 
 	// 그룹 채팅방 개설
 	@PostMapping("/room/group/create")
-	public ResponseEntity<?> createGroupRoom(@ModelAttribute GroupChatCreateDto req) {
-		log.info("roomName: {}, postId: {}", req.getRoomName(), req.getPostId());
-		chatService.createGroupRoom(req);
+	public ResponseEntity<?> createGroupRoom(@RequestBody GroupChatCreateDto req) {
+		try {
+			chatService.createGroupRoom(req);
+			return ResponseEntity.ok().build();
 
-		return ResponseEntity.ok().build();
+		} catch (IllegalStateException e) {
+
+			if ("Already Participant".equals(e.getMessage())) {
+				return ResponseEntity.status(HttpStatus.CONFLICT)
+						.body("현재 진행 중인 배달 모집이 있습니다.");
+			}
+
+			throw e;
+		}
 	}//
 
 	// 그룹 채팅 목록 조회
@@ -81,25 +93,16 @@ public class ChatController {
 		chatService.leaveGroupChatRoom(roomId);
 
 		return ResponseEntity.ok().build();
-	}
-
-	/*
-	// 개인 채팅방 개설 또는 기존 roomId return
-	@PostMapping("/room/private/create")
-	public ResponseEntity<?> getOrCreatePrivateRoom(@RequestParam String otherMemberId, @RequestParam Long marketNo){
-		Long roomId = chatService.getOrCreatePrivateRoom(otherMemberId, marketNo);
-
-		return ResponseEntity.ok(roomId);
 	}//
 
-	// 거래완료 시 marketNo에 해당하는 chatRoom 제거
-	@DeleteMapping("/room/private/{marketNo}")
-	public ResponseEntity<?> deleteChatRoomByMarketNo(@PathVariable Long marketNo){
-		chatService.deleteChatRoomByMarketNo(marketNo);
+	// 그룹 채팅방 삭제 (호스트)
+	@DeleteMapping("/room/group/{postId}/delete")
+	public ResponseEntity<?> deleteGroupChatRoom(@PathVariable Long postId) {
+		chatService.deleteGroupChatRoom(postId);
 
 		return ResponseEntity.ok().build();
+
 	}//
-	*/
 }
 
 
