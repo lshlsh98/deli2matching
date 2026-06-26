@@ -1,5 +1,6 @@
 package com.example.deli2matching.controller;
 
+import com.example.deli2matching.chat.dto.GroupChatCreateDto;
 import com.example.deli2matching.dto.delivery.DeliveryCreateReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListResDTO;
@@ -88,6 +89,20 @@ public class DeliveryController {
                 .build();
 
         return ResponseEntity.ok(res);
+    }//
+
+    // 모집 완료
+    @PatchMapping("/{postId}/close")
+    public ResponseEntity<?> closeDelivery(@RequestBody GroupChatCreateDto req, @AuthenticationPrincipal String userId) {
+        Long hostUserId = deliveryService.getHostUserId(req.getPostId());
+        if (hostUserId != Long.parseLong(userId)) {
+            return ResponseEntity.badRequest().body("권한이 없습니다.");
+        }
+
+        // status -> close 와 채팅방 생성을 한 transaction 에서 진행
+        deliveryService.closeDeliveryAndCreateGroupRoom(req);
+
+        return ResponseEntity.ok().build();
     }//
 
     // 모집 삭제

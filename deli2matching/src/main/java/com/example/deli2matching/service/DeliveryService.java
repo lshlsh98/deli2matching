@@ -1,5 +1,9 @@
 package com.example.deli2matching.service;
 
+import com.example.deli2matching.chat.dao.ChatDao;
+import com.example.deli2matching.chat.dto.ChatParticipant;
+import com.example.deli2matching.chat.dto.ChatRoom;
+import com.example.deli2matching.chat.dto.GroupChatCreateDto;
 import com.example.deli2matching.dao.DeliveryDao;
 import com.example.deli2matching.dto.delivery.DeliveryCreateReqDTO;
 import com.example.deli2matching.dto.delivery.DeliveryListReqDTO;
@@ -19,6 +23,7 @@ import java.util.List;
 public class DeliveryService {
 
     private final DeliveryDao deliveryDao;
+    private final ChatDao chatDao;
 
     public List<DeliveryList> getList(DeliveryListReqDTO req) {
         return deliveryDao.getList(req);
@@ -70,5 +75,25 @@ public class DeliveryService {
 
     public DeliveryList getMyJoin(long userId) {
        return deliveryDao.getMyJoin(userId);
+    }//
+
+    @Transactional
+    public void closeDeliveryAndCreateGroupRoom(GroupChatCreateDto req) {
+        deliveryDao.closeDelivery(req.getPostId());
+
+        // 채팅방 생성
+        ChatRoom chatRoom = ChatRoom.builder()
+                .name(req.getRoomName())
+                .isGroupChat(1)
+                .postId(req.getPostId())
+                .build();
+        chatDao.saveChatRoom(chatRoom);
+
+        // chat_participants 삽입
+        List<ChatParticipant> participants = chatDao.getParticipants(chatRoom.getRoomId(), req.getPostId());
+        chatDao.insertChatParticipants(participants);
+
+        // post_participants 삭제
+        chatDao.deletePostParticipants(req.getPostId());
     }//
 }

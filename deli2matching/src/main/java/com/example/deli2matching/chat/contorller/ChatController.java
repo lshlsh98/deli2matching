@@ -24,23 +24,14 @@ public class ChatController {
 
 	private final ChatService chatService;
 
-	// 그룹 채팅방 개설
-	@PostMapping("/room/group/create")
-	public ResponseEntity<?> createGroupRoom(@RequestBody GroupChatCreateDto req) {
-		try {
-			chatService.createGroupRoom(req);
-			return ResponseEntity.ok().build();
-
-		} catch (IllegalStateException e) {
-
-			if ("Already Participant".equals(e.getMessage())) {
-				return ResponseEntity.status(HttpStatus.CONFLICT)
-						.body("현재 진행 중인 배달 모집이 있습니다.");
-			}
-
-			throw e;
-		}
-	}//
+	// /delivery/${postId}/close 에서 진행
+//	// 그룹 채팅방 개설
+//	@PostMapping("/room/group/create")
+//	public ResponseEntity<?> createGroupRoom(@RequestBody GroupChatCreateDto req) {
+//		chatService.createGroupRoom(req);
+//
+//		return ResponseEntity.ok().build();
+//	}//
 
 	// 그룹 채팅 목록 조회
 	@GetMapping("/room/group/list")

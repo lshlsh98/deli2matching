@@ -46,4 +46,10 @@ public interface ChatDao {
     boolean existsParticipantByUserId(Long userId);
 
 
+    List<ChatParticipant> getParticipants(@Param("roomId") Long roomId,
+                                          @Param("postId") Long postId);
+
+    void insertChatParticipants(@Param("participants") List<ChatParticipant> participants);
+
+    void deletePostParticipants(Long postId);
 }

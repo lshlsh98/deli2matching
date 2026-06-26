@@ -31,8 +31,41 @@ const DeliveryView = () => {
 
   // 방 삭제 (호스트 전용)
   const handleDelete = () => {
-    if (!window.confirm("정말 방을 삭제하시겠습니까?")) return;
+    Swal.fire({
+      title: "방을 삭제하시겠습니까?",
+      text: "삭제한 방은 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      confirmButtonColor: "#d33",
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
 
+      axiosInstance
+        .delete(`/delivery/${postId}`)
+        .then(() => navigate("/"))
+        .catch((err) => console.log(err));
+    });
+  };
+
+  // 모집 완료 (open → close)
+  const handleClose = () => {
+    axiosInstance
+      .patch(`/delivery/${postId}/close`, {
+        roomName: post.restaurantName,
+        postId: postId,
+      })
+      .then(() => {
+        fetchPost();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 배달 완료 (post 삭제)
+  const handleComplete = () => {
     axiosInstance
       .delete(`/delivery/${postId}`)
       .then(() => navigate("/"))
@@ -107,7 +140,6 @@ const DeliveryView = () => {
                   {post.minutesUntilDeadline}분 남음
                 </span>
               </div>
-              <p className={styles.deadline_sub}>최대 인원 충족 시 조기 종료</p>
             </div>
           </div>
 
@@ -154,44 +186,72 @@ const DeliveryView = () => {
           </ul>
         </section>
 
-        <div className={styles.action_area}>
-          {!isLoggedIn ? (
-            /* 비로그인: 로그인 페이지로 이동 */
-            <button
-              type="button"
-              className={styles.btn_join}
-              onClick={() => navigate("/login")}
-            >
-              로그인 후 참여하기
-            </button>
-          ) : isHost ? (
-            /* 호스트: 방 삭제 버튼 */
-            <button
-              type="button"
-              className={styles.btn_delete}
-              onClick={handleDelete}
-            >
-              방 삭제
-            </button>
-          ) : isJoined ? (
-            /* 일반 유저 + 참여 중: 참여 취소 버튼 */
-            <button
-              type="button"
-              className={styles.btn_leave}
-              onClick={handleLeave}
-            >
-              참여 취소
-            </button>
-          ) : (
-            /* 일반 유저 + 미참여: 참여하기 버튼 */
-            <button
-              type="button"
-              className={styles.btn_join}
-              onClick={handleJoin}
-            >
-              참여하기
-            </button>
-          )}
+        <div
+          className={`${styles.action_area} ${isHost && post.status === "open" ? styles.action_area_double : ""}`}
+        >
+          {
+            !isLoggedIn ? (
+              /* 비로그인 */
+              <button
+                type="button"
+                className={styles.btn_join}
+                onClick={() => navigate("/login")}
+              >
+                로그인 후 참여하기
+              </button>
+            ) : isHost ? (
+              /* 호스트 */
+              post.status === "open" ? (
+                /* open: 방 삭제 + 모집 완료 */
+                <>
+                  <button
+                    type="button"
+                    className={styles.btn_delete}
+                    onClick={handleDelete}
+                  >
+                    방 삭제
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.btn_close}
+                    onClick={handleClose}
+                  >
+                    모집 완료
+                  </button>
+                </>
+              ) : (
+                /* close: 배달 완료 */
+                <button
+                  type="button"
+                  className={styles.btn_complete}
+                  onClick={handleComplete}
+                >
+                  배달 완료
+                </button>
+              )
+            ) : /* 일반 유저 */
+            post.status === "open" ? (
+              isJoined ? (
+                /* open + 참여 중 */
+                <button
+                  type="button"
+                  className={styles.btn_leave}
+                  onClick={handleLeave}
+                >
+                  참여 취소
+                </button>
+              ) : (
+                /* open + 미참여 */
+                <button
+                  type="button"
+                  className={styles.btn_join}
+                  onClick={handleJoin}
+                >
+                  참여하기
+                </button>
+              )
+            ) : null /* close: 버튼 없음 */
+          }
         </div>
       </div>{" "}
     </div>

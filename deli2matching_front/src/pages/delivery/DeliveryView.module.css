@@ -192,12 +192,16 @@
 
 .action_area {
   padding: 20px;
+  display: flex;
+  gap: 10px;
 }
 
 .btn_join,
 .btn_leave,
-.btn_delete {
-  width: 100%;
+.btn_delete,
+.btn_close,
+.btn_complete {
+  flex: 1;
   padding: 15px;
   border: none;
   border-radius: 10px;
@@ -205,9 +209,20 @@
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
 }
 
+.btn_join,
+.btn_leave,
+.btn_delete,
+.btn_close,
+.btn_complete {
+  active: transform scale(0.98);
+}
+
+/* 참여하기 / 로그인 후 참여하기 */
 .btn_join {
   background-color: var(--primary);
   color: #ffffff;
@@ -217,6 +232,7 @@
   background-color: var(--sub1);
 }
 
+/* 참여 취소 */
 .btn_leave {
   background-color: var(--sub2);
   color: #ffffff;
@@ -226,11 +242,49 @@
   background-color: var(--gray4);
 }
 
+/* 방 삭제 */
 .btn_delete {
+  background-color: #ffffff;
+  color: #e53935;
+  border: 1.5px solid #e53935;
+}
+
+.btn_delete:hover {
   background-color: #e53935;
   color: #ffffff;
 }
 
-.btn_delete:hover {
-  background-color: #c62828;
+/* 모집 완료 */
+.btn_close {
+  background-color: var(--sub3);
+  color: #ffffff;
+}
+
+.btn_close:hover {
+  background-color: #5bbd5b;
+}
+
+/* 배달 완료 */
+.btn_complete {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn_complete:hover {
+  background-color: var(--sub1);
+}
+
+.btn_join:active,
+.btn_leave:active,
+.btn_delete:active,
+.btn_close:active,
+.btn_complete:active {
+  transform: scale(0.98);
+}
+
+/* 버튼 2개일 때 크기 축소 */
+.action_area_double .btn_delete,
+.action_area_double .btn_close {
+  padding: 12px 10px;
+  font-size: 14px;
 }

@@ -116,6 +116,25 @@
         )
     </select>
 
+    <select id="getParticipants" resultType="chatParticipant">
+        SELECT
+            #{roomId} AS room_id,
+            user_id
+        FROM post_participants
+        WHERE post_id = #{postId}
+    </select>
 
+    <insert id="insertChatParticipants">
+        INSERT INTO chat_participant (room_id, user_id)
+        VALUES
+        <foreach collection="participants" item="participant" separator=",">
+            (#{participant.roomId}, #{participant.userId})
+        </foreach>
+    </insert>
+
+    <delete id="deletePostParticipants">
+        DELETE FROM post_participants
+        WHERE post_id = #{postId}
+    </delete>
 
 </mapper>

@@ -41,4 +41,7 @@ public interface DeliveryDao {
     DeliveryList getMyJoin(long userId);
 
     boolean existsParticipantByUserId(Long userId);
+
+    void closeDelivery(Long postId);
+
 }

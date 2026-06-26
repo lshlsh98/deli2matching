@@ -148,4 +148,10 @@
         )
     </select>
 
+    <update id="closeDelivery">
+        UPDATE delivery_posts
+        SET status = 'close'
+        WHERE post_id = #{postId}
+    </update>
+
 </mapper>

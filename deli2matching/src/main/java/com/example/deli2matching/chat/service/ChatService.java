@@ -158,16 +158,6 @@ public class ChatService {
 
     // 그룹 채팅방 개설
     public void createGroupRoom(GroupChatCreateDto req) {
-        Long userId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        boolean exists = chatDao.existsParticipantByUserId(userId);
-
-        if (exists) {
-            throw new IllegalStateException("Already Participant");
-        }
-
-        UserEntity user = userDao.findByUserId(userId);
-
         // 채팅방 생성
         ChatRoom chatRoom = ChatRoom.builder()
                 .name(req.getRoomName())
@@ -176,12 +166,12 @@ public class ChatService {
                 .build();
         chatDao.saveChatRoom(chatRoom);
 
-        // 채팅 참여자로 개설자를 추가
-        ChatParticipant chatParticipant = ChatParticipant.builder()
-                .roomId(chatRoom.getRoomId())
-                .userId(user.getUserId())
-                .build();
-        chatDao.saveChatParticipant(chatParticipant);
+        // chat_participants 삽입
+        List<ChatParticipant> participants = chatDao.getParticipants(chatRoom.getRoomId(), req.getPostId());
+        chatDao.insertChatParticipants(participants);
+
+        // post_participants 삭제
+        chatDao.deletePostParticipants(req.getPostId());
     }//
 
     // 그룹 채팅 목록 조회
