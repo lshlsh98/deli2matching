@@ -78,7 +78,7 @@ public class ChatService {
             throw new NotFoundException("chatRoom can not be found");
         }
 
-        UserEntity user = chatDao.findMemberById(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserEntity user = chatDao.findMemberByUserId(Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName()));
         if(user == null) {
             throw new NotFoundException("user can not be found");
         }

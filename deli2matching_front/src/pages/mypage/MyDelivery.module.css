@@ -8,33 +8,30 @@
   padding: 20px 0;
 }
 
-.card_list {
+.card {
+  width: 80%;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.card {
-  background-color: #ffffff;
-  border: 1.5px solid var(--gray6);
-  border-radius: 10px;
-  padding: 16px 20px;
+  min-height: 180px;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   transition:
     box-shadow 0.15s,
     transform 0.15s;
+  margin: 0 auto;
 }
 
 .card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .card_name {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--gray1);
 }
@@ -42,17 +39,17 @@
 .card_meta {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .card_clock {
-  font-size: 12px;
-  color: var(--gray4);
+  font-size: 13px;
+  color: var(--gray3);
 }
 
 .card_time {
-  font-size: 12px;
-  color: var(--gray4);
+  font-size: 13px;
+  color: var(--gray3);
 }
 
 .card_bottom {
@@ -61,10 +58,21 @@
   gap: 6px;
 }
 
-.card_count {
+.card_participation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card_participation_label {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--sub3);
+  color: var(--gray3);
+}
+
+.card_count {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
 }
 
 .card_progress_track {
@@ -78,6 +86,6 @@
 .card_progress_fill {
   height: 100%;
   border-radius: 999px;
-  background-color: var(--sub3);
+  background-color: var(--primary);
   transition: width 0.3s ease;
 }

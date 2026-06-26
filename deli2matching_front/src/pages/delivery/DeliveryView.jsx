@@ -88,7 +88,12 @@ const DeliveryView = () => {
     axiosInstance
       .post(`/delivery/${postId}/join`)
       .then(() => fetchPost()) // 참여 후 목록 갱신
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response?.status === 409) {
+          alert("현재 진행 중인 배달 모집이 있습니다.");
+          return;
+        }
+      });
   };
 
   // 참여 취소

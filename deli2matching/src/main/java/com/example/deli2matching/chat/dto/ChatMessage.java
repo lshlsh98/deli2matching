@@ -1,12 +1,9 @@
 package com.example.deli2matching.chat.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Alias("chatMessage")

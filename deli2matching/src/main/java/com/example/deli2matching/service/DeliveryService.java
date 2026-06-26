@@ -36,7 +36,6 @@ public class DeliveryService {
     @Transactional
     public void createDelivery(DeliveryCreateReqDTO req) {
         boolean exists = deliveryDao.existsParticipantByUserId(req.getUserId());
-
         if (exists) {
             throw new IllegalStateException("Already Participant");
         }
@@ -63,6 +62,12 @@ public class DeliveryService {
 
     @Transactional
     public void joinDelivery(Long postId, Long userId) {
+        boolean post_exists = deliveryDao.existsParticipantByUserId(userId);
+        boolean chat_exists = chatDao.existsParticipantByUserId(userId);
+        if (post_exists || chat_exists) {
+            throw new IllegalStateException("Already Participant");
+        }
+
         deliveryDao.joinDelivery(postId, userId);
         deliveryDao.addCurrentMembers(postId);
     }//
@@ -94,6 +99,6 @@ public class DeliveryService {
         chatDao.insertChatParticipants(participants);
 
         // post_participants 삭제
-        chatDao.deletePostParticipants(req.getPostId());
+//        chatDao.deletePostParticipants(req.getPostId());
     }//
 }

@@ -22,7 +22,7 @@
         WHERE login_id = #{loginId}
     </select>
 
-    <insert id="saveChatMessage" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveChatMessage" useGeneratedKeys="true" keyProperty="messageId">
         INSERT INTO chat_message (room_id, user_id, content)
         VALUES (#{roomId}, #{userId}, #{content})
     </insert>
@@ -33,7 +33,7 @@
         WHERE room_id = #{roomId}
     </select>
 
-    <insert id="saveReadStatus" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveReadStatus" useGeneratedKeys="true" keyProperty="roomId">
         INSERT INTO message_read_status (message_id, user_id, room_id, is_read)
         VALUES (#{messageId}, #{userId}, #{roomId}, #{isRead})
     </insert>

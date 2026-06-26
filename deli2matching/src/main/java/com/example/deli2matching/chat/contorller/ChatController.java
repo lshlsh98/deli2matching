@@ -38,7 +38,11 @@ public class ChatController {
 	public ResponseEntity<?> getGroupChatRooms() {
 		List<ChatRoomListResDto> chatRooms = chatService.getGroupChatRooms();
 
-		return ResponseEntity.ok(chatRooms);
+		if (chatRooms.isEmpty()) {
+			return ResponseEntity.ok(-1);
+		}
+
+		return ResponseEntity.ok(chatRooms.get(0).getRoomId());
 	}//
 
 	// 그룹 채팅방 참여

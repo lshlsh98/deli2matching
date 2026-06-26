@@ -48,10 +48,7 @@ public class DeliveryController {
     public ResponseEntity<?> createDelivery(@RequestBody DeliveryCreateReqDTO req,
                                             @AuthenticationPrincipal String userId) {
 
-        if (userId != null) {
-            req.setUserId(Long.parseLong(userId));
-        }
-
+        req.setUserId(Long.parseLong(userId));
         try {
             deliveryService.createDelivery(req);
             deliveryService.joinDelivery(req.getPostId(), Long.parseLong(userId));
@@ -121,9 +118,18 @@ public class DeliveryController {
     // 모집 참여
     @PostMapping("/{postId}/join")
     public ResponseEntity<?> joinDelivery(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
-        deliveryService.joinDelivery(postId, Long.parseLong(userId));
+        try {
+            deliveryService.joinDelivery(postId, Long.parseLong(userId));
 
-        return ResponseEntity.ok("ok");
+            return ResponseEntity.ok("ok");
+        } catch (IllegalStateException e) {
+            if ("Already Participant".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("현재 진행 중인 배달 모집이 있습니다.");
+            }
+
+            throw e;
+        }
     }//
 
     // 참여 취소
