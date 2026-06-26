@@ -46,7 +46,7 @@ function Header() {
         <div className={styles.rightArea}>
           {token ? (
             <div className={styles.userMenu}>
-              <Link to="/mypage">
+              <Link to="/mypage/myinfo">
                 <button aria-label="마이 페이지" className={styles.iconBtn}>
                   <FiUser />
                 </button>

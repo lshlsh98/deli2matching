@@ -69,7 +69,7 @@
         FROM chat_message m
         INNER JOIN users u ON m.user_id = u.user_id
         WHERE m.room_id = #{roomId}
-        ORDER BY m.created_at ASC
+        ORDER BY m.message_id ASC
     </select>
 
     <update id="updateIsRead">

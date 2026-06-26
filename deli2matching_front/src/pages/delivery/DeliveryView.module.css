@@ -278,8 +278,32 @@
 .btn_leave:active,
 .btn_delete:active,
 .btn_close:active,
-.btn_complete:active {
+.btn_complete:active,
+.btn_withdraw:active {
   transform: scale(0.98);
+}
+
+/* 모집 탈퇴 */
+.btn_withdraw {
+  flex: 1;
+  padding: 15px;
+  border: 1.5px solid var(--sub2);
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--gray3);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.1s;
+}
+
+.btn_withdraw:hover {
+  background-color: var(--sub2);
+  color: #ffffff;
 }
 
 /* 버튼 2개일 때 크기 축소 */

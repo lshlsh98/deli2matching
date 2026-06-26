@@ -255,7 +255,16 @@ const DeliveryView = () => {
                   참여하기
                 </button>
               )
-            ) : null /* close: 버튼 없음 */
+            ) : isJoined ? (
+              /* close + 참여 중: 모집 탈퇴 */
+              <button
+                type="button"
+                className={styles.btn_withdraw}
+                onClick={handleLeave}
+              >
+                모집 탈퇴
+              </button>
+            ) : null /* close + 미참여: 버튼 없음 */
           }
         </div>
       </div>{" "}
