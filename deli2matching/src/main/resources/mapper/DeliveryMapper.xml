@@ -80,7 +80,8 @@
             pickup_location,
             detail_location,
             memo,
-            minutes_until_deadline
+            minutes_until_deadline,
+            status
 
         FROM v_delivery_posts
         WHERE post_id = #{postId}
@@ -137,6 +138,14 @@
         INNER JOIN v_delivery_posts v
             ON p.post_id = v.post_id
         WHERE user_id = #{userId}
+    </select>
+
+    <select id="existsParticipantByUserId" resultType="boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM post_participants
+            WHERE user_id = #{userId}
+        )
     </select>
 
 </mapper>

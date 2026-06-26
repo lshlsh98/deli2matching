@@ -51,10 +51,21 @@ public class DeliveryController {
             req.setUserId(Long.parseLong(userId));
         }
 
-        deliveryService.createDelivery(req);
-        deliveryService.joinDelivery(req.getPostId(), Long.parseLong(userId));
+        try {
+            deliveryService.createDelivery(req);
+            deliveryService.joinDelivery(req.getPostId(), Long.parseLong(userId));
 
-        return ResponseEntity.ok(req.getPostId());
+            return ResponseEntity.ok(req.getPostId());
+
+        } catch (IllegalStateException e) {
+
+            if ("Already Participant".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("현재 진행 중인 배달 모집이 있습니다.");
+            }
+
+            throw e;
+        }
     }//
 
     // 모집 상세
@@ -73,6 +84,7 @@ public class DeliveryController {
                 .memo(deliveryView.getMemo())
                 .minutesUntilDeadline(deliveryView.getMinutesUntilDeadline())
                 .participants(participants)
+                .status(deliveryView.getStatus())
                 .build();
 
         return ResponseEntity.ok(res);

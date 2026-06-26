@@ -19,4 +19,5 @@ public class DeliveryViewResDTO {
     private String memo;
     private Integer minutesUntilDeadline;
     private List<Participant> participants;
+    private String status;
 }

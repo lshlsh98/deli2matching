@@ -30,6 +30,12 @@ public class DeliveryService {
 
     @Transactional
     public void createDelivery(DeliveryCreateReqDTO req) {
+        boolean exists = deliveryDao.existsParticipantByUserId(req.getUserId());
+
+        if (exists) {
+            throw new IllegalStateException("Already Participant");
+        }
+
         deliveryDao.createDelivery(req);
     }//
 

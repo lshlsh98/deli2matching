@@ -63,7 +63,7 @@ public class StompHandler implements ChannelInterceptor {
 				.parseClaimsJws(token)
 				.getBody();
 
-			String userId = claims.get("userId", String.class);
+			String userId = claims.getSubject();
 			String roomId = accessor.getDestination().split("/")[2];
 			if(!chatService.isRoomParticipant(Long.parseLong(userId), Long.parseLong(roomId))) {
 				throw new AuthenticationServiceException("해당 room에 권한이 없습니다.");

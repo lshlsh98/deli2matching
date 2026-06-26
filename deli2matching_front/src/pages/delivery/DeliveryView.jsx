@@ -18,7 +18,10 @@ const DeliveryView = () => {
   const fetchPost = () => {
     axiosInstance
       .get(`/delivery/${postId}`)
-      .then((res) => setPost(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setPost(res.data);
+      })
       .catch((err) => console.log(err));
   };
 

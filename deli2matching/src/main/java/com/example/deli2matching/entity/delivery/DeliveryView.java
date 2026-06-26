@@ -24,4 +24,5 @@ public class DeliveryView {
     private String detailLocation;
     private String memo;
     private Integer minutesUntilDeadline;
+    private String status;
 }

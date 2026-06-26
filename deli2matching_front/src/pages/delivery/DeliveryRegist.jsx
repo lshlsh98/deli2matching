@@ -4,8 +4,8 @@ import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import axiosInstance from "../../utils/axios";
 import styles from "./DeliveryRegist.module.css";
 import BasicSelect from "../ui/BasicSelect";
+import Swal from "sweetalert2";
 
-// 모집 마감 시간 선택지: BasicSelect의 list 형식 [[value, label], ...]
 const DEADLINE_OPTIONS = [
   [30, "30분 뒤"],
   [60, "1시간 뒤"],
@@ -14,7 +14,6 @@ const DEADLINE_OPTIONS = [
   [180, "3시간 뒤"],
 ];
 
-// DeliveryRegist: 배달 모집 등록 페이지
 const DeliveryRegist = () => {
   const navigate = useNavigate();
 
@@ -67,25 +66,22 @@ const DeliveryRegist = () => {
         deadlineAt,
       })
       .then((res) => {
-        axiosInstance
-          .post("/chat/room/group/create", {
-            roomName: form.restaurantName,
-            postId: res.data,
-          })
-          .then(() => {
-            navigate(`/mychat/${res.data}`);
-          })
-          .catch((err) => {
-            if (err.response?.status === 409) {
-              alert("현재 진행 중인 배달 모집이 있습니다.");
-              return;
-            }
-
-            console.log(err);
-          });
+        Swal.fire({
+          icon: "success",
+          title: "배달 모집 완료!",
+          text: "배달 모집이 성공적으로 등록되었습니다.",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/view/${res.data}`);
+          }
+        });
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response?.status === 409) {
+          alert("현재 진행 중인 배달 모집이 있습니다.");
+          return;
+        }
       });
   };
 
@@ -132,7 +128,6 @@ const DeliveryRegist = () => {
 
             <div className={styles.field_group}>
               <label className={styles.label}>모집 마감 시간</label>
-              {/* BasicSelect: state=현재값, setState=form 업데이트 함수, list=[[value, label], ...] */}
               <BasicSelect
                 state={form.deadlineMinutes}
                 setState={(value) =>
