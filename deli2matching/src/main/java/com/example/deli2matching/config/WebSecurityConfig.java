@@ -135,7 +135,10 @@ public class WebSecurityConfig {
         configuration.setAllowCredentials(true);
 
         // 허용할 프론트엔드 주소 (Vite 개발 서버 기본 포트)
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://d13l6nklwxfs5s.cloudfront.net"
+        ));
 
         // 허용할 HTTP 메서드들
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
