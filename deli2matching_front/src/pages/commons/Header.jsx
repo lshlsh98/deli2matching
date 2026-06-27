@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useAuthStore from "../../utils/useAuthStore";
 import styles from "./Header.module.css";
-import logo from "../../assets/logo/black_only.png";
+import logo from "../../assets/logo/gachi_logo.png";
 import { FiBell, FiMail, FiUser, FiSettings } from "react-icons/fi";
 import axiosInstance from "../../utils/axios";
 
@@ -28,7 +28,7 @@ function Header() {
           <div className={styles.logo}>
             <Link to="/">
               <img src={logo} alt="같이시켜 로고" className={styles.logoImg} />
-              <div className={styles.logoText}>같이시켜</div>
+              <div className={styles.logoText}></div>
             </Link>
           </div>
         </div>

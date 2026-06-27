@@ -49,8 +49,9 @@
 }
 
 .logo .logoImg {
-  width: 30px;
-  height: 39.8px;
+  margin-top: 15px;
+  width: 250px;
+  height: auto; /* 비율 유지 */
 }
 
 .logo .logoText {
