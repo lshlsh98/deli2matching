@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: ./deli2matching
+      dockerfile: Dockerfile
+    container_name: deli2matching-backend
+    ports:
+      - "8080:8080"
+    environment:
+      # DB (RDS)
+      SPRING_DATASOURCE_URL: jdbc:mysql://${RDS_HOST}:3306/gachi_delivery?serverTimezone=Asia/Seoul&useSSL=false
+      db-username: ${DB_USERNAME}
+      db-password: ${DB_PASSWORD}
+      # JWT
+      jwt.secret-key: ${JWT_SECRET_KEY}
+      # Email
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
+      # OAuth2
+      google.client-id: ${GOOGLE_CLIENT_ID}
+      google.client-secret: ${GOOGLE_CLIENT_SECRET}
+      naver.client-id: ${NAVER_CLIENT_ID}
+      naver.client-secret: ${NAVER_CLIENT_SECRET}
+      kakao.client-id: ${KAKAO_CLIENT_ID}
+      kakao.client-secret: ${KAKAO_CLIENT_SECRET}
+      github.client-id: ${GITHUB_CLIENT_ID}
+      github.client-secret: ${GITHUB_CLIENT_SECRET}
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./deli2matching_front
+      dockerfile: Dockerfile
+      args:
+        # CloudFront 도메인 또는 EC2 퍼블릭 IP
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+    container_name: deli2matching-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
