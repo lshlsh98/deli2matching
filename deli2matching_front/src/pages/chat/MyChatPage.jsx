@@ -14,7 +14,7 @@ const MyChatPage = () => {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/chat/my/rooms`)
       .then((res) => {
-        setList(res.data);
+        setList(res.data ?? []);
       })
       .catch((err) => {
         console.log(err);

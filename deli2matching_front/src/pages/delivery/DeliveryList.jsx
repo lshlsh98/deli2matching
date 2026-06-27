@@ -24,7 +24,7 @@ const DeliveryList = () => {
       )
       .then((res) => {
         console.log(res);
-        setList(res.data.list);
+        setList(res.data.list ?? []);
         setTotalPage(res.data.totalPage);
       })
       .catch((err) => {
