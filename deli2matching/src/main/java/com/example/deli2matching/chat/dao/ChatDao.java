@@ -24,7 +24,7 @@ public interface ChatDao {
 
     void saveChatParticipant(ChatParticipant chatParticipant);
 
-    List<ChatRoomListResDto> getGroupChatRooms();
+    Long getGroupChatRooms(Long userId);
 
     ChatParticipant findByChatRoomAndUser(@Param("roomId") Long roomId,
                                           @Param("userId") Long userId);
@@ -52,4 +52,8 @@ public interface ChatDao {
     void insertChatParticipants(@Param("participants") List<ChatParticipant> participants);
 
     void deletePostParticipants(Long postId);
+
+    void deleteJoin(@Param("roomId") Long postId,
+                    @Param("userId") Long userId);
+
 }

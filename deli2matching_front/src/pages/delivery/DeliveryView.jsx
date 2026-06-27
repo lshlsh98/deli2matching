@@ -104,6 +104,14 @@ const DeliveryView = () => {
       .catch((err) => console.log(err));
   };
 
+  // 모집 탈퇴
+  const chatLeave = () => {
+    axiosInstance
+      .delete(`/chat/${postId}/join`)
+      .then(() => fetchPost())
+      .catch((err) => console.log(err));
+  };
+
   if (!post) return null;
 
   // 로그인 여부 (userId가 없으면 비로그인)
@@ -260,7 +268,7 @@ const DeliveryView = () => {
               <button
                 type="button"
                 className={styles.btn_withdraw}
-                onClick={handleLeave}
+                onClick={chatLeave}
               >
                 모집 탈퇴
               </button>

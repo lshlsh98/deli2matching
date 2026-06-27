@@ -11,11 +11,13 @@ function Header() {
   const admin = useAuthStore((state) => state.admin);
   const logout = useAuthStore((state) => state.logout);
   const location = useLocation();
-  const [roomId, setRoomId] = useState(-1);
+  const [roomId, setRoomId] = useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     axiosInstance.get("/chat/room/group/list").then((res) => {
-      setRoomId(res.data);
+      setRoomId(res.data === "" ? null : res.data);
     });
   }, [location.pathname]);
 
@@ -31,7 +33,7 @@ function Header() {
           </div>
         </div>
 
-        {token && roomId !== -1 && (
+        {token && roomId !== null && (
           <nav className={styles.centerMenu}>
             <button
               className={

@@ -2,15 +2,13 @@ package com.example.deli2matching.chat.contorller;
 
 import com.example.deli2matching.chat.dto.*;
 import com.example.deli2matching.chat.service.ChatService;
+import com.example.deli2matching.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,14 +33,10 @@ public class ChatController {
 
 	// 그룹 채팅 목록 조회
 	@GetMapping("/room/group/list")
-	public ResponseEntity<?> getGroupChatRooms() {
-		List<ChatRoomListResDto> chatRooms = chatService.getGroupChatRooms();
+	public ResponseEntity<?> getGroupChatRooms(@AuthenticationPrincipal String userId) {
+		Long roomId = chatService.getGroupChatRooms(Long.parseLong(userId));
 
-		if (chatRooms.isEmpty()) {
-			return ResponseEntity.ok(-1);
-		}
-
-		return ResponseEntity.ok(chatRooms.get(0).getRoomId());
+		return ResponseEntity.ok(roomId);
 	}//
 
 	// 그룹 채팅방 참여
@@ -55,7 +49,7 @@ public class ChatController {
 
 	// 이전 메시지 조회
 	@GetMapping("/history/{roomId}")
-	public ResponseEntity<?> getChatHistory(@PathVariable Long roomId){
+	public ResponseEntity<?> getChatHistory(@PathVariable Long roomId) {
 		List<ChatMessageDto> list = chatService.getChatHistory(roomId);
 		ChatRoom chatRoom = chatService.findChatRoomById(roomId);
 
@@ -68,7 +62,7 @@ public class ChatController {
 
 	// 채팅 메시지 읽음 처리
 	@PostMapping("/room/{roomId}/read")
-	public ResponseEntity<?> messageRead(@PathVariable Long roomId){
+	public ResponseEntity<?> messageRead(@PathVariable Long roomId) {
 		chatService.messageRead(roomId);
 
 		return ResponseEntity.ok().build();
@@ -76,7 +70,7 @@ public class ChatController {
 
 	// 내 채팅방 목록 조회: roomId, roomName, 그룹채팅 여부, 메시지 읽음 갯수
 	@GetMapping("/my/rooms")
-	public ResponseEntity<?> getMyChatRooms(){
+	public ResponseEntity<?> getMyChatRooms() {
 		List<MyChatListResDto> list = chatService.getMyChatRooms();
 
 		return ResponseEntity.ok(list);
@@ -90,7 +84,13 @@ public class ChatController {
 		return ResponseEntity.ok().build();
 	}//
 
+	// 일반유저 모집 완료 후 모집 탈퇴
+	@DeleteMapping("/{postId}/join")
+	public ResponseEntity<?> leaveChatParticipant(@PathVariable Long postId, @AuthenticationPrincipal String userId) {
+		chatService.deleteJoin(postId, Long.parseLong(userId));
 
+		return ResponseEntity.ok().build();
+	}//
 }
 
 

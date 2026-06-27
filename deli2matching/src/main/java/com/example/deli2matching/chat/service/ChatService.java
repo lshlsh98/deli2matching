@@ -3,6 +3,7 @@ package com.example.deli2matching.chat.service;
 import com.example.deli2matching.chat.dao.ChatDao;
 import com.example.deli2matching.chat.dto.*;
 import com.example.deli2matching.chat.exception.NotFoundException;
+import com.example.deli2matching.dao.DeliveryDao;
 import com.example.deli2matching.dao.UserDao;
 import com.example.deli2matching.entity.user.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class ChatService {
 
     private final ChatDao chatDao;
     private final UserDao userDao;
+    private final DeliveryDao deliveryDao;
 
     public void saveMessage(Long roomId, ChatMessageDto chatMessageReqDto) {
         // 채팅방 조회
@@ -175,8 +177,8 @@ public class ChatService {
     }//
 
     // 그룹 채팅 목록 조회
-    public List<ChatRoomListResDto> getGroupChatRooms() {
-        return chatDao.getGroupChatRooms();
+    public Long getGroupChatRooms(Long userId) {
+        return chatDao.getGroupChatRooms(userId);
     }//
 
     // 그룹 채팅방 참여
@@ -220,4 +222,9 @@ public class ChatService {
     }//
 
 
+    public void deleteJoin(Long postId, Long userId) {
+        deliveryDao.deleteJoin(postId, userId);
+        deliveryDao.subtractCurrentMembers(postId);
+        chatDao.deleteJoin(postId, userId);
+    }//
 }

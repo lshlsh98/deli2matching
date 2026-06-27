@@ -48,10 +48,10 @@
         VALUES (#{roomId}, #{userId})
     </insert>
 
-    <select id="getGroupChatRooms" resultType="chatRoomListResDto">
-        SELECT room_id, name
-        FROM chat_room
-        WHERE is_group_chat = 1
+    <select id="getGroupChatRooms" resultType="Long">
+        SELECT room_id
+        FROM chat_participant
+        WHERE user_id = #{userId}
     </select>
 
     <select id="findByChatRoomAndUser" resultType="chatParticipant">
@@ -135,6 +135,11 @@
     <delete id="deletePostParticipants">
         DELETE FROM post_participants
         WHERE post_id = #{postId}
+    </delete>
+
+    <delete id="deleteJoin">
+        DELETE FROM chat_participant
+        WHERE room_id = #{roomId} AND user_id = #{userId}
     </delete>
 
 </mapper>
