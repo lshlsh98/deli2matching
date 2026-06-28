@@ -213,31 +213,50 @@ const SignUp = () => {
       return;
     }
 
-    // 비밀번호도 완벽하게 일치(1)할 때만 통과
-    if (checkPw !== 1) {
+    // 비밀번호 형식 검사
+    const pwRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+~`\-={}\[\]:;"'<>,.?\/\\|])[a-zA-Z\d!@#$%^&*()_+~`\-={}\[\]:;"'<>,.?\/\\|]{8,}$/;
+    if (!pwRegex.test(member.memberPw)) {
       Swal.fire({
         icon: "warning",
         title: "확인 필요",
-        text: "비밀번호 형식과 일치 여부를 확인해주세요.",
+        text: "비밀번호는 영문, 특수문자(필수)와 숫자(선택)로 8자 이상이어야 합니다.",
+      });
+      return;
+    }
+
+    // 비밀번호 확인 입력 여부 및 일치 여부 (실제 값으로 비교)
+    if (memberPwRe === "") {
+      Swal.fire({
+        icon: "warning",
+        title: "확인 필요",
+        text: "비밀번호 확인을 입력해주세요.",
+      });
+      return;
+    }
+    if (member.memberPw !== memberPwRe) {
+      Swal.fire({
+        icon: "warning",
+        title: "확인 필요",
+        text: "비밀번호가 일치하지 않습니다.",
       });
       return;
     }
 
     // checkName이 1이어야 중복여부 가능한 상태
-    if (checkName !== 1) {
-      Swal.fire({
-        icon: "warning",
-        title: "확인 필요",
-        text: "닉네임 중복 체크를 확인해주세요.",
-      });
-      return;
-    }
-
     if (member.memberName === "") {
       Swal.fire({
         icon: "warning",
         title: "입력 오류",
         text: "이름(닉네임)을 입력하세요.",
+      });
+      return;
+    }
+    if (checkName !== 1) {
+      Swal.fire({
+        icon: "warning",
+        title: "확인 필요",
+        text: "닉네임 중복 체크를 확인해주세요.",
       });
       return;
     }
