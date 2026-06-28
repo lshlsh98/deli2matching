@@ -23,38 +23,34 @@ const SignUp = () => {
   const [pwReVisible, setPwReVisible] = useState(false); // 비번 확인의 숨김 / 보임용
 
   const inputMember = (e) => {
-    setMember({ ...member, [e.target.name]: e.target.value });
+    setMember((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const [checkId, setCheckId] = useState(0); // 중복 확인용 state
   const [checkName, setCheckName] = useState(0); // 중복 확인용 state
 
   // 아이디 중복 체크 및 유효성 검사
-  const idDupCheck = () => {
-    // 회원 아이디가 비어있다면
-    if (member.memberId === "") {
-      // 아이디 체크해서 에러 문구띄우는 state인 checkId 0으로 초기화
+  const idDupCheck = (e) => {
+    const value = e?.target?.value ?? member.memberId;
+    if (value === "") {
       setCheckId(0);
       return;
     }
 
-    // 아이디 정규식: 영문 1개 이상 필수, 숫자/특수문자 선택, 6자 이상 (한글 불가)
     const idRegex =
       /^(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()_+~`\-={}\[\]:;"'<>,.?\/\\|]{6,}$/;
-    // .text => 정규식 규칙이 맞는지 검사해서 true / false 반환
-    if (!idRegex.test(member.memberId)) {
-      // 정규식이 false이니 형식 오류 반환
-      setCheckId(3); // 3: 형식 오류
+    if (!idRegex.test(value)) {
+      setCheckId(3);
       return;
     }
 
     axiosInstance
-      .get(`/auth/idExists/?memberId=${member.memberId}`)
+      .get(`/auth/idExists/?memberId=${value}`)
       .then((res) => {
         if (res.data) {
-          setCheckId(2); // 2: 중복 (이미 있음)
+          setCheckId(2);
         } else {
-          setCheckId(1); // 1: 사용 가능
+          setCheckId(1);
         }
       })
       .catch((err) => {
@@ -63,21 +59,20 @@ const SignUp = () => {
   };
 
   // 닉네임 중복 체크 및 유효성 검사
-  const nameDupCheck = () => {
-    // 회원 닉네임이 비어있다면
-    if (member.memberName === "") {
-      // 이름 체크해서 에러 문구띄우는 state인 checkId 0으로 초기화
+  const nameDupCheck = (e) => {
+    const value = e?.target?.value ?? member.memberName;
+    if (value === "") {
       setCheckName(0);
       return;
     }
 
     axiosInstance
-      .get(`/auth/nameExists?memberName=${member.memberName}`)
+      .get(`/auth/nameExists?memberName=${value}`)
       .then((res) => {
         if (res.data) {
-          setCheckName(2); // 2: 중복 (이미 있음)
+          setCheckName(2);
         } else {
-          setCheckName(1); // 1: 사용 가능
+          setCheckName(1);
         }
       })
       .catch((err) => {
@@ -118,11 +113,11 @@ const SignUp = () => {
 
   const { open } = useKakaoPostcode({
     onComplete: (data) => {
-      setMember({
-        ...member,
-        memberAddr: data.roadAddress, // roadAddress : 도로명 주소
-      });
-      detailRef.current.focus();
+      setMember((prev) => ({
+        ...prev,
+        memberAddr: data.roadAddress,
+      }));
+      if (detailRef.current) detailRef.current.focus();
     },
   });
 
