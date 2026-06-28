@@ -5,9 +5,11 @@ import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import BasicSelect from "../ui/BasicSelect";
 import Pagination from "../ui/Pagination";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../utils/useAuthStore";
 
 const DeliveryList = () => {
-  const [location, setLocation] = useState(""); // 서울 중구 세종대로 110 (나중에 기본값으로 설정)
+  const memberAddr = useAuthStore((state) => state.memberAddr);
+  const [location, setLocation] = useState(memberAddr || '서울 중구 세종대로 110');
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = useState(0);
