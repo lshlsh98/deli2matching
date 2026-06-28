@@ -54,7 +54,7 @@ instance.interceptors.response.use(
 
     // 권한 없음
     if (status === 403) {
-      alert("접근 권한이 없습니다.");
+      // alert("접근 권한이 없습니다.");
     }
 
     // 에러를 다음 단계로 넘김 (각 컴포넌트의 catch에서 받음)
