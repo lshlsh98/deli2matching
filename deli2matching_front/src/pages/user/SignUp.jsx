@@ -45,7 +45,7 @@ const SignUp = () => {
     }
 
     axiosInstance
-      .get(`/auth/idExists/?memberId=${value}`)
+      .get(`/auth/idExists?memberId=${value}`)
       .then((res) => {
         if (res.data) {
           setCheckId(2);

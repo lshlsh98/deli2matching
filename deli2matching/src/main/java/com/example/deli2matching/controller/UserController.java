@@ -33,7 +33,7 @@ public class UserController {
 
     // 회원가입 아이디 중복체크
     @GetMapping("/idExists")
-    public ResponseEntity<?> idExists(@RequestBody String memberId) {
+    public ResponseEntity<?> idExists(@RequestParam String memberId) {
         int result = userService.idExists(memberId);
 
         return ResponseEntity.ok(result > 0);
@@ -41,7 +41,7 @@ public class UserController {
 
     // 회원가입 닉네임 중복체크
     @GetMapping("/nameExists")
-    public ResponseEntity<?> nameExists(@RequestBody String memberName) {
+    public ResponseEntity<?> nameExists(@RequestParam String memberName) {
         int result = userService.nameExists(memberName);
 
         return ResponseEntity.ok(result > 0);
