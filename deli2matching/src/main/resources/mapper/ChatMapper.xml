@@ -139,7 +139,7 @@
 
     <delete id="deleteJoin">
         DELETE FROM chat_participant
-        WHERE room_id = #{roomId} AND user_id = #{userId}
+        WHERE user_id = #{userId}
     </delete>
 
 </mapper>
