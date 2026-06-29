@@ -62,13 +62,11 @@ const Login = () => {
         <h1 className={styles.title}>로그인</h1>
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          {/* 이메일 입력란 */}
           <div className={styles.fieldGroup}>
             <label htmlFor="memberId" className={styles.label}>
-              이메일 주소
+              아이디
             </label>
             <div className={styles.inputWrapper}>
-              {/* 이메일 아이콘 */}
               <input
                 type="text"
                 name="memberId"
@@ -80,7 +78,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* 비밀번호 입력란 */}
           <div className={styles.fieldGroup}>
             <label htmlFor="memberPw" className={styles.label}>
               비밀번호
