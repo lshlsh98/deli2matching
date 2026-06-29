@@ -28,7 +28,6 @@ function Header() {
           <div className={styles.logo}>
             <Link to="/">
               <img src={logo} alt="같이시켜 로고" className={styles.logoImg} />
-              <div className={styles.logoText}></div>
             </Link>
           </div>
         </div>
