@@ -102,6 +102,20 @@ const Login = () => {
             로그인
           </button>
 
+          <div className={styles.testAccount}>
+            <p className={styles.testAccount_title}>테스트 계정</p>
+            <div className={styles.testAccount_item}>
+              <span>ID: qqqq1111!</span>
+              <span className={styles.testAccount_sep}>/</span>
+              <span>PW: qqqq1111!</span>
+            </div>
+            <div className={styles.testAccount_item}>
+              <span>ID: wwww2222@</span>
+              <span className={styles.testAccount_sep}>/</span>
+              <span>PW: wwww2222@</span>
+            </div>
+          </div>
+
           <div className={styles.signupRow}>
             <Link to="/signup" className={styles.signupLink}>
               회원가입

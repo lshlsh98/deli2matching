@@ -9,7 +9,7 @@ import useAuthStore from "../../utils/useAuthStore";
 
 const DeliveryList = () => {
   const memberAddr = useAuthStore((state) => state.memberAddr);
-  const [location, setLocation] = useState(memberAddr || '서울 중구 세종대로 110');
+  const [location, setLocation] = useState(memberAddr || "");
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = useState(0);

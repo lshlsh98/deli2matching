@@ -110,6 +110,48 @@
   background-color: var(--sub1); /* App.css: 진한 파란색 */
 }
 
+/* 테스트 계정 박스 */
+.testAccount {
+  background-color: var(--gray7);
+  border: 1px dashed var(--gray5);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.testAccount_title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray4);
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+
+.testAccount_item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--gray2);
+}
+
+.testAccount_label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray8);
+  background-color: var(--primary);
+  padding: 1px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.testAccount_sep {
+  color: var(--gray5);
+  margin: 0 2px;
+}
+
 /* 회원가입 링크 */
 .signupRow {
   display: flex;
