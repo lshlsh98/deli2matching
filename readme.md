@@ -95,11 +95,11 @@ deli2matching/
     │   │   │   └── StompEventListener.java      # 연결·구독·해제 이벤트 처리
     │   │   ├── contorller/
     │   │   │   ├── ChatController.java          # 채팅 REST API
-    │   │   │   │                                # (채팅방 목록, 이전 메시지 내역, 읽음 처리)
+    │   │   │   │                                # (채팅방 목록, 이전 메시지 내역)
     │   │   │   └── StompController.java         # 메시지 발행 처리 (@MessageMapping)
     │   │   ├── service/
     │   │   │   └── ChatService.java             # 채팅 비즈니스 로직
-    │   │   │                                    # (그룹방 생성, 메시지 저장·조회, 읽음 상태 관리)
+    │   │   │                                    # (그룹방 생성, 메시지 저장·조회)
     │   │   ├── dao/
     │   │   │   └── ChatDao.java                 # 채팅 MyBatis Mapper 인터페이스
     │   │   ├── dto/
@@ -110,8 +110,8 @@ deli2matching/
     │   │   │   ├── ChatRoomListResDto.java      # 채팅방 목록 응답 DTO
     │   │   │   ├── MyChatListResDto.java        # 내 채팅 목록 응답 DTO
     │   │   │   ├── ChatRoomAndMemberReqDto.java # 채팅방+회원 요청 DTO
-    │   │   │   ├── GroupChatCreateDto.java      # 그룹 채팅방 생성 요청 DTO
-    │   │   │   └── ReadStatus.java              # 읽음 상태 DTO
+    │   │   │   └── GroupChatCreateDto.java      # 그룹 채팅방 생성 요청 DTO
+    │   │   │
     │   │   └── exception/
     │   │       └── NotFoundException.java       # 채팅 리소스 없음 예외
     │   │
@@ -162,9 +162,9 @@ deli2matching_front/
     │   │
     │   ├── chat/
     │   │   ├── StompChatPage.jsx             # 실시간 채팅방
-    │   │   │                                 # (STOMP WebSocket 연결, 이전 메시지 내역 로드,
-    │   │   │                                 #  메시지 송수신, 읽음 처리, 모집 게시글 이동)
-    │   │   └── MyChatPage.jsx                # 내 채팅방 목록 (미읽음 메시지 수 표시)
+    │   │                                     # (STOMP WebSocket 연결, 이전 메시지 내역 로드,
+    │   │                                     #  메시지 송수신, 읽음 처리, 모집 게시글 이동)
+    │   │
     │   │
     │   ├── commons/
     │   │   └── Header.jsx                    # 전역 헤더 (로그인 상태, 소셜 로그인 버튼, 로그아웃)
@@ -201,7 +201,7 @@ deli2matching_front/
 | **소셜 로그인**     | OAuth2 — Google, Naver, Kakao, GitHub   |
 | **이메일**          | Gmail SMTP (Spring Mail, 회원가입 인증) |
 | **WebSocket**       | STOMP over SockJS                       |
-| **배포**            | Docker Compose (EC2 + CloudFront)       |
+| **배포**            | Docker Compose (EC2 + RDS + CloudFront) |
 
 ---
 
