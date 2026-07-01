@@ -55,32 +55,22 @@ public class WebSecurityConfig {
                 // HTTP Basic 인증 비활성화 (ID/PW를 헤더에 직접 넣는 구식 방식)
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                // OAuth2 소셜 로그인 state 저장을 위해 IF_REQUIRED 사용
-                // JWT 인증은 세션을 사용하지 않으므로 기존 동작 유지
+                // 세션 사용 안 함 (STATELESS)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
                 // URL별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        // "/" 와 "/auth/**" 경로는 로그인 없이 누구나 접근 가능
-                        // (회원가입, 로그인 API)
-                        .requestMatchers("/", "/auth", "/auth/**", "/delivery", "/delivery/**", "/connect/**",
-                                "/oauth2/**", "/login/oauth2/**").permitAll()
-
-                        // 나머지 모든 요청은 로그인(인증) 필수
+                        .requestMatchers("/", "/auth", "/auth/**", "/delivery", "/delivery/**", "/connect/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
                 // JWT 검사 필터를 UsernamePasswordAuthenticationFilter 다음에 추가
-                // 즉, 모든 요청에서 JWT 토큰을 검사함
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 // OAuth2 소셜 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        .redirectionEndpoint(endpoint -> endpoint
-                                .baseUri("/auth/oauth2/code/*")
-                        )
                         .successHandler(oAuthSuccessHandler)
                 )
 
