@@ -73,13 +73,12 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         log.info("token {}", token);
 
         // 2단계: 쿠키에서 redirect_url 꺼내기
-        // RedirectUrlCookieFilter가 저장한 "redirect_url" 쿠키를 찾습니다
-        Optional<Cookie> oCookie = Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(REDIRECT_URI_PARAM)) // 이름이 "redirect_url"인 쿠키 필터링
-                .findFirst(); // 첫 번째(= 유일한) 결과 가져오기
-
-        // Optional로 감싸서 null 안전하게 처리
-        Optional<String> redirectUri = oCookie.map(cookie -> cookie.getValue());
+        Cookie[] cookies = request.getCookies();
+        Optional<String> redirectUri = (cookies == null) ? Optional.empty() :
+                Arrays.stream(cookies)
+                        .filter(cookie -> cookie.getName().equals(REDIRECT_URI_PARAM))
+                        .findFirst()
+                        .map(Cookie::getValue);
         log.info("redirectUri {}", redirectUri);
 
         // 3단계: 리다이렉트 URL 조합
