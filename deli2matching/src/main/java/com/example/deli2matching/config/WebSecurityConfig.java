@@ -1,6 +1,7 @@
 package com.example.deli2matching.config;
 
 
+import com.example.deli2matching.security.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.example.deli2matching.security.JwtAuthenticationFilter;
 import com.example.deli2matching.security.OAuthSuccessHandler;
 import com.example.deli2matching.security.RedirectUrlCookieFilter;
@@ -32,13 +33,16 @@ public class WebSecurityConfig {
 
     // 소셜 로그인 전에 "돌아갈 주소(redirect_url)"를 쿠키에 저장하는 필터
     private final RedirectUrlCookieFilter redirectUrlFilter;
+    private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                              OAuthSuccessHandler oAuthSuccessHandler,
-                             RedirectUrlCookieFilter redirectUrlFilter) {
+                             RedirectUrlCookieFilter redirectUrlFilter,
+                             HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.oAuthSuccessHandler = oAuthSuccessHandler;
         this.redirectUrlFilter = redirectUrlFilter;
+        this.cookieAuthorizationRequestRepository = cookieAuthorizationRequestRepository;
     }
 
     @Bean
@@ -66,7 +70,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // "/" 와 "/auth/**" 경로는 로그인 없이 누구나 접근 가능
                         // (회원가입, 로그인 API)
-                        .requestMatchers("/", "/auth", "/auth/**", "/delivery", "/delivery/**", "/connect/**").permitAll()
+                        .requestMatchers("/", "/auth", "/auth/**", "/delivery", "/delivery/**", "/connect/**",
+                                "/oauth2/**", "/login/oauth2/**").permitAll()
 
                         // 나머지 모든 요청은 로그인(인증) 필수
                         .anyRequest().authenticated()
@@ -78,7 +83,13 @@ public class WebSecurityConfig {
 
                 // OAuth2 소셜 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        // 소셜 로그인 성공 시 OAuthSuccessHandler가 처리
+                        // state를 세션 대신 쿠키에 저장 (STATELESS 세션과 호환)
+                        .authorizationEndpoint(endpoint -> endpoint
+                                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
+                        )
+                        .redirectionEndpoint(endpoint -> endpoint
+                                .baseUri("/login/oauth2/code/*")
+                        )
                         .successHandler(oAuthSuccessHandler)
                 )
 
