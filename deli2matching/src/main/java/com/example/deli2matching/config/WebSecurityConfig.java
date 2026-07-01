@@ -1,7 +1,6 @@
 package com.example.deli2matching.config;
 
 
-import com.example.deli2matching.security.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.example.deli2matching.security.JwtAuthenticationFilter;
 import com.example.deli2matching.security.OAuthSuccessHandler;
 import com.example.deli2matching.security.RedirectUrlCookieFilter;
@@ -33,16 +32,13 @@ public class WebSecurityConfig {
 
     // 소셜 로그인 전에 "돌아갈 주소(redirect_url)"를 쿠키에 저장하는 필터
     private final RedirectUrlCookieFilter redirectUrlFilter;
-    private final HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                              OAuthSuccessHandler oAuthSuccessHandler,
-                             RedirectUrlCookieFilter redirectUrlFilter,
-                             HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository) {
+                             RedirectUrlCookieFilter redirectUrlFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.oAuthSuccessHandler = oAuthSuccessHandler;
         this.redirectUrlFilter = redirectUrlFilter;
-        this.cookieAuthorizationRequestRepository = cookieAuthorizationRequestRepository;
     }
 
     @Bean
@@ -59,11 +55,10 @@ public class WebSecurityConfig {
                 // HTTP Basic 인증 비활성화 (ID/PW를 헤더에 직접 넣는 구식 방식)
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                // 세션 사용 안 함 (STATELESS)
-                // 서버가 사용자 정보를 메모리에 저장하지 않음
-                // 대신 매 요청마다 JWT 토큰으로 사용자를 확인
+                // OAuth2 소셜 로그인 state 저장을 위해 IF_REQUIRED 사용
+                // JWT 인증은 세션을 사용하지 않으므로 기존 동작 유지
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
 
                 // URL별 접근 권한 설정
@@ -83,10 +78,6 @@ public class WebSecurityConfig {
 
                 // OAuth2 소셜 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        // state를 세션 대신 쿠키에 저장 (STATELESS 세션과 호환)
-                        .authorizationEndpoint(endpoint -> endpoint
-                                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
-                        )
                         .redirectionEndpoint(endpoint -> endpoint
                                 .baseUri("/auth/oauth2/code/*")
                         )
