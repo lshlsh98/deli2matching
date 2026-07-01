@@ -88,7 +88,7 @@ public class WebSecurityConfig {
                                 .authorizationRequestRepository(cookieAuthorizationRequestRepository)
                         )
                         .redirectionEndpoint(endpoint -> endpoint
-                                .baseUri("/login/oauth2/code/*")
+                                .baseUri("/auth/oauth2/code/*")
                         )
                         .successHandler(oAuthSuccessHandler)
                 )
