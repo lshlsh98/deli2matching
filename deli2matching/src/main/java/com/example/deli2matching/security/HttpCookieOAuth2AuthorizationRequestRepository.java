@@ -1,81 +1,43 @@
 package com.example.deli2matching.security;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
-import java.util.Base64;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * OAuth2 authorization request(state 포함)를 서버 메모리에 저장.
+ * STATELESS 세션 + CloudFront 환경에서 쿠키 포워딩 없이 동작.
+ */
 @Component
 public class HttpCookieOAuth2AuthorizationRequestRepository
         implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
-    public static final String COOKIE_NAME = "oauth2_auth_request";
-    private static final int COOKIE_EXPIRE_SECONDS = 180;
+    private final Map<String, OAuth2AuthorizationRequest> store = new ConcurrentHashMap<>();
 
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
-        return getCookieValue(request, COOKIE_NAME)
-                .map(this::deserialize)
-                .orElse(null);
+        String state = request.getParameter("state");
+        if (state == null) return null;
+        return store.get(state);
     }
 
     @Override
     public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest,
                                          HttpServletRequest request, HttpServletResponse response) {
-        if (authorizationRequest == null) {
-            deleteCookie(request, response, COOKIE_NAME);
-            return;
-        }
-        String value = Base64.getUrlEncoder().encodeToString(SerializationUtils.serialize(authorizationRequest));
-        Cookie cookie = new Cookie(COOKIE_NAME, value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(COOKIE_EXPIRE_SECONDS);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
+        if (authorizationRequest == null) return;
+        store.put(authorizationRequest.getState(), authorizationRequest);
     }
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request,
                                                                   HttpServletResponse response) {
-        OAuth2AuthorizationRequest authRequest = loadAuthorizationRequest(request);
-        deleteCookie(request, response, COOKIE_NAME);
-        return authRequest;
-    }
-
-    private java.util.Optional<String> getCookieValue(HttpServletRequest request, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(name)) {
-                    return java.util.Optional.of(cookie.getValue());
-                }
-            }
-        }
-        return java.util.Optional.empty();
-    }
-
-    private void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(name)) {
-                    cookie.setValue("");
-                    cookie.setPath("/");
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
-            }
-        }
-    }
-
-    private OAuth2AuthorizationRequest deserialize(String value) {
-        return (OAuth2AuthorizationRequest) SerializationUtils.deserialize(
-                Base64.getUrlDecoder().decode(value));
+        String state = request.getParameter("state");
+        if (state == null) return null;
+        return store.remove(state);
     }
 }
