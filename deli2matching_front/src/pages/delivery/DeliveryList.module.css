@@ -64,9 +64,18 @@
   flex-shrink: 0;
 }
 
+.list_header_search_icon {
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--gray3);
+}
+
 .list_header_search_input {
+  border-radius: 8px;
+  padding: 10px;
   border: none;
   outline: none;
+  border: 1px solid var(--gray2);
   background: transparent;
   font-size: 15px;
   font-family: inherit;

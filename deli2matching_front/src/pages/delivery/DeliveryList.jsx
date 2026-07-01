@@ -65,15 +65,14 @@ const DeliveryList = () => {
             <input
               type="text"
               className={styles.list_header_search_input}
-              placeholder="식당이나 음식을 검색해보세요"
+              placeholder="식당을 검색해보세요"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
             <span
-              className={styles.list_header_search_icon}
-              onClick={() => setKeyword(searchKeyword)}
+              className={`material-symbols-outlined ${styles.list_header_search_icon}`}
             >
-              &#x1F50D;
+              search
             </span>
           </div>
         </div>
