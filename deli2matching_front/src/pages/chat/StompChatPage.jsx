@@ -29,11 +29,11 @@ const StompChatPage = () => {
   useEffect(() => {
     if (!token) return;
 
-    // 이전 채팅 get
+    // 이전 채팅
     axiosInstance.get(`/chat/history/${roomId}`).then((res) => {
-      setMessages(res.data.messages); // 내용, 이름, 아이디
-      setRoomName(res.data.roomName); // 채팅방 이름
-      setPostId(res.data.postId); // 거래 게시글 번호 (상세 페이지 이동용)
+      setMessages(res.data.messages);
+      setRoomName(res.data.roomName);
+      setPostId(res.data.postId);
     });
 
     connectWebsocket();
@@ -106,7 +106,7 @@ const StompChatPage = () => {
   };
 
   const sendMessage = (e) => {
-    e.preventDefault(); // form submit 기본 동작 막기
+    e.preventDefault();
 
     if (
       stompClient.current &&

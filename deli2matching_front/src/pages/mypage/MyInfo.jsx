@@ -21,7 +21,6 @@ const MyInfo = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // ── Step 1: 비밀번호 확인 ──
   const handleVerify = (e) => {
     e.preventDefault();
     console.log(password);
@@ -47,11 +46,9 @@ const MyInfo = () => {
       });
   };
 
-  // ── Step 2: 정보 수정 제출 ──
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 닉네임 중복 체크 완료 여부 확인
     if (checkName === 2) {
       Swal.fire({
         icon: "warning",
@@ -61,7 +58,6 @@ const MyInfo = () => {
       return;
     }
 
-    // 이메일을 변경했다면 인증 완료 여부 확인
     if (mailAuth !== 0 && mailAuth !== 3) {
       Swal.fire({
         icon: "warning",
@@ -83,7 +79,6 @@ const MyInfo = () => {
       .catch((err) => console.log(err));
   };
 
-  // ── 닉네임 중복 체크 (SignUp의 nameDupCheck와 동일한 패턴) ──
   // 0: 미확인 / 1: 사용 가능 / 2: 중복
   const [checkName, setCheckName] = useState(0);
 
@@ -104,7 +99,6 @@ const MyInfo = () => {
       .catch((err) => console.log(err));
   };
 
-  // ── 이메일 인증 (SignUp의 sendMail / 인증하기와 동일한 패턴) ──
   // 0: 대기 / 1: 발송 중 / 2: 코드 입력 대기 / 3: 인증 성공
   const [mailAuth, setMailAuth] = useState(0);
   const [mailAuthCode, setMailAuthCode] = useState(null); // 서버에서 받은 인증코드
@@ -119,7 +113,6 @@ const MyInfo = () => {
     return `${min}:${sec}`;
   };
 
-  // 인증 코드 발송
   const sendMail = () => {
     if (form.email === "") {
       Swal.fire({
@@ -208,7 +201,6 @@ const MyInfo = () => {
     <div className={styles.page}>
       <h1 className={styles.title}>내 정보</h1>
 
-      {/* ── Step 1: 비밀번호 확인 화면 ── */}
       {!isVerified && (
         <div className={styles.card}>
           <form onSubmit={handleVerify} className={styles.form}>
@@ -230,11 +222,9 @@ const MyInfo = () => {
         </div>
       )}
 
-      {/* ── Step 2: 정보 수정 화면 ── */}
       {isVerified && (
         <div className={styles.card}>
           <form onSubmit={handleSubmit} className={styles.form}>
-            {/* 닉네임 + 중복 체크 (onBlur로 자동 확인) */}
             <div className={styles.field_row}>
               <label className={styles.label}>닉네임</label>
               <input
@@ -243,10 +233,9 @@ const MyInfo = () => {
                 className={styles.input}
                 value={form.nickname}
                 onChange={handleChange}
-                onBlur={nameDupCheck} /* 포커스 벗어날 때 중복 체크 */
+                onBlur={nameDupCheck}
               />
             </div>
-            {/* 닉네임 중복 체크 결과 메시지 */}
             {checkName > 0 && (
               <p
                 className={`${styles.validation_msg} ${checkName === 1 ? styles.valid : styles.invalid}`}
@@ -256,7 +245,6 @@ const MyInfo = () => {
               </p>
             )}
 
-            {/* 아이디 (변경 불가) */}
             <div className={styles.field_row}>
               <label className={styles.label}>아이디</label>
               <input
@@ -264,11 +252,10 @@ const MyInfo = () => {
                 name="loginId"
                 className={styles.input}
                 value={form.loginId}
-                readOnly /* 아이디는 변경 불가 */
+                readOnly
               />
             </div>
 
-            {/* 이메일 + 인증 코드 전송 */}
             <div className={styles.field_row}>
               <label className={styles.label}>이메일</label>
               <div className={styles.input_with_btn}>
@@ -278,9 +265,7 @@ const MyInfo = () => {
                   className={styles.input}
                   value={form.email}
                   onChange={handleChange}
-                  readOnly={
-                    mailAuth === 1 || mailAuth === 3
-                  } /* 발송 중 또는 인증 완료 시 잠금 */
+                  readOnly={mailAuth === 1 || mailAuth === 3}
                 />
                 <button
                   type="button"
@@ -293,7 +278,6 @@ const MyInfo = () => {
               </div>
             </div>
 
-            {/* 인증 코드 입력 (코드 발송 후에만 표시) */}
             {mailAuth > 1 && (
               <div className={styles.field_row}>
                 <label className={styles.label}>인증 코드</label>
@@ -305,9 +289,8 @@ const MyInfo = () => {
                       placeholder="인증코드를 입력하세요"
                       value={mailAuthInput}
                       onChange={(e) => setMailAuthInput(e.target.value)}
-                      disabled={mailAuth === 3} /* 인증 완료 시 잠금 */
+                      disabled={mailAuth === 3}
                     />
-                    {/* 남은 시간 표시 (인증 완료 전까지만) */}
                     {mailAuth !== 3 && (
                       <span className={styles.timer_text}>{showTime()}</span>
                     )}
@@ -323,14 +306,12 @@ const MyInfo = () => {
                 </div>
               </div>
             )}
-            {/* 이메일 인증 결과 메시지 */}
             {mailAuth === 3 && (
               <p className={`${styles.validation_msg} ${styles.valid}`}>
                 인증되었습니다.
               </p>
             )}
 
-            {/* 주소 + 주소 찾기 */}
             <div className={styles.field_row}>
               <label className={styles.label}>주소</label>
               <div className={styles.input_with_btn}>

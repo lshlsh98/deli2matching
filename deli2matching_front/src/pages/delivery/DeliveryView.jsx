@@ -14,7 +14,6 @@ const DeliveryView = () => {
 
   const [post, setPost] = useState(null);
 
-  // 상세 정보 조회
   const fetchPost = () => {
     axiosInstance
       .get(`/delivery/${postId}`)
@@ -202,78 +201,68 @@ const DeliveryView = () => {
         <div
           className={`${styles.action_area} ${isHost && post.status === "open" ? styles.action_area_double : ""}`}
         >
-          {
-            !isLoggedIn ? (
-              /* 비로그인 */
+          {!isLoggedIn ? (
+            <button
+              type="button"
+              className={styles.btn_join}
+              onClick={() => navigate("/login")}
+            >
+              로그인 후 참여하기
+            </button>
+          ) : isHost ? (
+            post.status === "open" ? (
+              <>
+                <button
+                  type="button"
+                  className={styles.btn_delete}
+                  onClick={handleDelete}
+                >
+                  방 삭제
+                </button>
+                <button
+                  type="button"
+                  className={styles.btn_close}
+                  onClick={handleClose}
+                >
+                  모집 완료
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className={styles.btn_complete}
+                onClick={handleComplete}
+              >
+                배달 완료
+              </button>
+            )
+          ) : post.status === "open" ? (
+            isJoined ? (
+              <button
+                type="button"
+                className={styles.btn_leave}
+                onClick={handleLeave}
+              >
+                참여 취소
+              </button>
+            ) : (
               <button
                 type="button"
                 className={styles.btn_join}
-                onClick={() => navigate("/login")}
+                onClick={handleJoin}
               >
-                로그인 후 참여하기
+                참여하기
               </button>
-            ) : isHost ? (
-              /* 호스트 */
-              post.status === "open" ? (
-                /* open: 방 삭제 + 모집 완료 */
-                <>
-                  <button
-                    type="button"
-                    className={styles.btn_delete}
-                    onClick={handleDelete}
-                  >
-                    방 삭제
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.btn_close}
-                    onClick={handleClose}
-                  >
-                    모집 완료
-                  </button>
-                </>
-              ) : (
-                /* close: 배달 완료 */
-                <button
-                  type="button"
-                  className={styles.btn_complete}
-                  onClick={handleComplete}
-                >
-                  배달 완료
-                </button>
-              )
-            ) : /* 일반 유저 */
-            post.status === "open" ? (
-              isJoined ? (
-                /* open + 참여 중 */
-                <button
-                  type="button"
-                  className={styles.btn_leave}
-                  onClick={handleLeave}
-                >
-                  참여 취소
-                </button>
-              ) : (
-                /* open + 미참여 */
-                <button
-                  type="button"
-                  className={styles.btn_join}
-                  onClick={handleJoin}
-                >
-                  참여하기
-                </button>
-              )
-            ) : isJoined ? (
-              /* close + 참여 중: 모집 탈퇴 */
-              <button
-                type="button"
-                className={styles.btn_withdraw}
-                onClick={chatLeave}
-              >
-                모집 탈퇴
-              </button>
-            ) : null /* close + 미참여: 버튼 없음 */
-          }
+            )
+          ) : isJoined ? (
+            <button
+              type="button"
+              className={styles.btn_withdraw}
+              onClick={chatLeave}
+            >
+              모집 탈퇴
+            </button>
+          ) : null}
         </div>
       </div>{" "}
     </div>

@@ -15,11 +15,10 @@ const SocialLogin = () => {
   const token = searchParams.get("token");
 
   if (token) {
-    // 토큰이 있으면 서랍장에 토큰을 저장하고 메인 페이지로 이동해요.
-    login({ token }); // 서랍장에 토큰 저장
-    return <Navigate to="/" />; // 메인 페이지(/)로 이동
+    // 토큰이 있으면 서랍장에 토큰을 저장하고 메인 페이지로 이동
+    login({ token });
+    return <Navigate to="/" />;
   } else {
-    // 토큰이 없으면 로그인 페이지로 돌려보냄
     return <Navigate to="/login" />;
   }
 };

@@ -29,7 +29,6 @@ const SignUp = () => {
   const [checkId, setCheckId] = useState(0); // 중복 확인용 state
   const [checkName, setCheckName] = useState(0); // 중복 확인용 state
 
-  // 아이디 중복 체크 및 유효성 검사
   const idDupCheck = (e) => {
     const value = e?.target?.value ?? member.memberId;
     if (value === "") {
@@ -58,7 +57,6 @@ const SignUp = () => {
       });
   };
 
-  // 닉네임 중복 체크 및 유효성 검사
   const nameDupCheck = (e) => {
     const value = e?.target?.value ?? member.memberName;
     if (value === "") {
@@ -82,26 +80,21 @@ const SignUp = () => {
 
   const [checkPw, setCheckPw] = useState(0); // 비밀번호 확인 맞는지 틀린지 보는용도 state
 
-  // 비밀번호 유효성 검사 및 일치 여부
   const pwDupCheck = () => {
     // 회원 비번이 공백이면
     if (member.memberPw === "") {
-      // 비번 체크해서 에러 문구띄우는 state인 checkPw 0으로 초기화
       setCheckPw(0);
       return;
     }
 
-    // 비밀번호 정규식: 영문 1개 이상, 특수문자 1개 이상 필수, 숫자 선택, 8자 이상
     const pwRegex =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+~`\-={}\[\]:;"'<>,.?\/\\|])[a-zA-Z\d!@#$%^&*()_+~`\-={}\[\]:;"'<>,.?\/\\|]{8,}$/;
 
     if (!pwRegex.test(member.memberPw)) {
-      // 정규식이 false이니 형식 오류 반환
       setCheckPw(3); // 3: 형식 오류
       return;
     }
 
-    // 형식이 맞으면, 이제 비밀번호 확인(memberPwRe)과 일치하는지 검사
     if (memberPwRe === "") {
       setCheckPw(0); // 아직 확인 칸을 안 쳤으면 아무 메시지도 안 띄움
     } else if (member.memberPw === memberPwRe) {

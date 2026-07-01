@@ -3,14 +3,11 @@ import axiosInstance from "../../utils/axios";
 import useAuthStore from "../../utils/useAuthStore";
 import { useState } from "react";
 import styles from "./Login.module.css";
-
-// 소셜 로그인 로고 이미지
 import kakaoLogo from "../../assets/logo/kakao_logo.png";
 import googleLogo from "../../assets/logo/google_logo.png";
 import naverLogo from "../../assets/logo/naver_logo.png";
 import githubLogo from "../../assets/logo/github_logo.png";
 
-// Login 컴포넌트: 로그인 페이지 화면
 const Login = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
@@ -22,9 +19,7 @@ const Login = () => {
 
   const [member, setMember] = useState({ memberId: "", memberPw: "" });
 
-  // handleSubmit: 로그인 버튼을 눌렀을 때 실행되는 함수
   const handleSubmit = (event) => {
-    // 기본 동작(페이지 새로고침)을 막음
     event.preventDefault();
 
     axiosInstance
@@ -41,8 +36,6 @@ const Login = () => {
       });
   };
 
-  // handleSocialLogin: 소셜 로그인 버튼을 눌렀을 때 실행되는 함수
-  // provider = 어떤 소셜 서비스인지 (예: "google", "naver", "kakao", "github")
   const handleSocialLogin = (provider) => {
     // window.location.href: 현재 브라우저를 다른 주소로 이동
     // VITE_API_BASE_URL: 백엔드 서버
@@ -55,9 +48,7 @@ const Login = () => {
   };
 
   return (
-    /* 전체 화면 중앙 정렬 래퍼 */
     <div className={styles.page}>
-      {/* 로그인 카드 */}
       <div className={styles.card}>
         <h1 className={styles.title}>로그인</h1>
 
@@ -120,12 +111,10 @@ const Login = () => {
           </div>
         </form>
 
-        {/* 소셜 로그인과 일반 로그인 사이 구분선 */}
         <div className={styles.divider}>
           <span className={styles.dividerText}>또는</span>
         </div>
 
-        {/* 소셜 로그인 버튼들 */}
         <div className={styles.socialBtns}>
           {/* 네이버 로그인 */}
           <button

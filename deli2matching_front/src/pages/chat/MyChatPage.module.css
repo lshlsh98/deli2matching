@@ -3,14 +3,12 @@
   text-align: center;
 }
 
-/* 전체 컨테이너 */
 .content {
   display: flex;
   justify-content: center;
   margin: 60px 0;
 }
 
-/* 리스트 래퍼 */
 .chat_list_wrap {
   width: 1100px;
   border-radius: 16px;
@@ -19,7 +17,6 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* 공통 row */
 .chat_item {
   list-style: none;
   display: flex;
@@ -28,12 +25,10 @@
   transition: background 0.2s ease;
 }
 
-/* hover 효과 (제목 제외) */
 .chat_item:not(.title_ul):hover {
   background: #f7faf7;
 }
 
-/* 각 셀 */
 .chat_item > li {
   padding: 16px 10px;
   display: flex;
@@ -43,7 +38,6 @@
   color: #333;
 }
 
-/* 헤더 */
 .title_ul {
   background: linear-gradient(135deg, #6fbf73, #4caf50);
 }
@@ -54,7 +48,6 @@
   font-size: 14px;
 }
 
-/* 컬럼 비율 */
 .chat_room_name {
   width: 50%;
   justify-content: flex-start;
@@ -81,7 +74,6 @@
   color: #4caf50;
 }
 
-/* 버튼 */
 .chat_btn > button {
   border: none;
   background: #eef1f3;
@@ -92,7 +84,6 @@
   transition: all 0.2s ease;
 }
 
-/* 버튼 hover */
 .chat_btn > button:hover {
   background: linear-gradient(135deg, #6fbf73, #4caf50);
   color: white;
@@ -100,7 +91,6 @@
   box-shadow: 0 5px 10px rgba(76, 175, 80, 0.25);
 }
 
-/* 버튼 클릭 */
 .chat_btn > button:active {
   transform: scale(0.95);
 }

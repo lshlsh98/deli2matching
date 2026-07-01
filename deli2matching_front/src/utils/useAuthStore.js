@@ -1,15 +1,8 @@
-// create 함수로 "전역 저장소(store)"를 만들 수 있음
-// 전역 저장소 → 앱 어디서든 꺼내 쓸 수 있는 공용 서랍장
 import { create } from "zustand";
-// persist와 createJSONStorage는 저장소 내용을 브라우저에 저장해주는 도구
-// persist → 새로고침해도 데이터가 사라지지 않게 해줌
-// createJSONStorage → 어디에 저장할지 방법을 알려줌 (여기서는 localStorage).
 import { createJSONStorage, persist } from "zustand/middleware";
 
 const useAuthStore = create(
-  // persist로 감싸면 → 새로고침해도 서랍장 내용이 유지
   persist(
-    // set은 서랍장 안의 내용을 바꿀 때 사용하는 함수
     (set) => ({
       userId: null,
       memberId: null,

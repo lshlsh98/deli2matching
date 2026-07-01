@@ -138,7 +138,6 @@ const DeliveryCard = ({
       <div className={styles.card_meta}>
         <span className={styles.card_clock_icon}>&#x23F1;</span>
         <span className={styles.card_time}>{minutesUntilDeadline}분 남음</span>
-        {/* 상태 점: 10분 이하면 data-urgent="true"로 CSS에서 색상 구분 */}
         <span
           className={styles.card_status_dot}
           data-urgent={minutesUntilDeadline <= 10}

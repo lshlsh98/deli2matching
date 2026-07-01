@@ -222,7 +222,6 @@
   active: transform scale(0.98);
 }
 
-/* 참여하기 / 로그인 후 참여하기 */
 .btn_join {
   background-color: var(--primary);
   color: #ffffff;
@@ -232,7 +231,6 @@
   background-color: var(--sub1);
 }
 
-/* 참여 취소 */
 .btn_leave {
   background-color: var(--sub2);
   color: #ffffff;
@@ -242,7 +240,6 @@
   background-color: var(--gray4);
 }
 
-/* 방 삭제 */
 .btn_delete {
   background-color: #ffffff;
   color: #e53935;
@@ -254,7 +251,6 @@
   color: #ffffff;
 }
 
-/* 모집 완료 */
 .btn_close {
   background-color: var(--sub3);
   color: #ffffff;
@@ -264,7 +260,6 @@
   background-color: #5bbd5b;
 }
 
-/* 배달 완료 */
 .btn_complete {
   background-color: var(--primary);
   color: #ffffff;
@@ -283,7 +278,6 @@
   transform: scale(0.98);
 }
 
-/* 모집 탈퇴 */
 .btn_withdraw {
   flex: 1;
   padding: 15px;
@@ -306,7 +300,6 @@
   color: #ffffff;
 }
 
-/* 버튼 2개일 때 크기 축소 */
 .action_area_double .btn_delete,
 .action_area_double .btn_close {
   padding: 12px 10px;

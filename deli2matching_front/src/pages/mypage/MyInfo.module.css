@@ -117,34 +117,25 @@
   background-color: #5fcc5f;
 }
 
-/* ── 비활성 버튼 ── */
 .inline_btn:disabled {
   background-color: var(--gray5);
   cursor: default;
 }
 
-/* ── 유효성 메시지 ── */
-
-/* 라벨 너비(68px) + gap(16px) 만큼 들여써서 input과 정렬 */
 .validation_msg {
   font-size: 12px;
   padding-left: calc(68px + 16px);
-  margin-top: -6px; /* gap에서 일부 상쇄 */
+  margin-top: -6px;
 }
 
-/* 사용 가능 / 인증 완료: --sub3 초록 */
 .valid {
   color: var(--sub3);
 }
 
-/* 중복 / 오류: 빨간색 */
 .invalid {
   color: #e53935;
 }
 
-/* ── 타이머 (인증코드 입력 + 남은 시간) ── */
-
-/* input과 타이머 텍스트를 겹쳐 보이도록 relative 포지션 */
 .timer_wrap {
   flex: 1;
   position: relative;
@@ -154,15 +145,14 @@
 
 .timer_wrap .input {
   width: 100%;
-  padding-right: 52px; /* 타이머 텍스트 자리 확보 */
+  padding-right: 52px;
 }
 
-/* 남은 시간 텍스트: input 우측에 절대 배치 */
 .timer_text {
   position: absolute;
   right: 12px;
   font-size: 13px;
   font-weight: 600;
-  color: #e53935; /* 빨간색: 긴박감 표시 */
+  color: #e53935;
   pointer-events: none;
 }

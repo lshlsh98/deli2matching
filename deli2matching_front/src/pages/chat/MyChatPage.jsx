@@ -10,7 +10,7 @@ const MyChatPage = () => {
   const myName = useAuthStore((state) => state.memberName);
 
   useEffect(() => {
-    // 내 채팅방 get
+    // 내 채팅방
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/chat/my/rooms`)
       .then((res) => {

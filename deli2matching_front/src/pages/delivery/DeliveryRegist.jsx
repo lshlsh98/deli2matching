@@ -150,7 +150,6 @@ const DeliveryRegist = () => {
                 required
                 readOnly
               />
-              {/* 지도 버튼: 클릭 시 카카오 주소 검색 팝업 */}
               <button
                 type="button"
                 className={styles.map_btn}
@@ -186,7 +185,6 @@ const DeliveryRegist = () => {
             />
           </div>
 
-          {/* ── 등록하기 버튼 ── */}
           <button type="submit" className={styles.submit_btn}>
             등록하기
           </button>
