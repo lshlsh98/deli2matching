@@ -50,7 +50,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
      * LOCAL_REDIRECT_URL - redirect_url 쿠키가 없을 때 기본 리다이렉트 주소
      * 개발 환경에서 프론트엔드가 localhost:5173에서 실행될 때 사용
      */
-    private static final String LOCAL_REDIRECT_URL = "http://localhost:5173";
+//    private static final String LOCAL_REDIRECT_URL = "http://localhost:5173";
+    private static final String LOCAL_REDIRECT_URL = "https://d13l6nklwxfs5s.cloudfront.net";
 
     /**
      * onAuthenticationSuccess - 소셜 로그인 성공 시 호출되는 메서드

@@ -30,7 +30,6 @@ public class UserController {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
     // 회원가입 아이디 중복체크
     @GetMapping("/idExists")
     public ResponseEntity<?> idExists(@RequestParam String memberId) {
@@ -112,7 +111,6 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
         // username으로 사용자 조회 + 비밀번호 검증
-        // BCrypt는 "1234"가 "$2a$10$..." 해시와 일치하는지 확인해줌
         UserEntity user = userService.getByCredentials(
                 userDTO.getMemberId(),
                 userDTO.getMemberPw(),
@@ -130,17 +128,17 @@ public class UserController {
                     .memberName(user.getNickname())
                     .memberEmail(user.getEmail())
                     .memberAddr(user.getUserLocation())
-                    .token(token) // ← 클라이언트가 이걸 저장해서 이후 요청에 사용
+                    .token(token)
                     .build();
 
-            return ResponseEntity.ok().body(responseUserDTO); // 200 OK
+            return ResponseEntity.ok().body(responseUserDTO);
         } else {
             // 로그인 실패 (username이 없거나 비밀번호 불일치)
             ResponseDTO responseDTO = ResponseDTO.builder()
                     .error("Login failed.")
                     .build();
 
-            return ResponseEntity.badRequest().body(responseDTO); // 400 Bad Request
+            return ResponseEntity.badRequest().body(responseDTO);
         }
     }//
 
@@ -186,7 +184,5 @@ public class UserController {
 
         return ResponseEntity.ok("ok");
     }//
-
-
 }
 

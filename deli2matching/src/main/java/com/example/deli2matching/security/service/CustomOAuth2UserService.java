@@ -77,11 +77,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        // ─────────────────────────────────────────────────────────────────
         // 1단계: 기본 소셜 로그인 처리 (스프링 기본 제공)
         // DefaultOAuth2UserService가 accessToken으로 소셜 플랫폼 API를 호출해서
         // 사용자 정보(attributes Map)를 가져옴
-        // ─────────────────────────────────────────────────────────────────
         /*
         5. delegate.loadUser(userRequest) 호출
         DefaultOAuth2UserService 내부:
@@ -111,11 +109,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("loadUser registrationId = " + registrationId);
         log.info("loadUser userNameAttributeName = " + userNameAttributeName);
 
-        // ─────────────────────────────────────────────────────────────────
         // 2단계: 플랫폼별 데이터 구조를 OAuthAttributes로 통일
         // 각 플랫폼마다 사용자 정보의 JSON 구조가 다름
         // OAuthAttributes.of()가 플랫폼을 판별하고 통일된 형태로 변환
-        // ─────────────────────────────────────────────────────────────────
         OAuthAttributes attributes = OAuthAttributes.of(
                 registrationId,          // 플랫폼 이름
                 userNameAttributeName,   // 사용자 ID 키 이름
@@ -130,9 +126,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String id       = attributes.getId();      // 소셜 플랫폼 내 고유 ID
         String socialType = ""; // 소셜 타입 (나중에 id 접두사로 사용)
 
-        // ─────────────────────────────────────────────────────────────────
         // 3단계: 소셜 타입 결정 및 깃허브 이메일 특별 처리
-        // ─────────────────────────────────────────────────────────────────
         if ("naver".equals(registrationId)) {
             socialType = "naver";
         } else if ("kakao".equals(registrationId)) {
@@ -160,19 +154,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if (name == null)  name = "";
         if (email == null) email = "";
 
-        // ─────────────────────────────────────────────────────────────────
         // 4단계: 권한 설정
         // 모든 소셜 로그인 사용자에게 ROLE_USER 권한 부여
-        // ─────────────────────────────────────────────────────────────────
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
         authorities.add(authority);
 
-        // ─────────────────────────────────────────────────────────────────
         // 5단계: DB에 사용자 저장 또는 조회
         // username = "소셜타입_이메일" 형식으로 저장
         // 예: "google_user@gmail.com", "naver_user@naver.com"
-        // ─────────────────────────────────────────────────────────────────
 
         String loginId = socialType + "_" + id; // unique (에: google_1234567890)
         String nickname = name + "_" + socialType + "_" + id; // unique (예: 홍길동_google_1234567890)
@@ -199,11 +189,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         log.info("Successfully pulled user info nickname {} provider {}", nickname, socialType);
 
-        // ─────────────────────────────────────────────────────────────────
         // 6단계: CustomUser 반환
         // 스프링 시큐리티의 Authentication.getPrincipal()로 접근 가능
         // OAuthSuccessHandler에서 이 객체를 사용해 JWT 토큰을 생성합니다
-        // ─────────────────────────────────────────────────────────────────
         return new CustomUser(userEntity.getUserId(), email, name, authorities, attributes);
     }
 

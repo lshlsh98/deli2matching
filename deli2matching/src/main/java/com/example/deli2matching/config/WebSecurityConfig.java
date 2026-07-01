@@ -19,15 +19,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-/**
- * 여기서 설정하는 것들:
- *  1. CORS: 다른 주소의 프론트엔드가 우리 서버에 요청할 수 있도록 허용
- *  2. CSRF: 악의적인 사이트의 공격 방어 (비활성화 - SPA 방식이라 불필요)
- *  3. Session: 세션을 사용하지 않고 JWT 토큰 방식으로 인증
- *  4. OAuth2: 소셜 로그인 설정
- *  5. Filter: 요청이 들어올 때마다 JWT 토큰을 검사하는 필터 등록
- */
-
 @Configuration
 // @EnableWebSecurity: 스프링 시큐리티(보안 기능)를 켜
 @EnableWebSecurity
@@ -42,9 +33,6 @@ public class WebSecurityConfig {
     // 소셜 로그인 전에 "돌아갈 주소(redirect_url)"를 쿠키에 저장하는 필터
     private final RedirectUrlCookieFilter redirectUrlFilter;
 
-    /**
-     * 생성자: 필요한 부품들을 스프링이 자동으로 주입 (의존성 주입)
-     */
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                              OAuthSuccessHandler oAuthSuccessHandler,
                              RedirectUrlCookieFilter redirectUrlFilter) {
@@ -53,15 +41,6 @@ public class WebSecurityConfig {
         this.redirectUrlFilter = redirectUrlFilter;
     }
 
-    /**
-     * securityFilterChain - 보안 규칙을 실제로 설정하는 메서드
-     *
-     * 여기서 모든 보안 규칙이 정해짐
-     * HTTP 요청이 들어오면 이 규칙들을 통과해야 함
-     *
-     * @param http HttpSecurity: 보안 설정을 위한 도우미 객체
-     * @return SecurityFilterChain: 완성된 보안 필터 체인
-     */
     @Bean
     // @Bean: 스프링이 이 메서드의 반환값을 관리하도록 등록
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -116,17 +95,6 @@ public class WebSecurityConfig {
         return http.build(); // 설정 완료 보안 필터 체인 생성
     }
 
-    /**
-     * corsConfigurationSource - CORS(교차 출처 리소스 공유) 설정
-     *
-     * CORS란? 브라우저가 다른 주소의 서버에 요청할 때 보안상 막는 정책
-     * 우리 서버(localhost:8080)에 프론트엔드(localhost:5173)가 요청할 수 있도록 허용
-     *
-     * 예시: 프론트엔드가 http://localhost:5173에서 실행 중이고
-     *       백엔드가 http://localhost:8080에서 실행 중일 때,
-     *       브라우저는 기본적으로 이 요청을 차단합니다.
-     *       이 설정으로 허용해줍니다.
-     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -134,7 +102,7 @@ public class WebSecurityConfig {
         // 쿠키 포함 요청 허용 (소셜 로그인 redirect_url 쿠키 전달에 필요)
         configuration.setAllowCredentials(true);
 
-        // 허용할 프론트엔드 주소 (Vite 개발 서버 기본 포트)
+        // 허용할 프론트엔드 주소
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://d13l6nklwxfs5s.cloudfront.net"

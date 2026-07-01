@@ -17,29 +17,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-/**
- * TokenProvider - JWT 토큰 발행소
- *
- * JWT 구조 (세 부분이 점(.)으로 구분):
- *  헤더.페이로드.서명
- *  - 헤더: 토큰 타입, 암호화 알고리즘 정보
- *  - 페이로드: 사용자 ID, 발급 시간, 만료 시간 등 실제 데이터
- *  - 서명: 위변조 방지를 위한 암호화된 서명
- *
- * 예시 JWT:
- *  eyJhbGc...헤더...  .eyJ1c2Vy...페이로드...  .SflKxw...서명...
- * =====================================================================
- */
 @Component
 public class TokenProvider {
-
-    /**
-     * SECRET_KEY - 토큰을 만들고 검증할 때 쓰는 비밀 열쇠
-     *
-     * 이 키로 서명하고, 같은 키로만 서명을 확인할 수 있음
-     * 실제 서비스에서는 절대 코드에 직접 쓰면 안 됨
-     * 환경변수나 별도 설정 파일에 저장해야 함
-     */
 
     private final Key SIGNING_KEY;
 
@@ -50,15 +29,6 @@ public class TokenProvider {
         this.SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    /**
-     * create(UserEntity) - 일반 로그인용 JWT 토큰 생성
-     *
-     * 일반 회원가입/로그인 시 사용
-     * UserEntity의 id를 토큰 안에 담아서 반환
-     *
-     * @param userEntity 토큰을 발급할 사용자 정보
-     * @return 생성된 JWT 토큰 문자열
-     */
     public String create(UserEntity userEntity) {
         // 토큰 만료 시간: 지금으로부터 1일 후
         Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
@@ -78,17 +48,6 @@ public class TokenProvider {
                 .compact();
     }
 
-    /**
-     * validateAndGetUserId - JWT 토큰 검증 및 사용자 ID 추출
-     *
-     * 클라이언트가 보낸 토큰이 유효한지 확인하고,
-     * 토큰 안에 담긴 사용자 ID를 꺼내서 반환
-     *
-     * 토큰이 위조되었거나 만료되었으면 예외(Exception)가 발생
-     *
-     * @param token 검증할 JWT 토큰 문자열
-     * @return 토큰 안에 담긴 사용자 ID
-     */
     public String validateAndGetUserId(String token) {
         // Claims: 토큰 안에 담긴 데이터 꾸러미
         Claims claims = Jwts.parserBuilder()
@@ -104,15 +63,6 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
-    /**
-     * create(Authentication) - 소셜 로그인용 JWT 토큰 생성
-     *
-     * 소셜 로그인 성공 후 OAuthSuccessHandler에서 호출
-     * Authentication 객체 안의 CustomUser에서 사용자 ID를 꺼내 토큰을 만듬
-     *
-     * @param authentication 소셜 로그인 성공 후 스프링 시큐리티가 생성한 인증 정보
-     * @return 생성된 JWT 토큰 문자열
-     */
     public String create(final Authentication authentication) {
         // authentication.getPrincipal(): 인증된 사용자 정보 (CustomUser 객체)
         // CustomUser.getName()은 사용자의 DB id를 문자열로 반환 (CustomUser.java 참고)
@@ -129,14 +79,6 @@ public class TokenProvider {
                 .compact();
     }
 
-    /**
-     * createByUserId - 사용자 ID로 직접 JWT 토큰 생성
-     *
-     * 필요에 따라 사용자 ID만으로 토큰을 만들 때 사용합니다.
-     *
-     * @param userId DB에 저장된 사용자 고유 번호
-     * @return 생성된 JWT 토큰 문자열
-     */
     public String createByUserId(final Long userId) {
         Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 

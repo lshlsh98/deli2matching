@@ -19,20 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-/**
- * JwtAuthenticationFilter - JWT 토큰 검문소
- *
- * 이 필터는 모든 HTTP 요청이 들어올 때마다 실행되는 "검문소"
- *
- * 동작 방식:
- *  1. 요청 헤더에서 "Authorization: Bearer <토큰>" 형식의 토큰을 꺼냄
- *  2. 토큰이 있으면 TokenProvider로 유효성을 검증
- *  3. 유효하면 사용자 ID를 SecurityContext에 저장
- *  4. 이후 컨트롤러에서 @AuthenticationPrincipal로 사용자 ID를 꺼낼 수 있음
- *
- * OncePerRequestFilter: 같은 요청에서 이 필터가 딱 한 번만 실행되도록 보장
- */
-
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -41,14 +27,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // JWT 토큰을 만들고 검증하는 도우미 객체
     private final TokenProvider tokenProvider;
 
-    /**
-     * shouldNotFilter - 이 필터를 건너뛸 조건 정의
-     *
-     * OPTIONS 요청: 브라우저가 실제 요청 전에 "이 요청 해도 돼?" 하고 물어보는 사전 요청
-     * OPTIONS는 토큰 없이 보내므로 필터를 건너뜀
-     *
-     * @return true면 이 필터를 건너뜀, false면 필터 실행
-     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         // OPTIONS 요청(브라우저의 CORS preflight)은 필터 통과
@@ -58,16 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return false;
     }
 
-    /**
-     * doFilterInternal - 실제 필터 로직
-     *
-     * 매 요청마다 실행되며, JWT 토큰을 검사
-     * 토큰이 유효하면 사용자 인증 정보를 SecurityContextHolder에 저장합니다.
-     *
-     * @param request  클라이언트의 HTTP 요청
-     * @param response 서버의 HTTP 응답
-     * @param filterChain 다음 필터로 요청을 넘기는 체인
-     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -112,16 +80,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * parseBearerToken - Authorization 헤더에서 Bearer 토큰 추출
-     *
-     * HTTP 요청 헤더 형식:
-     *   Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOi...
-     *                  ^^^^^^^ 이 부분을 제외하고 나머지만 반환
-     *
-     * @param request HTTP 요청 객체
-     * @return 토큰 문자열, 없으면 null
-     */
     private String parseBearerToken(HttpServletRequest request) {
         // Authorization 헤더 값 가져오기
         String bearerToken = request.getHeader("Authorization");
