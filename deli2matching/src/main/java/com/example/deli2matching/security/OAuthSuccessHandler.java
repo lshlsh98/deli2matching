@@ -18,26 +18,6 @@ import java.util.Optional;
 
 import static com.example.deli2matching.security.RedirectUrlCookieFilter.REDIRECT_URI_PARAM;
 
-/**
- * OAuthSuccessHandler - 소셜 로그인 성공 처리기
- *
- * 소셜 로그인(구글, 네이버, 카카오, 깃허브)이 성공하면 이 클래스가 실행
- *
- * 역할:
- *  1. 로그인 성공 후 JWT 토큰을 생성
- *  2. 쿠키에 저장해둔 redirect_url을 읽음
- *  3. 프론트엔드로 토큰을 전달하면서 리다이렉트 함
- *
- * 최종 리다이렉트 URL 형식:
- *   http://localhost:5173/sociallogin?token=eyJhbGc...
- *   (프론트엔드 주소)/sociallogin?token=(JWT 토큰)
- *
- * 프론트엔드는 이 URL에서 token 파라미터를 꺼내 저장하고,
- * 이후 모든 API 요청 시 "Authorization: Bearer <토큰>" 헤더로 전송
- *
- * SimpleUrlAuthenticationSuccessHandler: 스프링이 제공하는 성공 핸들러 기본 클래스
- */
-
 @Slf4j
 @AllArgsConstructor
 @Component
@@ -46,22 +26,9 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     private TokenProvider tokenProvider;
 
-    /**
-     * LOCAL_REDIRECT_URL - redirect_url 쿠키가 없을 때 기본 리다이렉트 주소
-     * 개발 환경에서 프론트엔드가 localhost:5173에서 실행될 때 사용
-     */
 //    private static final String LOCAL_REDIRECT_URL = "http://localhost:5173";
     private static final String LOCAL_REDIRECT_URL = "https://d13l6nklwxfs5s.cloudfront.net";
 
-    /**
-     * onAuthenticationSuccess - 소셜 로그인 성공 시 호출되는 메서드
-     *
-     * 스프링 시큐리티가 OAuth2 인증을 완료하면 자동으로 이 메서드를 호출
-     *
-     * @param request        HTTP 요청 (쿠키에서 redirect_url 꺼내기 위해 필요)
-     * @param response       HTTP 응답 (리다이렉트를 보내기 위해 필요)
-     * @param authentication 소셜 로그인으로 인증된 사용자 정보 (CustomUser 포함)
-     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
