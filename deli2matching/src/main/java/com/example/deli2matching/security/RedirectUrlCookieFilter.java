@@ -14,11 +14,10 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class RedirectUrlCookieFilter extends OncePerRequestFilter {
+public class RedirectUrlCookieFilter extends OncePerRequestFilter { // 요청당 한 번 실행되는 커스텀 필터
 
     public static final String REDIRECT_URI_PARAM = "redirect_url";
     private static final int MAX_AGE = 180;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -49,7 +48,13 @@ public class RedirectUrlCookieFilter extends OncePerRequestFilter {
 
         // 소셜 로그인 시작 URL이 아닌 경우엔 그냥 다음 필터로 넘어감
         filterChain.doFilter(request, response);
-    }
-
+    }//
 }
+
+
+// GET/oauth2/authorization/google?redirect_url=http://localhost:5173/welcome
+// 요청이 들어오면
+
+// Set-Cookie: redirect_url=http://localhost:5173/welcome; Max-Age=180; Path=/; HttpOnly
+// 쿠키를 생성해서 응답에 추가 이 쿠키는 로그인 완료 후 OAuth2 Success Handler 에서 다시 꺼내 사용됨
 

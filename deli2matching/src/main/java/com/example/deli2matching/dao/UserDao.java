@@ -30,4 +30,6 @@ public interface UserDao {
 
     void updateMyInfo(MyInfoReqDTO req);
 
+    void insertSocial(UserEntity userEntity);
+
 }

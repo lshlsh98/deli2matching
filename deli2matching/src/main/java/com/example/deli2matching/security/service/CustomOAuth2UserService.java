@@ -5,6 +5,7 @@ import com.example.deli2matching.entity.user.UserEntity;
 import com.example.deli2matching.dao.UserDao;
 import com.example.deli2matching.security.dto.OAuthAttributes;
 import com.example.deli2matching.security.vo.CustomUser;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,11 +28,12 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
+    // OAuth2 로그인 사용자의 정보를 가져와서 CustomUser 객체로 반환하는 메서드
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 1단계: 기본 소셜 로그인 처리 (스프링 기본 제공)
@@ -48,8 +50,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        log.info("loadUser registrationId = " + registrationId);
-        log.info("loadUser userNameAttributeName = " + userNameAttributeName);
+        System.out.println("loadUser registrationId = " + registrationId);
+        System.out.println("loadUser userNameAttributeName = " + userNameAttributeName);
 
         // 2단계: 플랫폼별 데이터 구조를 OAuthAttributes로 통일
         // 각 플랫폼마다 사용자 정보의 JSON 구조가 다름
@@ -68,6 +70,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String id       = attributes.getId();      // 소셜 플랫폼 내 고유 ID
         String socialType = ""; // 소셜 타입 (나중에 id 접두사로 사용)
 
+        System.out.println("nameAttributeKey = " + nameAttributeKey);
+        System.out.println("name = " + name);
+        System.out.println("email = " + email);
+        System.out.println("picture = " + picture);
+        System.out.println("id = " + id);
+        System.out.println("socialType = " + socialType);
+
         // 3단계: 소셜 타입 결정 및 깃허브 이메일 특별 처리
         if ("naver".equals(registrationId)) {
             socialType = "naver";
@@ -75,7 +84,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             socialType = "kakao";
         } else if ("github".equals(registrationId)) {
             socialType = "github";
-
             // 깃허브 특별 처리:
             // 깃허브 사용자가 이메일을 비공개로 설정하면 기본 API에서 email이 null로 옵니다.
             // 이때 별도의 GitHub API(/user/emails)를 호출해서 이메일을 가져옵니다.
@@ -85,12 +93,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         } else {
             socialType = "google";
         }
-
-        log.info("nameAttributeKey = " + nameAttributeKey);
-        log.info("loadUser id = " + id);
-        log.info("loadUser socialType = " + socialType);
-        log.info("loadUser name = " + name);
-        log.info("loadUser email = " + email);
 
         // null 안전 처리 (이름이나 이메일이 없는 경우 빈 문자열)
         if (name == null)  name = "";
@@ -111,7 +113,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         UserEntity userEntity;
 
         if (!userDao.existsByLoginId(loginId)) {
-            // 처음 소셜 로그인하는 사용자: 자동 회원가입!
+            // 처음 소셜 로그인하는 사용자: 자동 회원가입
             userEntity = UserEntity.builder()
                     .loginId(loginId)
                     .nickname(nickname)
@@ -123,19 +125,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
             // MyBatis로 DB에 INSERT
             // useGeneratedKeys=true 설정으로 자동 생성된 userId가 userEntity.userId에 세팅됨
-            userDao.insert(userEntity);
+            userDao.insertSocial(userEntity);
         } else {
             // 이미 가입한 사용자: DB에서 기존 정보 조회
             userEntity = userDao.findByLoginId(loginId);
         }
 
-        log.info("Successfully pulled user info nickname {} provider {}", nickname, socialType);
-
         // 6단계: CustomUser 반환
         // 스프링 시큐리티의 Authentication.getPrincipal()로 접근 가능
         // OAuthSuccessHandler에서 이 객체를 사용해 JWT 토큰을 생성합니다
         return new CustomUser(userEntity.getUserId(), email, name, authorities, attributes);
-    }
+    }//
 
     private String getEmailFromGitHub(String accessToken) {
         String url = "https://api.github.com/user/emails";

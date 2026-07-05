@@ -9,6 +9,11 @@
         VALUES (#{loginId}, #{password}, #{email}, #{nickname}, #{userLocation})
     </insert>
 
+    <insert id="insertSocial" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO users (login_id, email, nickname, provider, provider_id, is_active)
+        VALUES (#{loginId}, #{email}, #{nickname}, #{provider}, #{providerId}, 0)
+    </insert>
+
     <select id="findByLoginId" resultType="userEntity">
         SELECT user_id, login_id, password, email, nickname, user_location
         FROM users
