@@ -26,8 +26,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     private TokenProvider tokenProvider;
 
-//    private static final String LOCAL_REDIRECT_URL = "http://localhost:5173";
-    private static final String LOCAL_REDIRECT_URL = "https://d13l6nklwxfs5s.cloudfront.net";
+    private static final String LOCAL_REDIRECT_URL = "http://localhost:5173";
+//    private static final String LOCAL_REDIRECT_URL = "https://d13l6nklwxfs5s.cloudfront.net";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
