@@ -24,19 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * CustomOAuth2UserService - 소셜 로그인 사용자 처리 서비스
- *
- * 소셜 로그인의 핵심 서비스
- *
- *  사용자가 구글/네이버/카카오/깃허브에서 로그인을 완료하면,
- *  스프링 시큐리티가 자동으로 이 서비스의 loadUser()를 호출
- *
- *  1. 소셜 플랫폼에서 사용자 정보(이름, 이메일 등)를 가져옴
- *  2. 플랫폼마다 다른 데이터 구조를 OAuthAttributes를 이용해서 동일하게 가져옴
- *  3. 우리 DB에 사용자가 없으면 새로 저장 (자동 회원가입)
- *  4. 우리 시스템용 CustomUser 객체를 반환
- */
+
 @Slf4j
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -44,57 +32,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     @Autowired
     private UserDao userDao;
 
-    /**
-     * loadUser - 소셜 로그인 성공 후 사용자 정보 로드 + DB 처리
-     *
-     * 스프링 시큐리티가 OAuth2 인증 완료 후 자동으로 호출
-     * 이 메서드의 반환값(CustomUser)이 Authentication 객체의 principal이 됩니다.
-     *
-     * @param userRequest 소셜 플랫폼 접근 토큰(AccessToken)과 클라이언트 등록 정보
-     * @return CustomUser: 우리 시스템용 사용자 객체
-     */
-    /*
-    1. 소셜 로그인 성공 시 Provider가 Authorization Code를 Spring Security로 전달
-    2. Spring Security는 내부적으로 이 Code를 이용해 Provider에게 AccessToken을 발급 받음
-    3. Spring Security 내부적으로 AccessToken과 Provider 정보를 담아 OAuth2UserRequest 객체를 생성
-    4. 이후 loadUser()를 호출해서 사용자 정보를 가져오며, 이 OAuth 인증 흐름 자체는 대부분 Spring Security 내부에서 자동 처리
-    */
-
-    /*
-    1. GitHub(Provider) → Spring Security: Authorization Code 전달
-    2. Spring Security: Code로 AccessToken 요청
-    3. GitHub(Provider):
-	    {
-	    "access_token": "gho_xxxxx"
-	    } 반환
-    4. Spring Security가 OAuth2UserRequest 생성
-     이 시점 객체:
-    	OAuth2UserRequest
-        ├── AccessToken
-	    ├── ClientRegistration
-	    └── Provider 정보
-    만 존재 이 시점에는 아직 용자 정보 없음
-     */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 1단계: 기본 소셜 로그인 처리 (스프링 기본 제공)
         // DefaultOAuth2UserService가 accessToken으로 소셜 플랫폼 API를 호출해서
         // 사용자 정보(attributes Map)를 가져옴
-        /*
-        5. delegate.loadUser(userRequest) 호출
-        DefaultOAuth2UserService 내부:
-            - OAuth2UserRequest에서 AccessToken 꺼냄 (userRequest.getAccessToken())
-            - Provider UserInfo API URL 확인 (https://api.github.com/user)
-            - HTTP 요청 전송 (GET /user Authorization: Bearer gho_xxxxx)
-            - GitHub가 사용자 JSON 반환
-            {
-            "id": 12345,
-            "login": "test",
-            "name": "홍길동",
-            "email": null
-            }
-            -delegate.loadUser() 호출 전에는 사용자 정보 없음 -> delegate.loadUser() 내부 API 호출 후 사용자 정보 생성
-         */
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -195,17 +137,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return new CustomUser(userEntity.getUserId(), email, name, authorities, attributes);
     }
 
-    /**
-     * getEmailFromGitHub - 깃허브 사용자의 이메일을 별도 API로 조회
-     *
-     * 깃허브는 사용자가 이메일을 비공개로 설정하면 기본 /user API에서 이메일을 주지 않음
-     * 이때 /user/emails API를 직접 호출해서 주 이메일(primary)을 가져옴
-     *
-     * API 문서: https://docs.github.com/en/rest/users/emails
-     *
-     * @param accessToken 깃허브 OAuth2 AccessToken
-     * @return 사용자의 주 이메일, 없으면 null
-     */
     private String getEmailFromGitHub(String accessToken) {
         String url = "https://api.github.com/user/emails";
 

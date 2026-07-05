@@ -22,6 +22,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    console.log(JSON.stringify(member));
     axiosInstance
       .post("/auth/signin", member)
       .then((response) => {

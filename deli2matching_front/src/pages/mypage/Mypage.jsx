@@ -24,6 +24,7 @@ const Mypage = ({}) => {
     });
   }
 
+  console.log(userId);
   return (
     userId && (
       <section className={styles.mypage_wrap}>
