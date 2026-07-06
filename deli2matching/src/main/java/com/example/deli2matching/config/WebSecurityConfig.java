@@ -1,9 +1,10 @@
 package com.example.deli2matching.config;
 
-
 import com.example.deli2matching.security.JwtAuthenticationFilter;
 import com.example.deli2matching.security.OAuthSuccessHandler;
 import com.example.deli2matching.security.RedirectUrlCookieFilter;
+import com.example.deli2matching.security.service.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,30 +21,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-// @EnableWebSecurity: 스프링 시큐리티(보안 기능)를 켜
-@EnableWebSecurity
+@EnableWebSecurity // Spring Security 활성화
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
     // JWT 토큰을 검사하는 필터 (매 요청마다 토큰 유효성 확인)
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     // 소셜 로그인 성공 후 처리를 담당하는 핸들러
     private final OAuthSuccessHandler oAuthSuccessHandler;
-
     // 소셜 로그인 전에 "돌아갈 주소(redirect_url)"를 쿠키에 저장하는 필터
     private final RedirectUrlCookieFilter redirectUrlFilter;
 
-    public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                             OAuthSuccessHandler oAuthSuccessHandler,
-                             RedirectUrlCookieFilter redirectUrlFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.oAuthSuccessHandler = oAuthSuccessHandler;
-        this.redirectUrlFilter = redirectUrlFilter;
-    }
-
     @Bean
     // @Bean: 스프링이 이 메서드의 반환값을 관리하도록 등록
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
                 // CORS 설정 적용 (아래 corsConfigurationSource() 메서드에서 정의)
                 .cors(cors -> {})
@@ -71,7 +62,10 @@ public class WebSecurityConfig {
 
                 // OAuth2 소셜 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(oAuthSuccessHandler)
+                        .userInfoEndpoint(userInfo -> userInfo.
+                                userService(customOAuth2UserService) // OAuth2 사용자 정보 로딩
+                        )
+                        .successHandler(oAuthSuccessHandler) // 로그인 성공 시 커스텀 핸들러 실행
                 )
 
                 // 인증 실패 시 처리
@@ -85,7 +79,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(redirectUrlFilter, OAuth2AuthorizationRequestRedirectFilter.class);
 
         return http.build(); // 설정 완료 보안 필터 체인 생성
-    }
+    }//
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
