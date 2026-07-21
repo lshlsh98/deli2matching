@@ -11,7 +11,7 @@
 
     <insert id="insertSocial" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO users (login_id, email, nickname, provider, provider_id, is_active)
-        VALUES (#{loginId}, #{email}, #{nickname}, #{provider}, #{providerId}, 0)
+        VALUES (#{loginId}, #{email}, #{nickname}, #{provider}, #{providerId}, 1)
     </insert>
 
     <select id="findByLoginId" resultType="userEntity">

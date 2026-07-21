@@ -50,9 +50,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        System.out.println("loadUser registrationId = " + registrationId);
-        System.out.println("loadUser userNameAttributeName = " + userNameAttributeName);
-
         // 2단계: 플랫폼별 데이터 구조를 OAuthAttributes로 통일
         // 각 플랫폼마다 사용자 정보의 JSON 구조가 다름
         // OAuthAttributes.of()가 플랫폼을 판별하고 통일된 형태로 변환
@@ -69,13 +66,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String picture  = attributes.getPicture(); // 프로필 사진 URL
         String id       = attributes.getId();      // 소셜 플랫폼 내 고유 ID
         String socialType = ""; // 소셜 타입 (나중에 id 접두사로 사용)
-
-        System.out.println("nameAttributeKey = " + nameAttributeKey);
-        System.out.println("name = " + name);
-        System.out.println("email = " + email);
-        System.out.println("picture = " + picture);
-        System.out.println("id = " + id);
-        System.out.println("socialType = " + socialType);
 
         // 3단계: 소셜 타입 결정 및 깃허브 이메일 특별 처리
         if ("naver".equals(registrationId)) {
@@ -125,6 +115,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
             // MyBatis로 DB에 INSERT
             // useGeneratedKeys=true 설정으로 자동 생성된 userId가 userEntity.userId에 세팅됨
+            log.info("userEntity: {}", userEntity);
             userDao.insertSocial(userEntity);
         } else {
             // 이미 가입한 사용자: DB에서 기존 정보 조회
