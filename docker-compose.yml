@@ -1,22 +1,40 @@
+# 이 파일은 "여러 개의 상자(컨테이너)를 한꺼번에 어떻게 켤지" 알려주는 조립 설계도예요.
+# 우리는 상자가 두 개 필요해요.
+#   1) backend  : 자바(스프링 부트) 서버 상자
+#   2) frontend : 화면(React)을 보여주는 nginx 상자
+# docker compose는 이 설계도를 보고 두 상자를 만들고, 서로 대화할 수 있게 연결해줘요.
+#
+# 참고: 데이터베이스(RDS)는 상자가 아니에요! AWS가 따로 관리해주는 "진짜 DB 컴퓨터"를
+# 인터넷 너머에서 그냥 주소로 접속하는 거라서, 여기 설계도에는 등장하지 않아요.
+# CloudFront(빠른 배달 서비스)도 마찬가지로 AWS가 따로 관리해요.
+
 services:
+  # ===== 1) 백엔드(서버) 상자 =====
   backend:
     build:
+      # ./deli2matching 폴더 안의 Dockerfile로 이 상자를 만들어요.
       context: ./deli2matching
       dockerfile: Dockerfile
     container_name: deli2matching-backend
-    ports:
-      - "8080:8080"
+    # 상자가 갑자기 꺼지면(예: 에러로 죽으면) 자동으로 다시 켜줘요.
+    restart: unless-stopped
+    # expose는 "같은 동네(네트워크) 안에 있는 다른 상자한테만 8080번 문을 열어준다"는 뜻이에요.
+    # ports처럼 인터넷(바깥 세상)에는 직접 열어주지 않아요. 더 안전해요!
+    expose:
+      - "8080"
+    # environment는 서버 상자 안에 "쪽지"로 몰래 전달해주는 값들이에요.
+    # 비밀번호나 열쇠(secret) 같은 건 코드에 직접 쓰지 않고 이렇게 밖에서 넣어줘요.
     environment:
-      # DB (RDS)
+      # DB(RDS) 접속 정보. ${RDS_HOST}처럼 생긴 건 ".env" 파일에서 값을 가져온다는 뜻이에요.
       SPRING_DATASOURCE_URL: jdbc:mysql://${RDS_HOST}:3306/gachi_delivery?serverTimezone=Asia/Seoul&useSSL=false
       db-username: ${DB_USERNAME}
       db-password: ${DB_PASSWORD}
-      # JWT
+      # 로그인할 때 신분증(토큰)을 만들고 확인하는 데 쓰는 비밀 열쇠
       jwt.secret-key: ${JWT_SECRET_KEY}
-      # Email
+      # 이메일 인증 보낼 때 쓰는 구글 메일 계정 정보
       SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
       SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
-      # OAuth2
+      # 구글/네이버/카카오/깃허브로 로그인할 때 필요한 각 서비스의 앱 열쇠들
       google.client-id: ${GOOGLE_CLIENT_ID}
       google.client-secret: ${GOOGLE_CLIENT_SECRET}
       naver.client-id: ${NAVER_CLIENT_ID}
@@ -25,26 +43,49 @@ services:
       kakao.client-secret: ${KAKAO_CLIENT_SECRET}
       github.client-id: ${GITHUB_CLIENT_ID}
       github.client-secret: ${GITHUB_CLIENT_SECRET}
-    restart: unless-stopped
+    # healthcheck는 "이 상자 아직 잘 살아있어?" 를 docker가 스스로 자꾸 확인해보는 거예요.
+    # 8080번 문을 두드려보고(nc -z), 반응이 없으면 "이 상자 아픈가봐" 하고 표시해줘요.
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8080 || exit 1"]
+      interval: 30s   # 30초마다 한 번씩 확인
+      timeout: 5s      # 5초 안에 대답 없으면 실패로 쳐요
+      retries: 5       # 5번 연속 실패하면 진짜 "아픔" 판정
+      start_period: 40s # 처음 켜질 땐 준비 시간이 필요하니까 40초는 봐줘요
+    # backend와 frontend가 서로 이야기할 수 있도록 같은 동네(네트워크)에 넣어줘요.
     networks:
       - app-network
 
+  # ===== 2) 프론트엔드(화면) 상자 =====
   frontend:
     build:
       context: ./deli2matching_front
       dockerfile: Dockerfile
+      # 화면을 만들 때(빌드할 때) "우리 서버 주소가 여기야!" 라고 미리 알려주는 값이에요.
+      # CloudFront 주소가 바뀌면 이 값도 바꾸고 다시 빌드해야 해요.
       args:
-        # CloudFront 도메인 또는 EC2 퍼블릭 IP
         VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     container_name: deli2matching-frontend
+    restart: unless-stopped
+    # 이 상자는 진짜 손님(인터넷)을 직접 맞이해야 하니까,
+    # EC2 컴퓨터의 80번 문을 이 상자의 80번 문과 연결해줘요.
     ports:
       - "80:80"
+    # backend가 "건강해요(healthy)"라고 확인될 때까지 기다렸다가 frontend를 켜요.
+    # (서버가 준비도 안 됐는데 화면부터 열리면 손님이 에러를 볼 수도 있으니까요)
     depends_on:
-      - backend
-    restart: unless-stopped
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
       - app-network
 
+# 두 상자가 서로를 이름("backend", "frontend")만으로 찾아서 대화할 수 있게 해주는
+# "우리끼리만 쓰는 작은 동네 통신망"을 하나 만들어요.
 networks:
   app-network:
     driver: bridge
