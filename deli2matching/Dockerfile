@@ -37,7 +37,7 @@ RUN ./gradlew bootJar --no-daemon -x test
 # 이번엔 만들기 도구는 필요 없고, 실행만 할 수 있는 더 가벼운 재료 사용 (jre = 실행 전용)
 # 새로운 이미지의 새로운 단계가 시작 -> 이전 builder 단계 여기서 종료 -> 새 runtime 단계 시작
 FROM eclipse-temurin:17-jre-alpine
-# jdk -> java 실행 + 컴파일
+# jdk -> java 실행 + 컴파일 가능
 # jre -> java 실행 가능, 컴파일 불가능
 
 # tzdata는 시간대(한국 시간) 정보 서버 시간이 한국 시간으로 맞게 나오도록 설치
@@ -48,7 +48,7 @@ RUN apk add --no-cache tzdata \
     # spring 이라는 시스템용(-S) 그룹 생성, spring 이라는 시스템용(-S) 유저를 생성하고 방금 만든 spring 그룹에 넣어라
 ENV TZ=Asia/Seoul
 
-# 1단계 /app과는 전혀 다른 /app
+# 1 단계 /app과는 전혀 다른 /app
 WORKDIR /app
 
 # 1단계(builder 컨테이너)에서 완성한 jar 파일을 app.jar 이름으로 가지고옴
@@ -61,16 +61,21 @@ RUN chown spring:spring app.jar
 # 이제부터는 root가 아니라 spring 사용자로 실행
 USER spring
 
-# 이 컨테이너는 8080 포트를 사용하는 애플리케이션이라고 문서처럼 알려주는 역할
+# 이 컨테이너는 8080 포트를 사용하는 애플리케이션(spring boot 서버가 8080 포트를 사용함)이라고 문서처럼 알려주는 역할
 EXPOSE 8080
 
 # 서버 컴퓨터(EC2)가 메모리가 작을 수도 있으니까, 네가 쓸 수 있는 메모리의 75%까지만 써도 돼 라고 자바한테 알려주는 설정
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0"
 
-# HEALTHCHECK는 "이 상자 안의 프로그램이 아직 잘 살아있는지" 자동으로 확인해주는 기능이에요.
-# 30초마다 한 번씩, 8080번 문이 열려 있는지 노크(nc -z)해봐요. 대답이 없으면 "고장났다"고 표시돼요.
-HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=5 \
+# HEALTHCHECK는 이 상자 안의 프로그램이 아직 잘 살아있는지 자동으로 확인해주는 기능
+# 30초마다 한 번씩 8080번 문이 열려 있는지 노크(nc -z), 대답이 없으면 고장났다고 표시
+HEALTHCHECK \
+    --interval=30s \
+    --timeout=5s \
+    --start-period=40s \
+    --retries=5 \
     CMD nc -z localhost 8080 || exit 1
 
-# 상자가 켜질 때 실제로 실행할 명령어예요. "위에서 정한 옵션으로 app.jar를 실행해라!"
+# 컨테이너가 시작되면 실제로 실행할 명령어 (위에서 정한 옵션으로 app.jar를 실행해라)
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# sh -c 를 사용하는 이유는 환경 변수를 사용할 수 있게 하기 위해서
