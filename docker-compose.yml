@@ -1,25 +1,30 @@
-# 이 파일은 "여러 개의 상자(컨테이너)를 한꺼번에 어떻게 켤지" 알려주는 조립 설계도예요.
+# 이 파일은 여러 개의 컨테이너를 한꺼번에 어떻게 켤지 알려주는 조립 설계도
 # 우리는 상자가 두 개 필요해요.
 #   1) backend  : 자바(스프링 부트) 서버 상자
 #   2) frontend : 화면(React)을 보여주는 nginx 상자
 # docker compose는 이 설계도를 보고 두 상자를 만들고, 서로 대화할 수 있게 연결해줘요.
 #
-# 참고: 데이터베이스(RDS)는 상자가 아니에요! AWS가 따로 관리해주는 "진짜 DB 컴퓨터"를
-# 인터넷 너머에서 그냥 주소로 접속하는 거라서, 여기 설계도에는 등장하지 않아요.
-# CloudFront(빠른 배달 서비스)도 마찬가지로 AWS가 따로 관리해요.
+# 참고: 데이터베이스(RDS)는 상자가 아님! AWS가 따로 관리해주는 진짜 DB 컴퓨터를
+# 인터넷 너머에서 그냥 주소로 접속하는 거라서, 여기 설계도에는 등장하지 않음
+# CloudFront도 마찬가지로 AWS가 따로 관리
 
+# services: -> 이 아래에는 실행할 컨테이너 목록이 있음을 의미
 services:
   # ===== 1) 백엔드(서버) 상자 =====
+  # backend: -> 컨테이너의 이름(서비스 이름)을 지정
+  # 여기서 중요한 것은 backend는 Docker Network 안에서 호스트 이름(hostname) 역할도 한다
+  # Nginx에서 proxy_pass http://backend:8080; 라고 쓰면 backend가 바로 이 서비스를 의미
   backend:
     build:
-      # ./deli2matching 폴더 안의 Dockerfile로 이 상자를 만들어요.
+      # ./deli2matching 폴더 안의 Dockerfile로 컨테이너를 만듦
       context: ./deli2matching
       dockerfile: Dockerfile
+    # 컨테이너 이름을 사람이 보기 쉽게 지정 없으면 Docker가 이름을 자동으로 생성
     container_name: deli2matching-backend
-    # 상자가 갑자기 꺼지면(예: 에러로 죽으면) 자동으로 다시 켜줘요.
+    # 상자가 갑자기 꺼지면(예: 에러로 죽으면) 자동으로 다시 켜줌
     restart: unless-stopped
-    # expose는 "같은 동네(네트워크) 안에 있는 다른 상자한테만 8080번 문을 열어준다"는 뜻이에요.
-    # ports처럼 인터넷(바깥 세상)에는 직접 열어주지 않아요. 더 안전해요!
+    # expose는 같은 동네(네트워크) 안에 있는 다른 상자한테만 8080번 문을 열어준다는 뜻이에요.
+    # ports처럼 인터넷(바깥 세상)에는 직접 열어주지 않아요. 더 안전
     expose:
       - "8080"
     # environment는 서버 상자 안에 "쪽지"로 몰래 전달해주는 값들이에요.
@@ -47,9 +52,9 @@ services:
     # 8080번 문을 두드려보고(nc -z), 반응이 없으면 "이 상자 아픈가봐" 하고 표시해줘요.
     healthcheck:
       test: ["CMD-SHELL", "nc -z localhost 8080 || exit 1"]
-      interval: 30s   # 30초마다 한 번씩 확인
-      timeout: 5s      # 5초 안에 대답 없으면 실패로 쳐요
-      retries: 5       # 5번 연속 실패하면 진짜 "아픔" 판정
+      interval: 30s # 30초마다 한 번씩 확인
+      timeout: 5s # 5초 안에 대답 없으면 실패로 쳐요
+      retries: 5 # 5번 연속 실패하면 진짜 "아픔" 판정
       start_period: 40s # 처음 켜질 땐 준비 시간이 필요하니까 40초는 봐줘요
     # backend와 frontend가 서로 이야기할 수 있도록 같은 동네(네트워크)에 넣어줘요.
     networks:
