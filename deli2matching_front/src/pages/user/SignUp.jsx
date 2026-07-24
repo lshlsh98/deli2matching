@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import styles from "./SignUp.module.css";
 import Swal from "sweetalert2";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -344,19 +345,15 @@ const SignUp = () => {
                 onBlur={pwDupCheck}
               />
               {pwVisible ? (
-                <span
-                  className={`material-icons ${styles.pw_icon}`}
+                <FiEyeOff
+                  className={styles.pw_icon}
                   onClick={() => setPwVisible(false)}
-                >
-                  visibility_off
-                </span>
+                />
               ) : (
-                <span
-                  className={`material-icons ${styles.pw_icon}`}
+                <FiEye
+                  className={styles.pw_icon}
                   onClick={() => setPwVisible(true)}
-                >
-                  visibility
-                </span>
+                />
               )}
             </div>
             {checkPw === 3 && (
@@ -382,19 +379,15 @@ const SignUp = () => {
                 onBlur={pwDupCheck}
               />
               {pwReVisible ? (
-                <span
-                  className={`material-icons ${styles.pw_icon}`}
+                <FiEyeOff
+                  className={styles.pw_icon}
                   onClick={() => setPwReVisible(false)}
-                >
-                  visibility_off
-                </span>
+                />
               ) : (
-                <span
-                  className={`material-icons ${styles.pw_icon}`}
+                <FiEye
+                  className={styles.pw_icon}
                   onClick={() => setPwReVisible(true)}
-                >
-                  visibility
-                </span>
+                />
               )}
             </div>
             {(checkPw === 1 || checkPw === 2) && (

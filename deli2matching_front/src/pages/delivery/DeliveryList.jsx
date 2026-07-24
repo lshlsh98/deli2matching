@@ -71,6 +71,9 @@ const DeliveryList = () => {
             />
             <span
               className={`material-symbols-outlined ${styles.list_header_search_icon}`}
+              onClick={() => {
+                setKeyword(searchKeyword);
+              }}
             >
               search
             </span>

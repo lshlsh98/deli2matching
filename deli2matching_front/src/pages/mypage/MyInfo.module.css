@@ -17,9 +17,9 @@
 
 .card {
   background-color: var(--gray8);
-  border: 1px solid var(--gray7);
+  border: 1px solid var(--gray6);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-elevated);
   padding: 36px 40px;
   width: 100%;
   max-width: 520px;
@@ -50,7 +50,7 @@
   flex: 1;
   padding: 9px 12px;
   border: 1.5px solid var(--gray6);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-family: inherit;
   color: var(--gray1);
@@ -85,7 +85,7 @@
   flex-shrink: 0;
   padding: 9px 14px;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background-color: var(--sub3);
   color: var(--gray8);
   font-size: 12px;
@@ -105,7 +105,7 @@
   margin: 8px auto 0;
   padding: 11px 28px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background-color: var(--sub3);
   color: var(--gray8);
   font-size: 14px;

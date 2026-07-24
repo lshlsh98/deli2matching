@@ -7,9 +7,9 @@
 
 .card {
   background-color: var(--gray8);
-  border: 1px solid var(--gray7);
+  border: 1px solid var(--gray6);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-elevated);
   padding: 40px;
   width: 100%;
   max-width: 600px;
@@ -48,7 +48,7 @@
   gap: 10px;
   padding: 0 14px;
   border: 1.5px solid var(--gray6);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background-color: var(--gray7);
   transition:
     border-color 0.2s,
@@ -112,7 +112,7 @@
 .testAccount {
   background-color: var(--gray7);
   border: 1px dashed var(--gray5);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   padding: 12px 16px;
   display: flex;
   flex-direction: column;
@@ -141,7 +141,7 @@
   color: var(--gray8);
   background-color: var(--primary);
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: 2px;
   flex-shrink: 0;
 }
 
@@ -229,7 +229,7 @@
 @media (max-width: 640px) {
   .card {
     padding: 28px 24px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
   }
 
   .title {

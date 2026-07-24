@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import useAuthStore from "../../utils/useAuthStore";
 import styles from "./Header.module.css";
 import logo from "../../assets/logo/gachi_logo.png";
-import { FiBell, FiMail, FiUser, FiSettings } from "react-icons/fi";
 import axiosInstance from "../../utils/axios";
 
 function Header() {
@@ -49,7 +48,7 @@ function Header() {
             <div className={styles.userMenu}>
               <Link to="/mypage/myinfo">
                 <button aria-label="마이 페이지" className={styles.iconBtn}>
-                  <FiUser />
+                  My Page
                 </button>
               </Link>
 
