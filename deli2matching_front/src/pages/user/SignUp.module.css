@@ -123,7 +123,7 @@
   padding: 0 16px;
   border: none;
   border-radius: var(--radius-sm);
-  background: var(--gradient-brand);
+  background: var(--primary);
   color: var(--gray8);
   font-size: 13px;
   font-weight: 700;
@@ -221,7 +221,7 @@
   height: 52px;
   border: none;
   border-radius: var(--radius-md);
-  background: var(--gradient-brand);
+  background: var(--primary);
   color: var(--gray8);
   font-size: 17px;
   font-weight: 700;

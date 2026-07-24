@@ -90,7 +90,7 @@
 }
 
 .chat_btn > button:hover {
-  background: var(--gradient-brand);
+  background: var(--primary);
   color: var(--gray8);
   transform: translateY(-1px);
   box-shadow: 0 5px 10px rgba(var(--primary-rgb), 0.25);

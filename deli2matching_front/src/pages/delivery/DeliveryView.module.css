@@ -229,7 +229,7 @@
 }
 
 .btn_join {
-  background: var(--gradient-brand);
+  background: var(--primary);
   color: var(--gray8);
   box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.28);
 }
@@ -269,7 +269,7 @@
 }
 
 .btn_complete {
-  background: var(--gradient-brand);
+  background: var(--primary);
   color: var(--gray8);
   box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.28);
 }
