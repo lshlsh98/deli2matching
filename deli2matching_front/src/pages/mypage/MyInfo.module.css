@@ -16,7 +16,7 @@
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: var(--gray8);
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
   padding: 36px 40px;
@@ -53,7 +53,7 @@
   font-size: 14px;
   font-family: inherit;
   color: var(--gray1);
-  background-color: #ffffff;
+  background-color: var(--gray8);
   outline: none;
   transition: border-color 0.2s;
 }
@@ -85,7 +85,7 @@
   border: none;
   border-radius: 6px;
   background-color: var(--sub3);
-  color: #ffffff;
+  color: var(--gray8);
   font-size: 12px;
   font-weight: 600;
   font-family: inherit;
@@ -105,7 +105,7 @@
   border: none;
   border-radius: 8px;
   background-color: var(--sub3);
-  color: #ffffff;
+  color: var(--gray8);
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
@@ -155,4 +155,27 @@
   font-weight: 600;
   color: #e53935;
   pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px 16px 48px;
+  }
+
+  .card {
+    padding: 28px 22px;
+  }
+
+  .field_row {
+    flex-wrap: wrap;
+  }
+
+  .label {
+    width: 100%;
+    text-align: left;
+  }
+
+  .validation_msg {
+    padding-left: 0;
+  }
 }

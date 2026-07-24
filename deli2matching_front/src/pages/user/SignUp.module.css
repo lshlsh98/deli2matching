@@ -3,11 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 0 100px 0;
+  padding: 60px 20px 100px;
 }
 
 .join_card {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   background-color: var(--gray8);
   border-radius: 20px;
   padding: 60px 52px 52px 52px;
@@ -257,4 +258,28 @@
 .login_link_wrap a:hover {
   color: var(--sub1);
   text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .join_section {
+    padding: 36px 16px 60px;
+  }
+
+  .join_card {
+    padding: 36px 28px 32px;
+    border-radius: 16px;
+  }
+
+  .page_title {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+
+  .input_row {
+    flex-wrap: wrap;
+  }
+
+  .action_btn {
+    width: 100%;
+  }
 }

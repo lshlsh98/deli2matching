@@ -6,11 +6,12 @@
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: var(--gray8);
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   padding: 40px;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .title {
@@ -54,7 +55,7 @@
 
 .inputWrapper:focus-within {
   border-color: var(--primary);
-  background-color: #ffffff;
+  background-color: var(--gray8);
 }
 
 .inputIcon {
@@ -86,16 +87,22 @@
   border: none;
   border-radius: 8px;
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--gray8);
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
 }
 
 .loginBtn:hover {
   background-color: var(--sub1);
+}
+
+.loginBtn:active {
+  transform: scale(0.98);
 }
 
 .testAccount {
@@ -190,7 +197,7 @@
   padding: 12px;
   border: 1.5px solid var(--sub2);
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--gray8);
   color: var(--gray2);
   font-size: 14px;
   font-weight: 500;
@@ -211,4 +218,26 @@
   height: 18px;
   object-fit: contain;
   flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 28px 24px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .page {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 24px 18px;
+  }
 }

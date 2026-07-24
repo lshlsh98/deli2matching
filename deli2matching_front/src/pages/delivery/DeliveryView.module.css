@@ -7,10 +7,11 @@
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: var(--gray8);
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   overflow: hidden;
   height: fit-content;
 }
@@ -214,17 +215,9 @@
     transform 0.1s;
 }
 
-.btn_join,
-.btn_leave,
-.btn_delete,
-.btn_close,
-.btn_complete {
-  active: transform scale(0.98);
-}
-
 .btn_join {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .btn_join:hover {
@@ -233,7 +226,7 @@
 
 .btn_leave {
   background-color: var(--sub2);
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .btn_leave:hover {
@@ -241,19 +234,19 @@
 }
 
 .btn_delete {
-  background-color: #ffffff;
+  background-color: var(--gray8);
   color: #e53935;
   border: 1.5px solid #e53935;
 }
 
 .btn_delete:hover {
   background-color: #e53935;
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .btn_close {
   background-color: var(--sub3);
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .btn_close:hover {
@@ -262,7 +255,7 @@
 
 .btn_complete {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .btn_complete:hover {
@@ -283,7 +276,7 @@
   padding: 15px;
   border: 1.5px solid var(--sub2);
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--gray8);
   color: var(--gray3);
   font-size: 16px;
   font-weight: 600;
@@ -297,11 +290,36 @@
 
 .btn_withdraw:hover {
   background-color: var(--sub2);
-  color: #ffffff;
+  color: var(--gray8);
 }
 
 .action_area_double .btn_delete,
 .action_area_double .btn_close {
   padding: 12px 10px;
   font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 14px;
+  }
+
+  .status_row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .deadline_info {
+    align-items: flex-start;
+  }
+
+  .member_current {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 420px) {
+  .action_area {
+    flex-direction: column;
+  }
 }

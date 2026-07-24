@@ -1,26 +1,32 @@
 .mypage_wrap {
-  width: 1200px;
-  height: 600px;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 600px;
   margin: 50px auto;
   display: flex;
   gap: 20px;
+  padding: 0 20px;
 }
 
 .mypage_aside {
+  flex-shrink: 0;
   width: 180px;
-  height: 600px;
+  height: fit-content;
   padding: 24px 10px;
   background-color: var(--gray8);
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--gray6);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .mypage_content {
-  width: 1000px;
+  flex: 1;
+  min-width: 0;
   padding: 32px;
   background-color: var(--gray8);
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--gray6);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .side_menu {
@@ -37,4 +43,27 @@
 
 .admin_line {
   border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .mypage_wrap {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+
+  .mypage_aside {
+    width: 100%;
+  }
+
+  .side_menu {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 16px;
+  }
+
+  .mypage_content {
+    padding: 22px;
+  }
 }

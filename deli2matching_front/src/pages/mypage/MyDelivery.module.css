@@ -10,7 +10,7 @@
 
 .card {
   width: 80%;
-  background-color: #ffffff;
+  background-color: var(--gray8);
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 28px 24px 24px;
@@ -88,4 +88,11 @@
   border-radius: 999px;
   background-color: var(--primary);
   transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    padding: 22px 18px 18px;
+  }
 }

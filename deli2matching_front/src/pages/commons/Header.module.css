@@ -22,11 +22,12 @@
 .container {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  height: 70px;
+  min-height: 70px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -137,4 +138,48 @@
 
 .iconBtn:hover {
   opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .container {
+    height: auto;
+    padding: 12px 16px;
+  }
+
+  .centerMenu {
+    position: static;
+    transform: none;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo .logoImg {
+    width: 110px;
+  }
+
+  .logo .logoText {
+    font-size: 22px;
+    padding-top: 4px;
+  }
+
+  .centerMenu {
+    gap: 16px;
+  }
+
+  .centerMenu button {
+    font-size: 14px;
+  }
+
+  .authMenu {
+    gap: 10px;
+  }
+
+  .userMenu {
+    gap: 12px;
+  }
 }

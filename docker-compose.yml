@@ -23,14 +23,14 @@ services:
     container_name: deli2matching-backend
     # 상자가 갑자기 꺼지면(예: 에러로 죽으면) 자동으로 다시 켜줌
     restart: unless-stopped
-    # expose는 같은 동네(네트워크) 안에 있는 다른 상자한테만 8080번 문을 열어준다는 뜻이에요.
+    # expose는 같은 동네(네트워크) 안에 있는 다른 상자한테만 8080번 문을 열어준다는 뜻
     # ports처럼 인터넷(바깥 세상)에는 직접 열어주지 않아요. 더 안전
     expose:
       - "8080"
-    # environment는 서버 상자 안에 "쪽지"로 몰래 전달해주는 값들이에요.
-    # 비밀번호나 열쇠(secret) 같은 건 코드에 직접 쓰지 않고 이렇게 밖에서 넣어줘요.
+    # environment는 서버 상자 안에 쪽지로 몰래 전달해주는 값들
+    # 비밀번호나 열쇠(secret) 같은 건 코드에 직접 쓰지 않고 이렇게 밖에서 넣어줌
     environment:
-      # DB(RDS) 접속 정보. ${RDS_HOST}처럼 생긴 건 ".env" 파일에서 값을 가져온다는 뜻이에요.
+      # DB(RDS) 접속 정보. ${RDS_HOST}처럼 생긴 건 .env 파일에서 값을 가져온다는 뜻
       SPRING_DATASOURCE_URL: jdbc:mysql://${RDS_HOST}:3306/gachi_delivery?serverTimezone=Asia/Seoul&useSSL=false
       db-username: ${DB_USERNAME}
       db-password: ${DB_PASSWORD}
@@ -48,15 +48,17 @@ services:
       kakao.client-secret: ${KAKAO_CLIENT_SECRET}
       github.client-id: ${GITHUB_CLIENT_ID}
       github.client-secret: ${GITHUB_CLIENT_SECRET}
-    # healthcheck는 "이 상자 아직 잘 살아있어?" 를 docker가 스스로 자꾸 확인해보는 거예요.
-    # 8080번 문을 두드려보고(nc -z), 반응이 없으면 "이 상자 아픈가봐" 하고 표시해줘요.
+    # healthcheck는 이 상자 아직 잘 살아있어? 를 docker가 스스로 자꾸 확인해보는 것
+    # 8080번 문을 두드려보고(nc -z), 반응이 없으면 이 상자 아픈가봐 하고 표시
     healthcheck:
+      # 8080 포트가 열려 있는지 확인
+      # localhost는 내 PC가 아니라 컨테이너 자기 자신
       test: ["CMD-SHELL", "nc -z localhost 8080 || exit 1"]
       interval: 30s # 30초마다 한 번씩 확인
-      timeout: 5s # 5초 안에 대답 없으면 실패로 쳐요
-      retries: 5 # 5번 연속 실패하면 진짜 "아픔" 판정
-      start_period: 40s # 처음 켜질 땐 준비 시간이 필요하니까 40초는 봐줘요
-    # backend와 frontend가 서로 이야기할 수 있도록 같은 동네(네트워크)에 넣어줘요.
+      timeout: 5s # 5초 안에 대답 없으면 실패
+      retries: 5 # 5번 연속 실패하면 진짜 아픔 판정
+      start_period: 40s # 처음 켜질 땐 준비 시간이 필요하니까 40초는 봐줌
+    # backend와 frontend가 서로 이야기할 수 있도록 같은 동네(네트워크)에 넣음
     networks:
       - app-network
 

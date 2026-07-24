@@ -56,13 +56,20 @@ ol {
 
 .main {
   flex-grow: 1;
+  width: 100%;
   margin: 50px auto;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin: 28px auto;
+  }
 }
 
 /* 실무에서는 보통 필요한 곳만 적용
 .no-select {
   user-select: none;
-} 
+}
 
 오히려 전체 적용하면 문제 생김
 * {

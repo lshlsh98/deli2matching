@@ -2,13 +2,17 @@
   min-height: 100vh;
   background-color: var(--bg);
   padding: 40px 60px;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .list_header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-bottom: 32px;
 }
 
@@ -108,7 +112,7 @@
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: var(--gray8);
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 28px 24px 24px;
@@ -116,6 +120,15 @@
   flex-direction: column;
   gap: 12px;
   min-height: 180px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .card_name {
@@ -201,11 +214,11 @@
 }
 
 .regist_btn button {
-  padding: 10px;
+  padding: 10px 16px;
   border: none;
   border-radius: 10px;
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--gray8);
   font-size: 13px;
   font-weight: 600;
   font-family: inherit;
@@ -216,4 +229,43 @@
 
 .regist_btn button:hover {
   background-color: var(--sub1);
+}
+
+@media (max-width: 1024px) {
+  .list_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .list_page {
+    padding: 28px 20px;
+  }
+
+  .delivery_list_header_title {
+    font-size: 22px;
+  }
+
+  .list_header_search_input {
+    width: 160px;
+  }
+}
+
+@media (max-width: 560px) {
+  .list_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .list_header {
+    align-items: flex-start;
+  }
+
+  .list_header_right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .list_header_search_input {
+    width: 100%;
+  }
 }
