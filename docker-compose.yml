@@ -50,6 +50,7 @@ services:
       github.client-secret: ${GITHUB_CLIENT_SECRET}
     # healthcheck는 이 상자 아직 잘 살아있어? 를 docker가 스스로 자꾸 확인해보는 것
     # 8080번 문을 두드려보고(nc -z), 반응이 없으면 이 상자 아픈가봐 하고 표시
+    # Netcat(nc) 이란 네트워크 연결을 테스트하는 아주 작은 프로그램이다
     healthcheck:
       # 8080 포트가 열려 있는지 확인
       # localhost는 내 PC가 아니라 컨테이너 자기 자신
@@ -59,30 +60,41 @@ services:
       retries: 5 # 5번 연속 실패하면 진짜 아픔 판정
       start_period: 40s # 처음 켜질 땐 준비 시간이 필요하니까 40초는 봐줌
     # backend와 frontend가 서로 이야기할 수 있도록 같은 동네(네트워크)에 넣음
+    # 컨테이너는 기본적으로 서로 모름
     networks:
       - app-network
 
   # ===== 2) 프론트엔드(화면) 상자 =====
   frontend:
     build:
+      # ./deli2matching_front 폴더 안의 Dockerfile로 컨테이너를 만듦
       context: ./deli2matching_front
       dockerfile: Dockerfile
-      # 화면을 만들 때(빌드할 때) "우리 서버 주소가 여기야!" 라고 미리 알려주는 값이에요.
-      # CloudFront 주소가 바뀌면 이 값도 바꾸고 다시 빌드해야 해요.
+      # 화면을 만들 때(빌드할 때) 우리 서버 주소가 여기야! 라고 미리 알려주는 값이에요.
+      # CloudFront 주소가 바뀌면 이 값도 바꾸고 다시 빌드
+
+      # backend의 environment는 Spring Boot가 실행하면서 읽음
+      # args는 React가 빌드하면서 읽음
+      # React(Vite)는 브라우저에서 실행되는 정적 파일을 만드는 도구이다. 브라우저는 Docker의 환경 변수를 읽을 수 없으므로, 빌드할 때 필요한 값(API 주소 등)을 미리 JavaScript 파일에 포함해야 한다. 그래서 build.args를 사용해 VITE_API_BASE_URL을 전달하고, npm run build 과정에서 최종 JS 파일에 반영한다
+      # args -> 이미지를 빌드하는 시점에서 사용
+      # environment -> 컨테이너를 실행하는 시점에서 사용
+      # React는 실행되는 프로그램이 없음 남는 것은 정적 파일뿐 -> 빌드할 때 API 주소를 JS 안에 넣어야 함
+      # Spring Boot는 프로그램이 계속 살아 있음 DB 비밀번호는 실행 중에도 필요 -> environment를 사용
       args:
         VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     container_name: deli2matching-frontend
     restart: unless-stopped
-    # 이 상자는 진짜 손님(인터넷)을 직접 맞이해야 하니까,
-    # EC2 컴퓨터의 80번 문을 이 상자의 80번 문과 연결해줘요.
+    # 이 상자는 진짜 손님(인터넷)을 직접 맞이해야 하니까, EC2 컴퓨터의 80번 문을 이 상자의 80번 문과 연결
     ports:
       - "80:80"
-    # backend가 "건강해요(healthy)"라고 확인될 때까지 기다렸다가 frontend를 켜요.
-    # (서버가 준비도 안 됐는데 화면부터 열리면 손님이 에러를 볼 수도 있으니까요)
+    # backend가 건강해요(healthy)라고 확인될 때까지 기다렸다가 frontend를 킴 (서버가 준비도 안 됐는데 화면부터 열리면 손님이 에러를 볼 수도 있음)
     depends_on:
       backend:
         condition: service_healthy
     healthcheck:
+      # Nginx의 Health Check에서는 curl을 사용하는 경우가 더 많음
+      # Nginx가 실행은 되었지만 설정 파일이 잘못되었다고 가정할 때 포트만 열려있어도 성공
+      # curl을 사용해야 실제로 웹 서버가 정상적으로 동작하는지까지 확인할 수 있음
       test: ["CMD-SHELL", "curl -fs http://localhost/healthz || exit 1"]
       interval: 30s
       timeout: 5s
@@ -91,8 +103,7 @@ services:
     networks:
       - app-network
 
-# 두 상자가 서로를 이름("backend", "frontend")만으로 찾아서 대화할 수 있게 해주는
-# "우리끼리만 쓰는 작은 동네 통신망"을 하나 만들어요.
+# 두 상자가 서로를 이름(backend, frontend)만으로 찾아서 대화할 수 있게 해주는 우리끼리만 쓰는 작은 동네 통신망을 하나 만듦
 networks:
   app-network:
     driver: bridge
