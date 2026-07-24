@@ -31,6 +31,7 @@ const SocialLogin = () => {
           memberName: res.data.nickname,
           memberEmail: res.data.email,
           memberAddr: res.data.userLocation,
+          provider: res.data.provider,
           token,
         });
       })

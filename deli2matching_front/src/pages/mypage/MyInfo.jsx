@@ -1,10 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useKakaoPostcode } from "@clroot/react-kakao-postcode";
 import axiosInstance from "../../utils/axios";
 import styles from "./MyInfo.module.css";
 import Swal from "sweetalert2";
+import useAuthStore from "../../utils/useAuthStore";
 
 const MyInfo = () => {
+  // 소셜 로그인 계정은 비밀번호가 없으므로 확인 단계 없이 바로 수정 화면으로 이동
+  const provider = useAuthStore((state) => state.provider);
+
   // isVerified: 비밀번호 확인 완료 여부 (false=확인화면, true=수정화면)
   const [isVerified, setIsVerified] = useState(false);
   const [password, setPassword] = useState("");
@@ -15,6 +19,21 @@ const MyInfo = () => {
     email: "",
     userLocation: "",
   });
+
+  useEffect(() => {
+    if (!provider) return;
+
+    axiosInstance.get("/auth/myInfo").then((res) => {
+      const d = res.data;
+      setForm({
+        nickname: d.nickname ?? "",
+        loginId: d.loginId ?? "",
+        email: d.email ?? "",
+        userLocation: d.userLocation ?? "",
+      });
+      setIsVerified(true);
+    });
+  }, [provider]);
 
   // 일반 input 변경 핸들러
   const handleChange = (e) => {
@@ -201,7 +220,8 @@ const MyInfo = () => {
     <div className={styles.page}>
       <h1 className={styles.title}>내 정보</h1>
 
-      {!isVerified && (
+      {/* 소셜 로그인 계정(provider 존재)은 비밀번호 확인 카드를 아예 표시하지 않음 */}
+      {!isVerified && !provider && (
         <div className={styles.card}>
           <form onSubmit={handleVerify} className={styles.form}>
             <div className={styles.field_row}>

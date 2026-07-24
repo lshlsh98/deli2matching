@@ -9,6 +9,8 @@ const useAuthStore = create(
       memberName: null,
       memberEmail: null,
       memberAddr: null,
+      // 소셜 로그인 제공자(google/naver/kakao/github). 일반 회원가입은 null
+      provider: null,
       token: null,
 
       login: ({
@@ -17,9 +19,18 @@ const useAuthStore = create(
         memberName,
         memberEmail,
         memberAddr,
+        provider = null,
         token,
       }) => {
-        set({ userId, memberId, memberName, memberEmail, memberAddr, token });
+        set({
+          userId,
+          memberId,
+          memberName,
+          memberEmail,
+          memberAddr,
+          provider,
+          token,
+        });
       },
 
       logout: () => {
@@ -29,6 +40,7 @@ const useAuthStore = create(
           memberName: null,
           memberEmail: null,
           memberAddr: null,
+          provider: null,
           token: null,
         });
       },
@@ -48,6 +60,7 @@ const useAuthStore = create(
         memberName: state.memberName,
         memberEmail: state.memberEmail,
         memberAddr: state.memberAddr,
+        provider: state.provider,
       }),
     },
   ),

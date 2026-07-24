@@ -188,7 +188,6 @@ public class UserController {
     // 소셜 로그인 info
     @GetMapping("/socialInfo")
     public ResponseEntity<?> getSocialInfo(@AuthenticationPrincipal String userId) {
-        log.info("userId: {}", userId);
         UserEntity user = userService.getMyInfo(Long.parseLong(userId));
 
         return ResponseEntity.ok(user);
