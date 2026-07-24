@@ -144,19 +144,14 @@
 
 .sent {
   margin-left: auto;
-  background: var(--gradient-brand);
-  border-color: transparent;
-}
-
-.sent .chat_writer_name,
-.sent .chat_message {
-  color: var(--gray8);
+  background-color: var(--gray8);
+  border-color: var(--primary);
 }
 
 .received {
   margin-right: auto;
-  background-color: var(--gray7);
-  border-color: transparent;
+  background-color: var(--gray8);
+  border-color: var(--gray6);
 }
 
 .chat_box::-webkit-scrollbar {
