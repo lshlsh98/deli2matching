@@ -8,7 +8,9 @@
 
 .header {
   width: 100%;
-  background-color: var(--gray8);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--text1);
   font-family: sans-serif;
   box-sizing: border-box;
@@ -16,7 +18,7 @@
   top: 0;
   left: 0;
   z-index: 10000;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--gray7);
 }
 
 .container {
@@ -74,31 +76,32 @@
 .centerMenu button {
   background: none;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text1);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray3);
   cursor: pointer;
-  padding: 4px 0;
+  padding: 6px 2px;
   position: relative;
   transition: color 0.2s ease;
 }
 
 .centerMenu button:hover {
-  opacity: 0.8;
+  color: var(--primary);
 }
 
 .activeMenu {
-  font-weight: bold !important;
+  color: var(--primary) !important;
 }
 
 .activeMenu::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--text1);
+  border-radius: 2px;
+  background: var(--gradient-brand);
 }
 
 .rightArea {
@@ -108,36 +111,70 @@
 
 .authMenu {
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 8px;
 }
 
 .authMenu button {
   background: none;
   border: none;
   font-size: 14px;
-  color: var(--text1);
+  font-weight: 600;
+  color: var(--gray2);
   cursor: pointer;
+  padding: 9px 18px;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+}
+
+.authMenu button:first-child:hover {
+  background-color: var(--gray7);
+  color: var(--text1);
+}
+
+.authMenu button:last-child {
+  background: var(--gradient-brand);
+  color: var(--gray8);
+  box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.28);
+}
+
+.authMenu button:last-child:hover {
+  box-shadow: 0 6px 18px rgba(var(--primary-rgb), 0.38);
+  transform: translateY(-1px);
 }
 
 .userMenu {
   display: flex;
-  gap: 18px;
+  align-items: center;
+  gap: 6px;
 }
 
 .iconBtn {
   background: none;
   border: none;
-  font-size: 20px;
-  color: var(--text1);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray2);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  gap: 6px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .iconBtn:hover {
-  opacity: 0.7;
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
 }
 
 @media (max-width: 900px) {

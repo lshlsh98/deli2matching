@@ -8,8 +8,9 @@
 
 .card {
   background-color: var(--gray8);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gray7);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   width: 100%;
   max-width: 600px;
   overflow: hidden;
@@ -18,7 +19,7 @@
 
 .section {
   padding: 20px;
-  border-bottom: 8px solid var(--bg);
+  border-bottom: 8px solid var(--gray7);
 }
 
 .section_title {
@@ -88,6 +89,13 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: var(--gray7);
+}
+
+.deadline_badge[data-urgent="true"] {
+  background-color: rgba(229, 57, 53, 0.1);
 }
 
 .deadline_icon {
@@ -97,7 +105,11 @@
 
 .deadline_text {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--gray3);
+}
+
+.deadline_badge[data-urgent="true"] .deadline_text {
   color: #e53935;
 }
 
@@ -118,7 +130,7 @@
 .progress_fill {
   height: 100%;
   border-radius: 999px;
-  background-color: var(--sub3);
+  background: linear-gradient(135deg, var(--sub3), #4cbb4c);
   transition: width 0.3s ease;
 }
 
@@ -205,32 +217,35 @@
   flex: 1;
   padding: 15px;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   transition:
+    box-shadow 0.2s,
     background-color 0.2s,
     transform 0.1s;
 }
 
 .btn_join {
-  background-color: var(--primary);
+  background: var(--gradient-brand);
   color: var(--gray8);
+  box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.28);
 }
 
 .btn_join:hover {
-  background-color: var(--sub1);
+  box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.38);
 }
 
 .btn_leave {
-  background-color: var(--sub2);
-  color: var(--gray8);
+  background-color: var(--gray7);
+  color: var(--gray3);
 }
 
 .btn_leave:hover {
-  background-color: var(--gray4);
+  background-color: var(--gray6);
+  color: var(--gray1);
 }
 
 .btn_delete {
@@ -254,12 +269,13 @@
 }
 
 .btn_complete {
-  background-color: var(--primary);
+  background: var(--gradient-brand);
   color: var(--gray8);
+  box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.28);
 }
 
 .btn_complete:hover {
-  background-color: var(--sub1);
+  box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.38);
 }
 
 .btn_join:active,

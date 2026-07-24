@@ -5,10 +5,13 @@
   --sub1: #4169e1;
   --sub2: #c0c0c0;
   --sub3: #77dd77;
-  --bg: #fdfbf7;
+  --primary-rgb: 30, 144, 255;
+  --sub1-rgb: 65, 105, 225;
+  --sub3-rgb: 119, 221, 119;
+  --bg: #ffffff;
   --header: #ffffff;
-  --footer: #413a33;
-  --text1: #2b1b17;
+  --footer: #222222;
+  --text1: #191919;
 
   --gray0: #000000;
   --gray1: #222222;
@@ -17,8 +20,15 @@
   --gray4: #8f8f8f;
   --gray5: #b7b7b7;
   --gray6: #d6d6d6;
-  --gray7: #efefef;
+  --gray7: #f4f6f8;
   --gray8: #ffffff;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-card: 0 2px 14px rgba(20, 20, 30, 0.06);
+  --shadow-card-hover: 0 10px 28px rgba(20, 20, 30, 0.1);
+  --gradient-brand: linear-gradient(135deg, var(--primary), var(--sub1));
 }
 
 * {
@@ -41,6 +51,15 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background-color: rgba(var(--primary-rgb), 0.2);
+  color: var(--text1);
 }
 
 ul,

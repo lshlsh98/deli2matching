@@ -10,13 +10,13 @@
 
 .mypage_aside {
   flex-shrink: 0;
-  width: 180px;
+  width: 200px;
   height: fit-content;
-  padding: 24px 10px;
+  padding: 16px;
   background-color: var(--gray8);
-  border-radius: 12px;
-  border: 1px solid var(--gray6);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray7);
+  box-shadow: var(--shadow-card);
 }
 
 .mypage_content {
@@ -24,20 +24,36 @@
   min-width: 0;
   padding: 32px;
   background-color: var(--gray8);
-  border-radius: 12px;
-  border: 1px solid var(--gray6);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray7);
+  box-shadow: var(--shadow-card);
 }
 
 .side_menu {
   display: flex;
-  width: 600px;
+  width: 100%;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
+  gap: 6px;
+}
+
+.side_menu > a {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray3);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.side_menu > a:hover {
+  background-color: var(--gray7);
+  color: var(--text1);
 }
 
 .side_menu > .active_menu {
+  background-color: rgba(var(--primary-rgb), 0.1);
   color: var(--primary);
 }
 

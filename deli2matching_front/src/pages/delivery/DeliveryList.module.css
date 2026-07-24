@@ -23,10 +23,19 @@
 }
 
 .list_header_location {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding: 6px 14px;
+  width: fit-content;
+  border-radius: 999px;
+  background-color: rgba(var(--primary-rgb), 0.08);
   cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.list_header_location:hover {
+  background-color: rgba(var(--primary-rgb), 0.14);
 }
 
 .list_header_pin_icon {
@@ -36,13 +45,14 @@
 
 .list_header_location_text {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary);
 }
 
 .delivery_list_header_title {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
   color: var(--gray1);
 }
 
@@ -56,35 +66,36 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: var(--gray7);
+  border: 1.5px solid transparent;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+
+.list_header_search:focus-within {
+  border-color: var(--primary);
+  background-color: var(--gray8);
 }
 
 .list_header_search_icon {
-  font-size: 16px;
-  color: var(--gray3);
   cursor: pointer;
+  font-size: 18px;
+  color: var(--gray4);
   flex-shrink: 0;
 }
 
-.list_header_search_icon {
-  cursor: pointer;
-  font-size: 20px;
-  color: var(--gray3);
-}
-
 .list_header_search_input {
-  border-radius: 8px;
-  padding: 10px;
   border: none;
   outline: none;
-  border: 1px solid var(--gray2);
   background: transparent;
-  font-size: 15px;
+  padding: 6px 0;
+  font-size: 14px;
   font-family: inherit;
-  color: var(--gray2);
-  width: 220px;
+  color: var(--gray1);
+  width: 200px;
 }
 
 .list_header_search_input::placeholder {
@@ -100,9 +111,12 @@
 .list_empty {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 60px 0;
+  padding: 80px 0;
   font-size: 15px;
+  font-weight: 500;
   color: var(--gray4);
+  background-color: var(--gray7);
+  border-radius: var(--radius-lg);
 }
 
 .pagination_section {
@@ -113,8 +127,9 @@
 
 .card {
   background-color: var(--gray8);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--gray7);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
@@ -122,13 +137,15 @@
   min-height: 180px;
   cursor: pointer;
   transition:
-    box-shadow 0.15s,
-    transform 0.15s;
+    box-shadow 0.2s,
+    transform 0.2s,
+    border-color 0.2s;
 }
 
 .card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(var(--primary-rgb), 0.25);
+  transform: translateY(-4px);
 }
 
 .card_name {
@@ -204,7 +221,7 @@
 .card_progress_fill {
   height: 100%;
   border-radius: 999px;
-  background-color: var(--primary);
+  background: var(--gradient-brand);
   transition: width 0.3s ease;
 }
 
@@ -214,21 +231,29 @@
 }
 
 .regist_btn button {
-  padding: 10px 16px;
+  padding: 12px 22px;
   border: none;
-  border-radius: 10px;
-  background-color: var(--primary);
+  border-radius: 999px;
+  background: var(--gradient-brand);
   color: var(--gray8);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.2s;
+  margin-top: 16px;
+  box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.28);
+  transition:
+    box-shadow 0.2s,
+    transform 0.15s;
 }
 
 .regist_btn button:hover {
-  background-color: var(--sub1);
+  box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.38);
+  transform: translateY(-2px);
+}
+
+.regist_btn button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 @media (max-width: 1024px) {
